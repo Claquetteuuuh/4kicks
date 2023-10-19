@@ -30,7 +30,7 @@ export async function POST(req: NextRequest) {
         contentType ? contentType : "image/png"
       );
     }
-    return NextResponse.json({ success: true, message: "The image has been sended successfully", image: `${process.env.PUBLIC_BUCKET_URL}${fileName}` });
+    return NextResponse.json({ success: true, message: "The image has been sended successfully", image: `${process.env.PUBLIC_DOMAINE_BUCKET_URL}${fileName}` });
 
   } catch (error: any) {
     console.log(error);
