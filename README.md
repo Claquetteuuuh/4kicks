@@ -1,6 +1,6 @@
 ## Developpement
 
-Run the project:
+Run the project in developpement mode:
 
 ```bash
 npm run dev
