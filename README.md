@@ -1,6 +1,6 @@
 ## Developpement
 
-Run the project in developpement mode:
+Demarrer le projet en mode développement:
 
 ```bash
 npm run dev
@@ -8,7 +8,7 @@ npm run dev
 
 ### Docker
 
-Run the docker compose file:
+Lancement d'un conteneur docker en local:
 
 ```bash
 docker compose up
@@ -16,7 +16,7 @@ docker compose up
 
 ### Vercel
 
-Push your changes to vercel:
+Envoie des changements sur Vercel:
 
 ```bash
 vercel --prod
