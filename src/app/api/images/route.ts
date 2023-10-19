@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { uploadFile } from "@/utils/bucket"; // Importez votre fonction uploadFile
+import { uploadFile } from "../../../../utils/bucket"; 
 import { v4 as uuidv4 } from "uuid";
 
 export async function POST(req: NextRequest) {
