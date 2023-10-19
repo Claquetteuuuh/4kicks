@@ -6,23 +6,26 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
 }
 
 // SHOP
 
 model Account {
-  account_uid     String      @id @default(uuid())
+  account_uid     String   @id @default(uuid())
   first_name      String
   last_name       String
-  username        String      @unique
-  email           String      @unique
-  connection_type Connection  @default(EMAIL)
+  username        String   @unique
+  email           String   @unique
+  // connection_type Connection  @default(EMAIL)
+  connection_type String   @default("EMAIL")
   password        String?
-  preference      Preference?
-  creation_date   DateTime    @default(now())
-  permission      Permission  @default(USER)
+  // preference      Preference?
+  preference      String
+  creation_date   DateTime @default(now())
+  // permission      Permission  @default(USER)
+  permission      String   @default("USER")
   image_uid       String?
 
   profile_image Image? @relation(fields: [image_uid], references: [image_uid])
@@ -200,20 +203,20 @@ model Affiche {
   image Image @relation(fields: [image_uid], references: [image_uid])
 }
 
-enum Connection {
-  GOOGLE
-  APPLE
-  EMAIL
-}
+// enum Connection {
+//   GOOGLE
+//   APPLE
+//   EMAIL
+// }
 
-enum Preference {
-  MALE
-  FEMALE
-  MIXE
-}
+// enum Preference {
+//   MALE
+//   FEMALE
+//   MIXE
+// }
 
-enum Permission {
-  ADMIN
-  MODERATOR
-  USER
-}
+// enum Permission {
+//   ADMIN
+//   MODERATOR
+//   USER
+// }
