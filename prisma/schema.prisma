@@ -6,9 +6,11 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "mysql"
   url      = env("DATABASE_URL")
+  relationMode = "prisma"
 }
+
 
 // SHOP
 
@@ -18,14 +20,14 @@ model Account {
   last_name       String
   username        String   @unique
   email           String   @unique
-  // connection_type Connection  @default(EMAIL)
-  connection_type String   @default("EMAIL")
+  connection_type Connection  @default(EMAIL)
+  // connection_type String   @default("EMAIL")
   password        String?
-  // preference      Preference?
-  preference      String
+  preference      Preference?
+  // preference      String
   creation_date   DateTime @default(now())
-  // permission      Permission  @default(USER)
-  permission      String   @default("USER")
+  permission      Permission  @default(USER)
+  // permission      String   @default("USER")
   image_uid       String?
 
   profile_image Image? @relation(fields: [image_uid], references: [image_uid])
@@ -203,20 +205,20 @@ model Affiche {
   image Image @relation(fields: [image_uid], references: [image_uid])
 }
 
-// enum Connection {
-//   GOOGLE
-//   APPLE
-//   EMAIL
-// }
+enum Connection {
+  GOOGLE
+  APPLE
+  EMAIL
+}
 
-// enum Preference {
-//   MALE
-//   FEMALE
-//   MIXE
-// }
+enum Preference {
+  MALE
+  FEMALE
+  MIXE
+}
 
-// enum Permission {
-//   ADMIN
-//   MODERATOR
-//   USER
-// }
+enum Permission {
+  ADMIN
+  MODERATOR
+  USER
+}
