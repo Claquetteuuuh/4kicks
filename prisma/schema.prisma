@@ -6,26 +6,25 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
   relationMode = "prisma"
 }
-
 
 // SHOP
 
 model Account {
-  account_uid     String   @id @default(uuid())
+  account_uid     String      @id @default(uuid())
   first_name      String
   last_name       String
-  username        String   @unique
-  email           String   @unique
+  username        String      @unique
+  email           String      @unique
   connection_type Connection  @default(EMAIL)
   // connection_type String   @default("EMAIL")
   password        String?
   preference      Preference?
   // preference      String
-  creation_date   DateTime @default(now())
+  creation_date   DateTime    @default(now())
   permission      Permission  @default(USER)
   // permission      String   @default("USER")
   image_uid       String?
@@ -110,15 +109,18 @@ model PromotionCode {
 }
 
 model ShipAddress {
-  address_uid  String  @id @default(uuid())
-  postal_code  Int
-  address      String
-  cmp_address  String?
-  city         String
-  country      String
-  phone_number String
-  account_uid  String
-  more_info    String?
+  address_uid   String  @id @default(uuid())
+  postal_code   Int
+  address       String
+  cmp_address   String?
+  city          String
+  country       String
+  phone_number  String
+  account_uid   String
+  more_info     String?
+  first_name    String
+  last_name     String
+  email_address String
 
   account Account @relation(fields: [account_uid], references: [account_uid])
 
