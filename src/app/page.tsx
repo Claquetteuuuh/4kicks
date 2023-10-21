@@ -33,6 +33,7 @@ const ImageUploadForm = () => {
 
   return (
     <main>
+      <h1 className={styles.title}>TEST</h1>
       <form onSubmit={onSubmit}>
         <input type="file" name="file" accept="image/*" onChange={(e) => setFile(e.target.files?.[0])} />
         <input type="submit" value="Upload" />
