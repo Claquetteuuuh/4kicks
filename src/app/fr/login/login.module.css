@@ -1,26 +1,12 @@
 .login {
   height: 100vh;
-  background-color: #DDDDDD;
-  background-image: linear-gradient(
-    to right bottom,
-    #33a9ff30,
-    #69bbff30,
-    #90ccff30,
-    #b5ddff30,
-    #d8eeff30
-  );
 }
-.background {
-  position: relative;
-  height: 100%;
-  background-image: url("/imgs/background-logos.png");
-    background-size: cover;
-    background-position: center;
-}
+
 
 .container {
   background-color: var(--first-color-100);
-  width: 85vh;
+  width: clamp(300px, 60vw, 500px);
+  aspect-ratio: 1/1;
   max-width: 600px;
   position: absolute;
   top: 50%;
@@ -71,4 +57,22 @@
     flex-direction: column;
     width: 100%;
     position: relative;
+}
+.psswd{
+  font-size: var(--text-font-size-l);
+  margin: 5px 0;
+  cursor: pointer;
+}
+.bottomTxt{
+  cursor: pointer;
+  color: #00000050;
+  font-size: var(--text-font-size-l);
+  display: flex;
+  align-items: center;
+  margin: 5px 0;
+}
+
+.bottomTxt img{
+  height: 20px;
+  margin-right: 5px;
 }

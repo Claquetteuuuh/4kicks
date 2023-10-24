@@ -1,0 +1,65 @@
+.complete {
+  min-height: 100vh;
+}
+
+.container {
+  background-color: var(--first-color-100);
+  width: clamp(500px, 80vw, 1200px);
+  aspect-ratio: 1/1;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 90%;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1%;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px,
+    var(--third-color-100) 0px 0px 0px 1px;
+}
+
+.complete h1 {
+  font-weight: 500;
+  padding: 0% 3%;
+  margin-top: 10px;
+  font-size: var(--title-font-size-xxl);
+  width: 100%;
+  text-align: left;
+  font-family: "bubble";
+  color: var(--third-color-100);
+}
+.complete form {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  height: 100%;
+  padding-bottom: 3%;
+}
+.complete form .left,
+.complete form .right {
+  height: 100%;
+  width: 45%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.mail {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 50px;
+  align-items: flex-start;
+  width: 100%;
+}
+.mail p{
+  font-size: var(--text-font-size-m);
+}
+.mail p span{
+  text-decoration: underline;
+  font-weight: 600;
+}

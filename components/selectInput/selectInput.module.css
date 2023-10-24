@@ -40,6 +40,24 @@
     opacity: 0;
 }
 
-.input:valid{
+/* .input:valid{
     background-color: var(--second-color-30);
+} */
+
+.active{
+    background-color: var(--second-color-30);
+}
+.element{
+    font-size: 2rem;
+    padding: 10px;
+}
+.options{
+    z-index: 2;
+    top: 100%;
+    width: 100%;
+    position: absolute;
+    background-color: white;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    margin-top: 5px;
+    border-radius: 10px;
 }

@@ -28,6 +28,7 @@ model Account {
   permission      Permission  @default(USER)
   // permission      String   @default("USER")
   image_uid       String?
+  completed       Boolean
 
   profile_image Image? @relation(fields: [image_uid], references: [image_uid])
 
