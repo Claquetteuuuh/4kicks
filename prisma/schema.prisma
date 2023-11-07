@@ -209,8 +209,7 @@ model Affiche {
 }
 
 enum Connection {
-  GOOGLE
-  APPLE
+  OTHER
   EMAIL
 }
 
