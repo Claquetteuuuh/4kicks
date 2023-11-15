@@ -227,7 +227,7 @@ enum Permission {
 
 GET: 
 ```ts
-    type SliderImg = {
+    type Slider = {
         slider_id: string,
         slider_title: string,
         slider_text: string,
