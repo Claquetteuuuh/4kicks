@@ -1,4 +1,4 @@
-export type Carroussel = {
+export type Affiche = {
     afficheUid: string,
 	subtitle?: string,
 	title: string,
