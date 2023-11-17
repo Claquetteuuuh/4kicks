@@ -14,6 +14,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     if (req.method === "GET") {
         const prisma: PrismaClient = new PrismaClient();
 
+        const categoryName: string | string[] = req.query.category as string;
+
         const categories = await prisma.categorie.findMany({
             select: {
                 product_categorie: {
@@ -36,7 +38,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
             },
             where: {
-                name: "nouveaute"
+                name: categoryName
             }
         });
 
