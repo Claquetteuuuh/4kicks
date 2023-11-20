@@ -1,23 +1,28 @@
-import React, { FC, useEffect, useState } from 'react';
-import TextInput from '../SearchBar/SearchBar';
+import React, { useEffect, useState } from 'react';
+import TextInput from '../SearchBar/TextInput';
 import axios from 'axios';
-import { AfficheType } from '../../../types/home/Affiche';
+import styles from "./header.module.css"
+import { useRouter } from 'next/navigation';
 
-const [motCles, setmotCles] = useState()
-const [data, setdata] = useState()
 
-    useEffect(() => {
-        axios.get(`/api/recherches?motCles=${motCles}`)
-            .then(e => {
-                setdata(e.data.recherches)
-            })
-            .catch(err => {
+export default function Layout() {
 
-            })
-    }, [])
+    const router = useRouter();
+    
+    const [motCles, setmotCles] = useState<string>("");
 
-export default function Layout(){
-    return <header>
-        <TextInput placeholder='Rechercher...' state='motCles' setState={setmotCles} />
-      </header>
+    const handleForm = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        router.push(`/?mot=${motCles}`);
+    }  
+
+    return <header className={styles.container}>
+        <div className={styles.search}>
+            <form onSubmit={handleForm}>
+                <TextInput placeholder='Rechercher...' state={motCles} setState={setmotCles} className={styles.searchBar} />
+                <button type='submit'>ok</button>
+            </form>
+        </div>
+    </header>
 }
