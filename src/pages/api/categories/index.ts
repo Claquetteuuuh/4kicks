@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
-import { CategorieType } from "../../../../types/home/Categorie"
+import { ArticlesType } from "../../../../types/home/Article"
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 
@@ -24,7 +24,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                         product: {
                             select: {
                                 name: true,
-                                description: true,
                                 price: true,
                                 product_image: {
                                     select: {
@@ -42,15 +41,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             }
         });
 
-        const categorieReturned: CategorieType[] = [];
+        const categorieReturned: ArticlesType[] = [];
 
         categories.forEach(thisCategorie => {
-            const categorie: CategorieType = {
+            const categorie: ArticlesType = {
                 productUID: thisCategorie.product_categorie[0].product_uid,
                 nameProduct: thisCategorie.product_categorie[0].product.name,
-                description: thisCategorie.product_categorie[0].product.description,
                 price: thisCategorie.product_categorie[0].product.price,
-                nameImage: `${process.env.PUBLIC_DOMAINE_BUCKET_URL}${thisCategorie.product_categorie[0].product.product_image?.name}`
+                imageLien: `${process.env.PUBLIC_DOMAINE_BUCKET_URL}${thisCategorie.product_categorie[0].product.product_image?.name}`
 
             }
             categorieReturned.push(categorie)
