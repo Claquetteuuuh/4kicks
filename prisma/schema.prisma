@@ -66,6 +66,44 @@ model Product {
   avis              Avis[]
   product_in_achat  ProductInAchat[]
   product_categorie ProductCategories[]
+  product_color ProductColors[]
+  product_taille ProductTaille[]
+
+}
+
+model Taille{
+  taille_uid String @id @default(uuid())
+  value String
+
+  product_taille ProductTaille[]
+}
+
+model ProductTaille{
+  taille_uid String
+  product_uid String
+
+  product Product @relation(fields: [product_uid], references: [product_uid])
+  taille Taille @relation(fields: [taille_uid], references: [taille_uid])
+
+
+  @@id([taille_uid, product_uid])
+}
+
+model Color {
+  color_uid String @id @default(uuid())
+  value String 
+
+  product_color ProductColors[]
+}
+
+model ProductColors{
+  color_uid String
+  product_uid String
+
+  color Color @relation(fields: [color_uid], references: [color_uid])
+  product Product @relation(fields: [product_uid], references: [product_uid])
+
+  @@id([color_uid, product_uid])
 }
 
 model ProductInPanier {
@@ -207,6 +245,7 @@ model Affiche {
 
   image Image @relation(fields: [image_uid], references: [image_uid])
 }
+
 
 enum Connection {
   OTHER
