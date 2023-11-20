@@ -5,14 +5,15 @@ type textInputProps = {
     placeholder: string,
     setState: any,
     state: string,
-    type?: string
-    len?: number
-    required?: boolean
+    type?: string,
+    len?: number,
+    required?: boolean,
+    classname?: string,
 }
 
-const TextInput = ({placeholder, state, setState, type="text", len, required=false}: textInputProps) => {
+const TextInput = ({placeholder, state, setState, type="text", len, required=false, classname}: textInputProps) => {
   return (
-    <div className={styles.container}>
+    <div className={`${styles.container} ${classname}`}>
       <input
         autoComplete="true"
         className={styles.input}
