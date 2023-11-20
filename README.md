@@ -227,13 +227,15 @@ enum Permission {
 
 GET: 
 ```ts
-    type Slider = {
-        slider_id: string,
-        slider_title: string,
-        slider_text: string,
-        call_to_action_text: string,
-        call_to_action_url: string
-    }
+    type AfficheType = {
+    afficheUid: string,
+    subtitle?: string,
+    title: string,
+    description: string,
+    callToAction: string,
+    callToActionUrl: string,
+    imageLien: string
+  }
 ```
 
 **Articles**

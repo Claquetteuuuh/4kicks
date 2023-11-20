@@ -1,4 +1,4 @@
-export type Affiche = {
+export type AfficheType = {
     afficheUid: string,
 	subtitle?: string,
 	title: string,
