@@ -1,6 +1,6 @@
 export type ArticlesType = {
-    productUID : String,
-    nameProduct: String,
+    productUID : string,
+    nameProduct: string,
     price: number,
-    imageLien: String
+    imageLien: string
 }
