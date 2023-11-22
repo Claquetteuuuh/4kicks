@@ -7,62 +7,62 @@ import Layout from '@/components/Layout/Layout';
 import Header from '@/components/Header/Header';
 import { useSearchParams } from 'next/navigation';
 import { ArticlesType } from '../../types/home/Article';
+import styles from './main_page.module.css';
 
 export default function Home() {
-
+    
+    const [dataSearch, setdataSearch] = useState<ArticlesType[]>([]);
     const [affiches, setAffiches] = useState<AfficheType>()
 
     const params = useSearchParams();
 
 
     useEffect(() => {
-        console.log(params.get("article"))
-
-        axios.get(`/api/recherches?mot=${params.get("mot")}`)
+        if(params?.get("mot")){
+            axios.get(`/api/recherches?mot=${params?.get("mot")}`)
             .then(e => {
-                setdataSearch(e.data.recherches)
+                setdataSearch(e.data)
             })
             .catch(err => {
-
+                console.log("ok");
+                console.error(err)
             })
-        
+        }else{
+            axios.get(`/api/recherches`)
+            .then(e => {
+                setdataSearch(e.data)
+            })
+            .catch(err => {
+                console.error(err)
+            })
+        }
 
-    }, [params])
+    }, [params?.get("mot")])
 
-    const [dataSearch, setdataSearch] = useState<ArticlesType[]>([]);
-
-
-    if (dataSearch) {
-
-    }
-
-    // useEffect(() => {
-    //     axios.get("/api/affiches")
-    //         .then(e => {
-    //             setAffiches(e.data.affiches)
-    //         })
-    //         .catch(err => {
-
-    //         })
-    // }, [])
 
     return (
         <Layout>
             <Header />
+            <div className={styles.article_container}>
             {
                 (dataSearch) ?
                     dataSearch.map((item: ArticlesType) => {
                         // Assurez-vous d'adapter cela en fonction de la structure réelle de vos données
                         return (
-                            <div>
-                                <h1>{item.nameProduct}</h1>
-                                <img src={item.imageLien} alt="" />
+                            <div key={item.productUID} className={styles.container}>
+                                <div className={styles.container_name}>
+                                    <h1 className={styles.article_name}>{item.nameProduct}</h1>
+                                </div>
+                                <div className={styles.container_image}>
+                                    <img src={item.imageLien} alt="image de chaussure" className={styles.article_image}/>
+                                </div>
                             </div>
                         )
                     })
                     :
                     <p>Pas de donnee</p>
             }
+            </div>
         </Layout>
     )
 };

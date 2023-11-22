@@ -1,0 +1,26 @@
+.article_container{
+    display: flex;
+}
+.container {
+    display: flex;
+    gap: 10px;
+    padding: 10px;
+    flex-wrap: wrap-reverse;   
+}
+
+
+.article_name {
+    font-size: 3rem;
+}
+
+.container_image {
+    width: 10%;
+    aspect-ratio: 1/1;
+}
+
+.container_image img {
+    width: 100%;
+    object-fit: cover;
+    object-position: bottom;
+    aspect-ratio: 1/1;
+}
