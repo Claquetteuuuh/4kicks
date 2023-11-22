@@ -20,8 +20,16 @@ export const sendAccountCreation = async (email: string, name: string, url: stri
         })
     })
 
-    sesClient.send(sendTemplatedEmailCommand)
-        .catch(err => {
-            console.error(err);
-        })
+    try{
+        const sended = await sesClient.send(sendTemplatedEmailCommand) 
+        if(sended){
+            return true;
+        }else{
+            return false;
+        }
+    }catch(err) {
+        console.error(err);
+        return false;
+    }
+        
 }
