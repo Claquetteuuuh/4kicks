@@ -1,8 +1,8 @@
 // global.d.ts
 import { PrismaClient } from "@prisma/client";
-import Mailjet from "node-mailjet";
+import { SESCLient } from "@aws-sdk/client-ses"
 
 declare global {
   var prisma: PrismaClient | undefined;
-  var mailer: Mailjet | undefined;
+  var sesClient: SESClient | undefined;
 }

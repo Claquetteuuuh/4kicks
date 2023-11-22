@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.441.0",
+    "@aws-sdk/client-ses": "^3.454.0",
     "@prisma/client": "^5.5.2",
     "@types/uuid": "^9.0.6",
     "axios": "^1.6.0",
