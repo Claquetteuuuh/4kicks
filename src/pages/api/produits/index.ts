@@ -67,7 +67,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 product_uid: uidProduit
             }
         })
-        console.log(produits);
+
         const produitReturned: ProduitType[] = [];
 
         produits.forEach(thisProduit => {
