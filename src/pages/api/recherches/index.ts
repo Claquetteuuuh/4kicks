@@ -16,14 +16,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     if (req.method == "GET") {
 
-        
-        
+
+
         const prisma: PrismaClient = new PrismaClient();
 
         const rechercheTexte: string | string[] = req.query.mot as string;
 
         const articlesListe = await prisma.product.findMany({
-            select:{
+            select: {
                 product_uid: true,
                 name: true,
                 price: true,
@@ -35,38 +35,41 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             }
         })
 
-        const search = (query: string, list: any[]) => { 
+        const search = (query: string, list: any[]) => {
 
             const allEvents = list.map(event => ({
-                event: event,
+                name: event.name,
+                price: event.price,
+                product_uid: event.product_uid,
+                imageName: event.product_image,
                 similarity: stringSimilarity.findBestMatch(query.toLowerCase(), [event.name.toLowerCase()]).bestMatch.rating
             }));
-        
+            console.log(allEvents[1].imageName.name)
+
             const results: any[] = [];
             allEvents.forEach(event => {
                 if (event.similarity > 0.3) {
                     results.push(event);
                 }
             });
-        
-            results.sort((a : any, b : any) => b.similarity - a.similarity);
-        
+
+            results.sort((a: any, b: any) => b.similarity - a.similarity);
+
             return results;
         }
 
         const recherches = search(rechercheTexte, articlesListe);
 
-        
+
         const rechercheReturnes: ArticlesType[] = [];
 
         recherches.forEach(thisRecherche => {
             const recherche: ArticlesType = {
-                productUID: thisRecherche.event.product_uid,
-                nameProduct: thisRecherche.event.name,
-                price: thisRecherche.event.price,
-                imageLien: `${process.env.PUBLIC_DOMAINE_BUCKET_URL}${thisRecherche.event.product_image}`
+                productUID: thisRecherche.product_uid,
+                nameProduct: thisRecherche.name,
+                price: thisRecherche.price,
+                imageLien: `${process.env.PUBLIC_DOMAINE_BUCKET_URL}${thisRecherche.imageName.name}`
             }
-            console.log(recherche);
             rechercheReturnes.push(recherche);
         })
         res.status(200).json(rechercheReturnes);
