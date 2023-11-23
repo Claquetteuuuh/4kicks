@@ -1,0 +1,15 @@
+.bouton_connecter {
+    background-color: white;
+    border: 2px solid blue;
+    border-radius: 10px; /* Vous pouvez ajuster ce nombre pour changer le degré de courbure des coins */
+    color: blue; /* Couleur du texte */
+    padding: 10px 20px; /* Espace à l'intérieur du bouton */
+    text-align: center;
+    font-size: 16px; /* Taille du texte */
+    cursor: pointer;
+  }
+  
+  .bouton_connecter:hover {
+    background-color: blue; /* Couleur de fond lorsqu'on survole le bouton */
+    color: white; /* Couleur du texte lorsqu'on survole le bouton */
+  }

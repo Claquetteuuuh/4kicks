@@ -1,5 +1,29 @@
 # SAE 4KICKS
 
+## Developpement
+
+Demarrer le projet en mode développement:
+
+```bash
+npm run dev
+```
+
+### Docker
+
+Lancement d'un conteneur docker en local:
+
+```bash
+docker compose up
+```
+
+### Vercel
+
+Envoie des changements sur Vercel:
+
+```bash
+vercel --prod
+```
+
 ## Documentation
 
 ### Database
@@ -227,13 +251,15 @@ enum Permission {
 
 GET: 
 ```ts
-    type Slider = {
-        slider_id: string,
-        slider_title: string,
-        slider_text: string,
-        call_to_action_text: string,
-        call_to_action_url: string
-    }
+    type AfficheType = {
+    afficheUid: string,
+    subtitle?: string,
+    title: string,
+    description: string,
+    callToAction: string,
+    callToActionUrl: string,
+    imageLien: string
+  }
 ```
 
 **Articles**
