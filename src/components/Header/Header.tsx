@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import TextInput from '../SearchBar/TextInput';
+import TextInput from '../TextInput/TextInput';
 import axios from 'axios';
 import styles from "./header.module.css"
 import { useRouter } from 'next/navigation';

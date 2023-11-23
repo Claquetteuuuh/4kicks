@@ -1,5 +1,5 @@
 "use client"
-import SearchBar from '@/components/SearchBar/TextInput';
+import SearchBar from '@/components/TextInput/TextInput';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { AfficheType } from '../../types/home/Affiche';
@@ -8,6 +8,7 @@ import Header from '@/components/Header/Header';
 import { useSearchParams } from 'next/navigation';
 import { ArticlesType } from '../../types/home/Article';
 import styles from './main_page.module.css';
+import { ButtonSeConnecter } from '@/components/Button/ButtonSeConnecter';
 
 export default function Home() {
     
@@ -63,6 +64,7 @@ export default function Home() {
                     <p>Pas de donnee</p>
             }
             </div>
+            <ButtonSeConnecter />
         </Layout>
     )
 };

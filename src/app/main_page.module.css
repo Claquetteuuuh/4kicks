@@ -1,11 +1,11 @@
 .article_container{
     display: flex;
+
 }
 .container {
     display: flex;
-    gap: 10px;
-    padding: 10px;
-    flex-wrap: wrap-reverse;   
+    flex-direction: column-reverse;
+    margin-left: 20px;
 }
 
 
@@ -14,13 +14,12 @@
 }
 
 .container_image {
-    width: 10%;
+    width: 40rem;
     aspect-ratio: 1/1;
 }
 
-.container_image img {
+.container_image img {      
     width: 100%;
     object-fit: cover;
-    object-position: bottom;
     aspect-ratio: 1/1;
 }
