@@ -4,7 +4,7 @@ import { createAllTemplates } from "../../../../email/createTemplates";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse){
     if(req.method === "GET"){
-        const send = await sendAccountCreation("th.biabiany@protonmail.com", "Thomas Goat", "https://4kicks.store/testlink/")
+        const send = await sendAccountCreation("rafik.bouchenna050@gmail.com", "Rafik Goat", "https://4kicks.store/testlink/")
         if(send){
             res.status(200).json({message: "Your mail has been sended successfully"});
         }else{

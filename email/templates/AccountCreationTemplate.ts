@@ -78,7 +78,7 @@ export const accountCreationTemplate: Template = {
   <div class="activate">
     <h1>Activate your account !</h1>
     <p>
-      {{name}} On a juste besoin de valider votre adresse email pour activer
+      {{name}}, on a juste besoin de valider votre adresse email pour activer
       votre compte 4kicks
     </p>
     <p>
