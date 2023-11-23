@@ -1,5 +1,29 @@
 # SAE 4KICKS
 
+## Developpement
+
+Demarrer le projet en mode développement:
+
+```bash
+npm run dev
+```
+
+### Docker
+
+Lancement d'un conteneur docker en local:
+
+```bash
+docker compose up
+```
+
+### Vercel
+
+Envoie des changements sur Vercel:
+
+```bash
+vercel --prod
+```
+
 ## Documentation
 
 ### Database
@@ -251,3 +275,14 @@ GET:
     }
 ```
 
+### Code d'erreur
+
+#### Connection
+
+C-001: Un compte enregistré comme connection par EMAIL n'a pas de mot de passe enregistré en DB
+
+C-002: Le compte n'a pas été trouvé dans la base de donnée
+
+C-003: L'utilisateur n'a pas entré le bon mot de passe
+
+C-004: L'utilisateur n'a pas entré le mot de passe ou l'email
