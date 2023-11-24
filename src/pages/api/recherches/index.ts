@@ -33,11 +33,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 product_uid: true,
                 name: true,
                 price: true,
-                product_image: {
+                product_images: {
                     select: {
-                        name: true
+                        image: {
+                            select: {
+                                name: true
+                            }
+                        }
                     }
                 }
+
             }
         })
 
@@ -45,16 +50,21 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
             const allEvents = list.map(event => {
                 const eventName = event.name || '';
-                const productName = event.product_image?.name || '';
+                const image: string[] = []
+
+                event.product_images.forEach((thisImage: { image: { name: any; }; }) => {
+                    const imageProv: string = `${process.env.PUBLIC_DOMAINE_BUCKET_URL}${thisImage.image.name}`
+                    image.push(imageProv)
+                })
                 return {
                     name: eventName,
                     price: event.price,
                     product_uid: event.product_uid,
-                    imageName: productName,
+                    imageName: image,
                     similarity: stringSimilarity.findBestMatch(query.toLowerCase(), [eventName.toLowerCase()]).bestMatch.rating
                 };
             });
-            console.log(allEvents[1].imageName.name)
+            console.log(allEvents[1].imageName)
 
             const results: any[] = [];
             allEvents.forEach(event => {
@@ -74,12 +84,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const rechercheReturnes: ArticlesType[] = [];
 
         recherches.forEach(thisRecherche => {
-            
+
             const recherche: ArticlesType = {
                 productUID: thisRecherche.product_uid,
                 nameProduct: thisRecherche.name,
                 price: thisRecherche.price,
-                imageLien: `${process.env.PUBLIC_DOMAINE_BUCKET_URL}${thisRecherche.imageName}`
+                imageLien: thisRecherche.imageName
             }
             rechercheReturnes.push(recherche);
         })

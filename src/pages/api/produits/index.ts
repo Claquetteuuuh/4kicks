@@ -75,15 +75,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             const avis: AvisType[] = [];
             let moyenne: number = 0;
 
-            thisProduit.avis.forEach(thisAvi => {
+            thisProduit.avis.forEach(thisAvis => {
                 const avi: AvisType = {
-                    avisUID: thisAvi?.avis_uid,
-                    notation: thisAvi?.notation,
-                    content: thisAvi?.content,
-                    creationDate: thisAvi?.creation_date,
-                    userName: thisAvi?.account.username
+                    avisUID: thisAvis?.avis_uid,
+                    notation: thisAvis?.notation,
+                    content: thisAvis?.content,
+                    creationDate: thisAvis?.creation_date,
+                    userName: thisAvis?.account.username
                 }
-                moyenne += thisAvi.notation;
+                moyenne += thisAvis.notation;
                 avis.push(avi);
             })
             if (moyenne != 0) {

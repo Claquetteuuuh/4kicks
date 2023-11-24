@@ -48,11 +48,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const categorieReturned: ArticlesType[] = [];
 
         categories.forEach(thisCategorie => {
+            const image: string[] =[]
+
+            thisCategorie.product_categorie[0].product.product_images.forEach(thisImage =>{
+                const imageProv: string = `${process.env.PUBLIC_DOMAINE_BUCKET_URL}${thisImage.image.name}`
+                image.push(imageProv)
+            })
+
+
             const categorie: ArticlesType = {
                 productUID: thisCategorie.product_categorie[0].product_uid,
                 nameProduct: thisCategorie.product_categorie[0].product.name,
                 price: thisCategorie.product_categorie[0].product.price,
-                imageLien: `${process.env.PUBLIC_DOMAINE_BUCKET_URL}${thisCategorie.product_categorie[0]?.product.product_images[0]?.image.name}`
+                imageLien: image
 
             }
             categorieReturned.push(categorie)
