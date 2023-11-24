@@ -1,5 +1,12 @@
-.img {
-    width: 7rem;
-    height: 7rem;
-
+.container_image{
+    width: 100%;
+    height: 100%;
+}
+.container_image button{
+    width: 100%;
+    height: 100%;
+}
+.container_image img{
+    width: 100%;
+    height: 100%;
 }
