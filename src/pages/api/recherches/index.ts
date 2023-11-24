@@ -5,6 +5,7 @@ import stringSimilarity from "string-similarity";
 
 
 
+
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 
     const host = req.headers.host;
@@ -20,7 +21,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         const prisma: PrismaClient = new PrismaClient();
 
-        const rechercheTexte: string | string[] = req.query.mot as string;
+        let rechercheTexte = ""
+
+        if (req.query.mot) {
+            rechercheTexte = req.query.mot as string;
+        }
+
 
         const articlesListe = await prisma.product.findMany({
             select: {
@@ -37,13 +43,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         const search = (query: string, list: any[]) => {
 
-            const allEvents = list.map(event => ({
-                name: event.name,
-                price: event.price,
-                product_uid: event.product_uid,
-                imageName: event.product_image,
-                similarity: stringSimilarity.findBestMatch(query.toLowerCase(), [event.name.toLowerCase()]).bestMatch.rating
-            }));
+            const allEvents = list.map(event => {
+                const eventName = event.name || '';
+                const productName = event.product_image?.name || '';
+                return {
+                    name: eventName,
+                    price: event.price,
+                    product_uid: event.product_uid,
+                    imageName: productName,
+                    similarity: stringSimilarity.findBestMatch(query.toLowerCase(), [eventName.toLowerCase()]).bestMatch.rating
+                };
+            });
             console.log(allEvents[1].imageName.name)
 
             const results: any[] = [];
