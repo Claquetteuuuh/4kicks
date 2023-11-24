@@ -108,7 +108,10 @@ const page = ({ params }: { params: { user: userType } }) => {
     })
       .then(e => {
         setLoading(false)
-        router.push("/")
+        router.push("/login")
+      })
+      .catch(err => {
+        console.error(err)
       })
   };
 

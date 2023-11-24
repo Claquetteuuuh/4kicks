@@ -51,11 +51,12 @@ export const POST = async (req: NextRequest) => {
         error: "Account already completed, C-005",
       });
     }
+    const hashedPasswd = await bcrypt.hash(password, 10)
     const newUser = await prisma.account.create({
       data: {
         email: email as string,
         username: username,
-        password: password,
+        password: hashedPasswd,
         first_name: first_name,
         last_name: last_name,
         preference: preference,
