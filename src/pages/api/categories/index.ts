@@ -25,9 +25,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                             select: {
                                 name: true,
                                 price: true,
-                                product_image: {
+                                product_images: {
                                     select: {
-                                        name: true
+                                        image:{
+                                            select:{
+                                                name: true
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -48,7 +52,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 productUID: thisCategorie.product_categorie[0].product_uid,
                 nameProduct: thisCategorie.product_categorie[0].product.name,
                 price: thisCategorie.product_categorie[0].product.price,
-                imageLien: `${process.env.PUBLIC_DOMAINE_BUCKET_URL}${thisCategorie.product_categorie[0].product.product_image?.name}`
+                imageLien: `${process.env.PUBLIC_DOMAINE_BUCKET_URL}${thisCategorie.product_categorie[0]?.product.product_images[0]?.image.name}`
 
             }
             categorieReturned.push(categorie)
