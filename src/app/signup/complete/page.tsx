@@ -14,7 +14,7 @@ import axios from "axios";
 import * as jose from "jose";
 import { userType } from "../../../../types/global/UserType";
 
-const page = ({ params }: { params: { user: userType } }) => {
+const Page = ({ params }: { params: { user: userType } }) => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const { data: session, status } = useSession();
@@ -219,4 +219,4 @@ const page = ({ params }: { params: { user: userType } }) => {
   );
 };
 
-export default page;
+export default Page;
