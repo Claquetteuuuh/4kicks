@@ -88,5 +88,7 @@ export default function Header({ user }: { user: userType }) {
         <ButtonPanier className={styles.bouton_panier}/>
         <ButtonFavoris className={styles.bouton_favoris}/>
         <SelectLang className={styles.selectLang}/>
+
+        <hr className={styles.separateur}/>
     </header>
 }
