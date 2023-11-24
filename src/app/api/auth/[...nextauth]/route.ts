@@ -2,12 +2,20 @@ import bcrypt from "bcrypt";
 import NextAuth, { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import GoogleProvider from "next-auth/providers/google";
 import GithubProvider from "next-auth/providers/github";
 import prisma from "../../../../lib/prisma";
 
 const authOptions: AuthOptions = {
-  adapter: PrismaAdapter(prisma),
   providers: [
+    GoogleProvider({
+      clientId: process.env.GOOGLE_ID as string,
+      clientSecret: process.env.GOOGLE_SECRET as string,
+    }),
+    GithubProvider({
+      clientId: process.env.GITHUB_ID as string,
+      clientSecret: process.env.GITHUB_SECRET as string,
+    }),
     CredentialsProvider({
       name: "credentials",
       credentials: {
@@ -39,7 +47,7 @@ const authOptions: AuthOptions = {
             user.password
           );
           if(!goodPassword){
-            throw new Error("Une des informations de connection est erroné, C-003");
+            throw new Error("Une des informations de connection est errone, C-003");
           }
           return {
             id: user.account_uid,
@@ -47,12 +55,17 @@ const authOptions: AuthOptions = {
             name: user.username,
           };
         } else {
-            throw new Error("Une des informations de connection est erroné, C-002");
+            throw new Error("Une des informations de connection est errone, C-002");
         }
       },
     }),
   ],
   secret: process.env.NEXT_JWT_SECRET,
+  pages: {
+    error: "/login",
+    signIn: "/login",
+  },
+
 };
 
 const handler = NextAuth(authOptions);
