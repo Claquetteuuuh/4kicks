@@ -1,4 +1,4 @@
-import styles from "./ButtonMarketplace.module.css"
+import styles from "./ButtonPanier.module.css"
 
 export function ButtonPanier() {
   return <button className={styles.panier}>

@@ -8,8 +8,8 @@ import Header from '@/components/Header/Header';
 import { useSearchParams } from 'next/navigation';
 import { ArticlesType } from '../../types/home/Article';
 import styles from './main_page.module.css';
-import { ButtonSeConnecter } from '@/components/Button/ButtonSeConnecter';
-import { ButtonMarketplace } from '@/components/Button/ButtonMarketplace';
+import { ButtonSeConnecter } from '@/components/Button/ButtonSeConnecter/ButtonSeConnecter';
+import { ButtonMarketplace } from '@/components/Button/ButtonMarketplace/ButtonMarketplace';
 
 export default function Home() {
     
@@ -44,7 +44,9 @@ export default function Home() {
 
     return (
         <Layout>
-            <Header />
+            <div className={styles.container_header}>
+                <Header />
+            </div>
             <div className={styles.article_container}>
             {
                 (dataSearch) ?

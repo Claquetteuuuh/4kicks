@@ -3,10 +3,11 @@ import TextInput from '../TextInput/TextInput';
 import axios from 'axios';
 import styles from "./header.module.css"
 import { useRouter } from 'next/navigation';
-import { ButtonSeConnecter } from '../Button/ButtonSeConnecter';
-import { ButtonMarketplace } from '../Button/ButtonMarketplace';
-import { ButtonPanier } from '../Button/ButtonPanier';
-import { ButtonFavoris } from '../Button/ButtonFavoris';
+import { ButtonSeConnecter } from '../Button/ButtonSeConnecter/ButtonSeConnecter';
+import { ButtonMarketplace } from '../Button/ButtonMarketplace/ButtonMarketplace';
+import { ButtonPanier } from '../Button/ButtonPanier/ButtonPanier';
+import { ButtonFavoris } from '../Button/ButtonFavoris/ButtonFavoris';
+import SelectLang from '../Select/SelectLang/SelectLang';
 
 
 export default function Header() {
@@ -33,5 +34,6 @@ export default function Header() {
         <ButtonMarketplace />
         <ButtonPanier />
         <ButtonFavoris />
+        <SelectLang />
     </header>
 }
