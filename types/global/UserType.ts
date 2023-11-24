@@ -5,5 +5,6 @@ export type userType = {
   email: string;
   completed: boolean;
   creation_date: Date;
+  connection_type: string;
   image: string | undefined;
 };
