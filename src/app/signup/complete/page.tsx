@@ -124,7 +124,7 @@ const Page = ({ params }: { params: { user: userType } }) => {
           {
             (!loading)?
             <>
-              <h1>Completer l'inscription</h1>
+              <h1>Completer l&apos;inscription</h1>
             <form onSubmit={(e) => sendForm(e)}>
               <div className={styles.left}>
                 <TextInput
@@ -191,14 +191,14 @@ const Page = ({ params }: { params: { user: userType } }) => {
                 )}
                 <CheckBox
                   placeholder="acceptCond"
-                  text="J'accepte les conditions d'utilisation et confirme que j'ai lu les 4kicks pagnan quoicoubeh."
+                  text="J&apos;accepte les conditions d'utilisation et confirme que j&apos;ai lu les 4kicks pagnan quoicoubeh."
                   state={acceptCond}
                   setState={setAcceptCond}
                   required={true}
                 />
                 <CheckBox
                   placeholder="acceptPromo"
-                  text="Je veux recevoir de gros spams promotionnels que personne veut mais belek j'aurai -70%."
+                  text="Je veux recevoir de gros spams promotionnels que personne veut mais belek j&apos;aurai -70%."
                   state={acceptPromo}
                   setState={setAcceptPromo}
                 />
