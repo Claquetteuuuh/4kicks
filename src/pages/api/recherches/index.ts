@@ -74,11 +74,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const rechercheReturnes: ArticlesType[] = [];
 
         recherches.forEach(thisRecherche => {
+            
             const recherche: ArticlesType = {
                 productUID: thisRecherche.product_uid,
                 nameProduct: thisRecherche.name,
                 price: thisRecherche.price,
-                imageLien: `${process.env.PUBLIC_DOMAINE_BUCKET_URL}${thisRecherche.imageName.name}`
+                imageLien: `${process.env.PUBLIC_DOMAINE_BUCKET_URL}${thisRecherche.imageName}`
             }
             rechercheReturnes.push(recherche);
         })
