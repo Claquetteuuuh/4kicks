@@ -14,16 +14,18 @@ import axios from "axios";
 import * as jose from "jose";
 import { userType } from "../../../../types/global/UserType";
 
-const page = ({ params }: { params: { user: userType } }) => {
+const Page = ({ params }: { params: { user: userType } }) => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const { data: session, status } = useSession();
 
+  const emailParams = searchParams?.get("email")
+
   const [loading, setLoading] = useState<boolean>(false);
 
-  const preferences = ["Homme", "Femme"];
+  const preferences = ["Homme", "Femme", "Mix"];
 
-  const [connectionType, setConnectionType] = useState(searchParams?.get("conn") || '');
+  const [connectionType, setConnectionType] = useState(params.user?.email);
   const [username, setUsername] = useState(searchParams?.get("username") || "");
   const [firstName, setFirstName] = useState(
     searchParams?.get("first_name") || ""
@@ -42,42 +44,77 @@ const page = ({ params }: { params: { user: userType } }) => {
   const [acceptPromo, setAcceptPromo] = useState(true);
 
   useEffect(() => {
-    if (!params.user) {
-       router.push("/login")
+    if(params.user){
+      setConnectionType(params.user.connection_type)
     }
-    if (params.user) {
-      window.history.pushState(
-        null,
-        "",
-        `?username=${username}&first_name=${firstName}&last_name=${lastName}&preference=${preference}&conn=${connectionType}`
-      );
-    } else {
-      window.history.pushState(
-        null,
-        "",
-        `?username=${username}&first_name=${firstName}&last_name=${lastName}&preference=${preference}&conn=${connectionType}`
-      );
+    if(params.user.completed){
+      router.push("/")
     }
-  }, [username, firstName, lastName, preference, status]);
+  }, [params.user])
 
   const createToast = (type: "error" | "info", description: string) => {
     // toast
 
   };
 
+  const handleResendEmail = () => {
+    let email = emailParams
+    if(!email){
+      if(!params.user){
+        return;
+      }
+      email = params.user.email
+    }
+
+    axios.get("/api/email/confirm_code", {headers: {
+      email: email
+    }})
+  }
+
   const sendForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    let email = emailParams
+    if(!email){
+      email = params.user.email
+    }
     if (password !== confPassword) {
       createToast("error", "les mots de passe correspondent pas")
       return;
     }
-    const connectionTypes = ["other", "email"];
-    if(!connectionTypes.includes(connectionType)){
-      createToast("error", "connection type not available")
-      return;
+    const index = preferences.indexOf(preference)
+    let pref = "MALE"
+    switch (index) {
+      case 1:
+        pref = "MALE";
+        break;
+      case 2:
+        pref = "FEMALE";
+        break;
+      case 3:
+        pref = "MIXE"
+        break;
+      default:
+        break;
     }
     setLoading(true);
-
+    axios.post("/api/auth/complete", {
+      username: username,
+      first_name: firstName,
+      last_name: lastName,
+      password: password,
+      preference: pref
+    }, {
+      headers: {
+        email: email
+      }
+    })
+      .then(e => {
+        setLoading(false)
+        router.push("/login")
+      })
+      .catch(err => {
+        console.error(err)
+      })
   };
 
   return (
@@ -87,7 +124,7 @@ const page = ({ params }: { params: { user: userType } }) => {
           {
             (!loading)?
             <>
-              <h1>Completer l'inscription</h1>
+              <h1>Completer l&apos;inscription</h1>
             <form onSubmit={(e) => sendForm(e)}>
               <div className={styles.left}>
                 <TextInput
@@ -129,17 +166,17 @@ const page = ({ params }: { params: { user: userType } }) => {
                   setState={setPreference}
                   state={preference}
                   placeholder="Preference"
-
                 />
               </div>
               <div className={styles.right}>
-                {params.user?.connection_type == "EMAIL"? (
+                {(connectionType == "EMAIL")? (
                   <>
                     <div className={styles.mail}>
                       <p>
                         Un email à été envoyé à <span>{params.user.email}</span>
                       </p>
-                      <p>Vérifie ta boite mail !</p>
+                      <p>Vérifie ta boite mail ! <span onClick={e => handleResendEmail()}>Renvoyer le code</span> </p>
+                      
                     </div>
                     <TextInput
                       placeholder="Code de confirmation"
@@ -154,14 +191,14 @@ const page = ({ params }: { params: { user: userType } }) => {
                 )}
                 <CheckBox
                   placeholder="acceptCond"
-                  text="J'accepte les conditions d'utilisation et confirme que j'ai lu les 4kicks pagnan quoicoubeh."
+                  text="J&apos;accepte les conditions d'utilisation et confirme que j&apos;ai lu les 4kicks pagnan quoicoubeh."
                   state={acceptCond}
                   setState={setAcceptCond}
                   required={true}
                 />
                 <CheckBox
                   placeholder="acceptPromo"
-                  text="Je veux recevoir de gros spams promotionnels que personne veut mais belek j'aurai -70%."
+                  text="Je veux recevoir de gros spams promotionnels que personne veut mais belek j&apos;aurai -70%."
                   state={acceptPromo}
                   setState={setAcceptPromo}
                 />
@@ -182,4 +219,4 @@ const page = ({ params }: { params: { user: userType } }) => {
   );
 };
 
-export default page;
+export default Page;
