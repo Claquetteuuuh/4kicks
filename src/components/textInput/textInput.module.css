@@ -11,7 +11,7 @@
     position: relative;
     height: 40px;
     outline: none;
-    border: 1px solid #00000030;
+    border: 1px solid #33A9FF;
     border-radius: 10px;
     padding: 10px;
     transition: all .3s;
@@ -26,7 +26,7 @@
     padding: 0 2px;
     z-index: 1;
     font-size: 2.4rem;
-    color: #00000030;
+    color: #33A9FF;
     cursor: text;
     border-radius: 5px;
 }

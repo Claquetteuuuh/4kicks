@@ -9,6 +9,7 @@ import { useSearchParams } from 'next/navigation';
 import { ArticlesType } from '../../types/home/Article';
 import styles from './main_page.module.css';
 import { ButtonSeConnecter } from '@/components/Button/ButtonSeConnecter';
+import { ButtonMarketplace } from '@/components/Button/ButtonMarketplace';
 
 export default function Home() {
     
@@ -64,7 +65,6 @@ export default function Home() {
                     <p>Pas de donnee</p>
             }
             </div>
-            <ButtonSeConnecter />
         </Layout>
     )
 };
