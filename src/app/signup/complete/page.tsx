@@ -47,6 +47,9 @@ const page = ({ params }: { params: { user: userType } }) => {
     if(params.user){
       setConnectionType(params.user.connection_type)
     }
+    if(params.user.completed){
+      router.push("/")
+    }
   }, [params.user])
 
   const createToast = (type: "error" | "info", description: string) => {
@@ -58,7 +61,6 @@ const page = ({ params }: { params: { user: userType } }) => {
     let email = emailParams
     if(!email){
       if(!params.user){
-        console.log(params.user)
         return;
       }
       email = params.user.email
