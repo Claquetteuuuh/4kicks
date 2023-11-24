@@ -27,8 +27,7 @@ const Login = ({ params }: { params: { user: userType } }) => {
 
   useEffect(() => {
     if (params.user) {
-      // router.push("/")
-      console.log(params.user);
+      router.push("/")
     }
   }, [params]);
 
@@ -91,7 +90,7 @@ const Login = ({ params }: { params: { user: userType } }) => {
             </form>
             <p className={styles.psswd}>Mot de passe oublié ?</p>
             <Link href={`signup`} className={styles.bottomTxt}>
-              Je n'ai pas de compte, m'enregistrer
+              Je n&apos;ai pas de compte, m&apos;enregistrer
             </Link>
             <Link href={`.`} className={styles.bottomTxt}>
               <img src="/icons/home.svg" alt="House" />

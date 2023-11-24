@@ -16,22 +16,20 @@ export default async function RootLayout({
   children,
   params,
 }: {
-  children: React.ReactNode,
+  children: React.ReactNode;
   params: {
-    user: userType
-  }
+    user: userType;
+  };
 }) {
   const user = await getCurrentUser();
-  console.log(user)
-  if(user){
+  console.log(user);
+  if (user) {
     params.user = user;
   }
   return (
     <html lang="fr">
       <body className={inter.className}>
-        <SessionProvider>
-          {children}
-        </SessionProvider>
+        <SessionProvider>{children}</SessionProvider>
       </body>
     </html>
   );

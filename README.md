@@ -286,3 +286,7 @@ C-002: Le compte n'a pas été trouvé dans la base de donnée
 C-003: L'utilisateur n'a pas entré le bon mot de passe
 
 C-004: L'utilisateur n'a pas entré le mot de passe ou l'email
+
+C-005: Une tentative de completer le compte mais il est déjà completé
+
+C-006: L'utilisateur complete son compte, le compte n'existe pas en base de donnée mais il ne se crée pas
