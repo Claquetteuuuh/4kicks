@@ -2,8 +2,58 @@
     width: 100%;
     height: 70px;
     display: grid;
-}
-.search{
-    width: 30%;
+    grid-template-columns: repeat(12, 1fr);
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
 }
 
+.search{
+    width: 100%;
+    grid-row: 1;
+    grid-column: 2 / 9;
+    padding-left: 5rem;
+}
+
+.logo {
+    height: 100%;
+    grid-row: 1;
+    grid-column: 1/2;
+    margin-left: 3rem;
+    padding-bottom: 3rem;
+}
+
+.bouton_connecter {
+    grid-row: 1;
+    grid-column: 9;
+}
+
+.bouton_marketplace {
+    grid-row: 1;
+    grid-column: 10;
+}
+
+.bouton_panier {
+    grid-row: 1;
+    grid-column: 11 ;
+    display: flex;
+    justify-content: center;
+}
+
+.bouton_favoris {
+    grid-row: 1;
+    grid-column: 12;
+    display: flex;
+    justify-content: left;
+}
+
+.selectLang {
+    grid-row: 1;
+    grid-column: 13;
+    margin-right: 10rem;
+}
+
+.text_input input{
+    border-radius: 50px;
+    border-color: var(--third-color-100);
+}

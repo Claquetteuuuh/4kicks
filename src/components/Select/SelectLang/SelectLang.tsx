@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import styles from "./SelectLang.module.css"
 
+type SelectLangProps = {
+  className?: string
+}
 
-const SelectLang = () => {
+const SelectLang = ({className}: SelectLangProps) => {
 
     const [choixDrapeau, setChoixDrapeau] = useState('fr'); 
   
@@ -16,6 +19,7 @@ const SelectLang = () => {
     };
 
     return (
+      <div className={`${styles.container} ${className}`}>
       <div className={styles.container_image}>
         <button onClick={handleChange}>
         <img
@@ -24,6 +28,7 @@ const SelectLang = () => {
             className={styles.img}
           />
         </button>
+      </div>
       </div>
     );
   };
