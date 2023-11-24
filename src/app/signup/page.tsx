@@ -10,9 +10,10 @@ import { useRouter } from "next/navigation";
 import { signIn, useSession } from "next-auth/react";
 import axios from "axios";
 import * as jose from "jose";
+import { userType } from "../../../types/global/UserType";
 
 
-const Signup = () => {
+const Signup = ({ params }: { params: { user: userType } }) => {
 
   const router = useRouter();
 
@@ -29,8 +30,8 @@ const Signup = () => {
   }
 
   useEffect(() => {
-    if (status === "authenticated") {
-
+    if (params.user) {
+      router.push("/")
     }
   }, [status]);
 
