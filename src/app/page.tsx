@@ -24,6 +24,7 @@ export default function Home({ params }: { params: { user: userType } }) {
       axios
         .get(`/api/recherches?mot=${parametre?.get("mot")}`)
         .then((e) => {
+            console.log(e)
           setdataSearch(e.data);
         })
         .catch((err) => {
@@ -51,7 +52,6 @@ export default function Home({ params }: { params: { user: userType } }) {
         <div className={styles.article_container}>
           {dataSearch ? (
             dataSearch.map((item: ArticlesType) => {
-              // Assurez-vous d'adapter cela en fonction de la structure réelle de vos données
               return (
                 <div key={item.productUID} className={styles.container}>
                   <div className={styles.container_name}>

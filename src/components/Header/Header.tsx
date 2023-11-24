@@ -30,6 +30,7 @@ export default function Header() {
                 <button type='submit'>ok</button>
             </form>
         </div>
+        
         <ButtonSeConnecter />
         <ButtonMarketplace />
         <ButtonPanier />
