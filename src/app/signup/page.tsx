@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import styles from "./signup.module.css";
 import ConnButton from "@/components/plainButton/plainButton";
-import TextInput from "@/components/textInput/TextInput";
+import TextInput from "@/components/TextInput/TextInput";
 import Link from "next/link";
 import ConnectionLayout from "@/components/connectionLayout/ConnectionLayout";
 import { useRouter } from "next/navigation";
@@ -26,39 +26,7 @@ const Signup = () => {
 
   useEffect(() => {
     if (status === "authenticated") {
-      const jwt_key = process.env.client_jwt_key;
-      if (jwt_key) {
-        new jose.SignJWT({ email: session.user?.email })
-          .setExpirationTime("1h")
-          .setProtectedHeader({ alg: "HS256" })
-          .sign(new TextEncoder().encode(jwt_key))
-          .then((token) => {
-            setLoading(true);
-            console.log(session)
-            axios
-              .get("/api/users/", {
-                headers: {
-                  token: token,
-                },
-              })
-              .then((e) => {
-                setLoading(false);
-                if(e.data.completed === false){
-                  router.push(`signup/complete?conn=other`);
-                }else{
-                  router.push('.');
-                }
-              })
-              .catch((err) => {
-                console.log(err);
-              });
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      } else {
-        console.log("cannot load token");
-      }
+      
     }
   }, [status]);
 

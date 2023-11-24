@@ -1,6 +1,9 @@
 import { PrismaClient } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
 import { ArticlesType } from "../../../../types/home/Article";
+import stringSimilarity from "string-similarity";
+
+
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 
@@ -12,11 +15,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     if (req.method == "GET") {
+
+
+
         const prisma: PrismaClient = new PrismaClient();
 
         const rechercheTexte: string | string[] = req.query.mot as string;
 
-        const recherches = await prisma.product.findMany({
+        const articlesListe = await prisma.product.findMany({
             select: {
                 product_uid: true,
                 name: true,
@@ -26,13 +32,34 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                         name: true
                     }
                 }
-            },
-            where: {
-                name: {
-                    contains: rechercheTexte
-                }
             }
-        });
+        })
+
+        const search = (query: string, list: any[]) => {
+
+            const allEvents = list.map(event => ({
+                name: event.name,
+                price: event.price,
+                product_uid: event.product_uid,
+                imageName: event.product_image,
+                similarity: stringSimilarity.findBestMatch(query.toLowerCase(), [event.name.toLowerCase()]).bestMatch.rating
+            }));
+            console.log(allEvents[1].imageName.name)
+
+            const results: any[] = [];
+            allEvents.forEach(event => {
+                if (event.similarity > 0.3) {
+                    results.push(event);
+                }
+            });
+
+            results.sort((a: any, b: any) => b.similarity - a.similarity);
+
+            return results;
+        }
+
+        const recherches = search(rechercheTexte, articlesListe);
+
 
         const rechercheReturnes: ArticlesType[] = [];
 
@@ -41,7 +68,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 productUID: thisRecherche.product_uid,
                 nameProduct: thisRecherche.name,
                 price: thisRecherche.price,
-                imageLien: `${process.env.PUBLIC_DOMAINE_BUCKET_URL}${thisRecherche.product_image?.name}`
+                imageLien: `${process.env.PUBLIC_DOMAINE_BUCKET_URL}${thisRecherche.imageName.name}`
             }
             rechercheReturnes.push(recherche);
         })
