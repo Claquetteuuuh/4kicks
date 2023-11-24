@@ -14,19 +14,23 @@ import * as jose from "jose";
 
 const Signup = () => {
 
-
+  const router = useRouter();
 
   const { data: session, status } = useSession();
   const [loading, setLoading] = useState(false);
 
   const [email, setEmail] = useState("");
 
+  const handleGithubSignup = () => {
+    
+  }
+  const handleGoogleSignup = () => {
 
-  const router = useRouter();
+  }
 
   useEffect(() => {
     if (status === "authenticated") {
-      
+
     }
   }, [status]);
 
@@ -48,14 +52,17 @@ const Signup = () => {
                 img="/icons/google.png"
                 text="S'enregistrer avec Google"
                 onClick={() => {
-                  signIn("google");
+                  handleGoogleSignup();
                 }}
               />
               <ConnButton
-                imgAlt="Apple icon"
-                img="/icons/apple.png"
-                text="S'enregistrer avec Apple"
+                imgAlt="Github icon"
+                img="/icons/github.svg"
+                text="S'enregistrer avec Github"
                 color="black"
+                onClick={() => {
+                  handleGithubSignup()
+                }}
               />
               <p className={styles.separate}>or</p>
 

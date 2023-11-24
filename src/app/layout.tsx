@@ -22,6 +22,7 @@ export default async function RootLayout({
   }
 }) {
   const user = await getCurrentUser();
+  console.log(user)
   if(user){
     params.user = user;
   }

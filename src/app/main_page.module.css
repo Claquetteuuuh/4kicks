@@ -10,7 +10,7 @@
 
 
 .article_name {
-    font-size: 3rem;
+    font-size: var(--text-font-size-xxl);
 }
 
 .container_image {

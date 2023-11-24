@@ -3,7 +3,7 @@
 import ConnectionLayout from "@/components/connectionLayout/ConnectionLayout";
 import React, { useState, useEffect, ReactHTMLElement } from "react";
 import styles from "./complete.module.css";
-import TextInput from "@/components/textInput/TextInput";
+import TextInput from "@/components/TextInput/TextInput";
 import { useSearchParams, useRouter } from "next/navigation";
 import { Combobox } from "@headlessui/react";
 import SelectInput from "@/components/selectInput/SelectInput";
@@ -12,8 +12,9 @@ import CheckBox from "@/components/checkBox/CheckBox";
 import { useSession } from "next-auth/react";
 import axios from "axios";
 import * as jose from "jose";
+import { userType } from "../../../../types/global/UserType";
 
-const page = () => {
+const page = ({ params }: { params: { user: userType } }) => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const { data: session, status } = useSession();
@@ -22,7 +23,6 @@ const page = () => {
 
   const preferences = ["Homme", "Femme"];
 
-  const [email, setEmail] = useState<string | null | undefined>(searchParams?.get("email"));
   const [connectionType, setConnectionType] = useState(searchParams?.get("conn") || '');
   const [username, setUsername] = useState(searchParams?.get("username") || "");
   const [firstName, setFirstName] = useState(
@@ -42,11 +42,10 @@ const page = () => {
   const [acceptPromo, setAcceptPromo] = useState(true);
 
   useEffect(() => {
-    if (status === "unauthenticated" && (!email || email == null)) {
-      // router.push(".")
+    if (!params.user) {
+       router.push("/login")
     }
-    if (status === "authenticated") {
-      setEmail(session.user?.email);
+    if (params.user) {
       window.history.pushState(
         null,
         "",
@@ -56,10 +55,10 @@ const page = () => {
       window.history.pushState(
         null,
         "",
-        `?email=${email}&username=${username}&first_name=${firstName}&last_name=${lastName}&preference=${preference}&conn=${connectionType}`
+        `?username=${username}&first_name=${firstName}&last_name=${lastName}&preference=${preference}&conn=${connectionType}`
       );
     }
-  }, [username, firstName, lastName, preference, email, status]);
+  }, [username, firstName, lastName, preference, status]);
 
   const createToast = (type: "error" | "info", description: string) => {
     // toast
@@ -78,48 +77,7 @@ const page = () => {
       return;
     }
     setLoading(true);
-    const jwt_key = process.env.client_jwt_key;
-    if (jwt_key) {
-      const mailToHash = (connectionType === "email")?email: session?.user?.email;
-      new jose.SignJWT({ email: mailToHash })
-        .setExpirationTime("1h")
-        .setProtectedHeader({ alg: "HS256" })
-        .sign(new TextEncoder().encode(jwt_key))
-        .then((token) => {
-          const body = {
-            username: username,
-            first_name: firstName,
-            last_name: lastName,
-            password: password,
-            preference: preference,
-            promo: acceptPromo,
-            connection_type: connectionType,
-            email: (connectionType == "email")? email: undefined,
-          };
-          console.log(body)
-          const headers = {
-            token: token,
-          };
-          axios
-            .post("/api/users/", body, { headers })
-            .then((e) => {
-              console.log(e.data);
-              if(e.data?.success){
-                router.push("./");
-              }else{
-                console.log(e.data.error)
-                if(e.data.already_exists)
-                createToast("error", "Error during creation of the account !");
-              }
-            })
-            .catch((err) => {
-              console.log(err);
-            });
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
+
   };
 
   return (
@@ -175,11 +133,11 @@ const page = () => {
                 />
               </div>
               <div className={styles.right}>
-                {!session?.user?.email ? (
+                {params.user?.connection_type == "EMAIL"? (
                   <>
                     <div className={styles.mail}>
                       <p>
-                        Un email à été envoyé à <span>{email}</span>
+                        Un email à été envoyé à <span>{params.user.email}</span>
                       </p>
                       <p>Vérifie ta boite mail !</p>
                     </div>

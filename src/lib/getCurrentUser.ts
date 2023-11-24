@@ -24,7 +24,8 @@ export async function getCurrentUser(){
                 email: true,
                 completed: true,
                 creation_date: true,
-                profile_image: {select: {name: true}}
+                profile_image: {select: {name: true}},
+                connection_type: true
             }
         })
         if(!currentUser){
@@ -37,7 +38,8 @@ export async function getCurrentUser(){
             email: currentUser.email,
             completed: currentUser.completed,
             creation_date: currentUser.creation_date,
-            image: currentUser.profile_image?.name?`${process.env.PUBLIC_DOMAINE_BUCKET_URL}${currentUser.profile_image?.name}`:undefined
+            image: currentUser.profile_image?.name?`${process.env.PUBLIC_DOMAINE_BUCKET_URL}${currentUser.profile_image?.name}`:undefined,
+            connection_type: currentUser.connection_type,
         }
     }catch(err){
         return null;
