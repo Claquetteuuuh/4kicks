@@ -12,9 +12,7 @@ import axios from "axios";
 import * as jose from "jose";
 import { userType } from "../../../types/global/UserType";
 
-
 const Signup = ({ params }: { params: { user: userType } }) => {
-
   const router = useRouter();
 
   const { data: session, status } = useSession();
@@ -22,22 +20,20 @@ const Signup = ({ params }: { params: { user: userType } }) => {
 
   const [email, setEmail] = useState("");
 
-  const handleGithubSignup = () => {
-    
-  }
-  const handleGoogleSignup = () => {
-
-  }
+  const handleGithubSignup = () => {};
+  const handleGoogleSignup = () => {};
 
   useEffect(() => {
     if (params.user) {
-      router.push("/")
+      router.push("/");
+      router.refresh();
     }
   }, [status]);
 
   const subForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     router.push(`signup/complete?email=${email}&conn=email`);
+    router.refresh();
   };
 
   return (
@@ -62,7 +58,7 @@ const Signup = ({ params }: { params: { user: userType } }) => {
                 text="S'enregistrer avec Github"
                 color="black"
                 onClick={() => {
-                  handleGithubSignup()
+                  handleGithubSignup();
                 }}
               />
               <p className={styles.separate}>or</p>
@@ -82,7 +78,7 @@ const Signup = ({ params }: { params: { user: userType } }) => {
                 />
               </form>
               <Link href={`login`} className={styles.bottomTxt}>
-              Vous avez déjà un compte?
+                Vous avez déjà un compte?
               </Link>
               <Link href={`.`} className={styles.bottomTxt}>
                 <img src="/icons/home.svg" alt="House" />

@@ -33,19 +33,29 @@
   padding: 1% 1.5%;
   font-size: var(--text-font-size-l);
   cursor: pointer;
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   height: 80%;
   display: flex;
   justify-content: space-evenly;
   margin-right: 1rem;
+  transition: all 0.3s;
 }
 
 .button_connecter:hover {
-  background-color: white;
+  background-color: var(--third-color-100);
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  color: white;
 }
 
-.button_connecter svg {
+.button_connecter svg,
+.button_connecter path {
   margin-right: 2rem;
+  transition: all 0.3s;
+}
+.button_connecter:hover svg,
+.button_connecter:hover path {
+  color: white;
+  fill: white;
+  stroke: white;
 }
 
 .button_market {
@@ -60,15 +70,26 @@
   padding: 1% 2%;
   font-size: var(--text-font-size-l);
   cursor: pointer;
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   height: 80%;
   display: flex;
   justify-content: space-evenly;
   margin-right: 1rem;
+  transition: all 0.3s;
+}
+.button_market svg,
+.button_market path {
+  transition: all 0.3s;
 }
 
 .button_market:hover {
-  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  background-color: black;
+  color: white;
+}
+.button_market:hover svg,
+.button_market:hover path {
+  stroke: white;
+  color: white;
 }
 
 .button_market svg {
@@ -82,9 +103,45 @@
   min-width: 40px;
 }
 
-.images{
-    height: 33px;
-    min-height: 33px;
-    width: 33px;
-    min-width: 33px;
+.images {
+  height: 33px;
+  min-height: 33px;
+  width: 33px;
+  min-width: 33px;
+}
+
+.profile_picture {
+  display: flex;
+  align-items: center;
+  height: 80%;
+  transition: all 0.2s;
+}
+.profile_picture p {
+  margin-top: -5px;
+  font-size: var(--text-font-size-xl);
+  text-transform: capitalize;
+  color: var(--third-color-100);
+  font-weight: 600;
+  margin-left: 10px;
+  position: relative;
+}
+
+.profile_picture p::before {
+  position: absolute;
+  content: "";
+  height: 3px;
+  border-radius: 10px;
+  background-color: var(--third-color-100);
+  width: 0%;
+  top: 100%;
+  transition: all 0.3s;
+}
+.profile_picture:hover p::before {
+  width: 100%;
+}
+
+.profile_picture img {
+  height: 100%;
+  border-radius: 100px;
+  border: 2px solid var(--third-color-100);
 }

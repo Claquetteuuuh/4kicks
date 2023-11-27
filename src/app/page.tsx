@@ -40,9 +40,8 @@ export default function Home({ params }: { params: { user: userType } }) {
   }, [parametre?.get("mot")]);
   return (
     <CheckAccountLayout user={params.user}>
-      <Layout>
+      <Layout params={params}>
         <div className={styles.container_header}>
-          <Navbar user={params.user} />
           <div className={styles.article_container}>
             {dataSearch ? (
               dataSearch.map((item: ArticlesType) => {

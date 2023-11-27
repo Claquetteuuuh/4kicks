@@ -17,8 +17,9 @@ const DashboardLayout = ({
   params: { user: userType };
 }) => {
   const router = useRouter();
-  if(params.user.permission == "USER"){
-    router.push("/")
+  if (params.user.permission == "USER") {
+    router.push("/");
+    router.refresh();
   }
   const { data: session } = useSession({
     required: true,
