@@ -1,11 +1,13 @@
+.dashboard_container{
 
+}
 .dashboard {
+  border-top: 1px solid var(--color4-40);
   display: flex;
-  height: calc(100vh);
-  background-color: var(--color1);
+  height: calc(100vh - 70px);
+  background-color: var(--first-color-100);
   align-items: center;
   position: relative;
-  margin-top: 70px;
 }
 .nav {
   min-width: 280px;
@@ -29,10 +31,10 @@
   width: 100%;
 }
 .selected {
-  color: var(--color3);
+  color: var(--third-color-100);
 }
 .selected svg {
-  fill: var(--color3);
+  fill: var(--third-color-100);
 }
 .nav ul li {
   cursor: pointer;
@@ -43,7 +45,7 @@
   padding: 10px 10%;
   height: 70px;
 
-  font-size: var(--font-size-m);
+  font-size: var(--text-font-size-l);
   position: relative;
 }
 .nav ul li::before {
@@ -53,7 +55,7 @@
   height: 2px;
   border-radius: 10px;
   opacity: 0.1;
-  background-color: var(--color5);
+  background-color: var(--third-color-100);
   top: 100%;
   left: 50%;
   transform: translate(-50%, 0);
@@ -65,7 +67,7 @@
 .content {
   margin: 2%;
   height: 95%;
-  overflow-x: scroll;
+  overflow-x: none;
   overflow-y: scroll;
   width: 80%;
 }

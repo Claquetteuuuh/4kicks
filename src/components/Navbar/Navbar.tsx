@@ -6,7 +6,7 @@ import SelectLang from "../Select/SelectLang/SelectLang";
 import { userType } from "../../../types/global/UserType";
 import Link from "next/link";
 
-export default function Header({ user }: { user: userType }) {
+export default function Navbar({ user }: { user: userType }) {
   const router = useRouter();
 
   const [motCles, setmotCles] = useState<string>("");

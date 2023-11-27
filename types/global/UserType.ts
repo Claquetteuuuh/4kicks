@@ -7,4 +7,5 @@ export type userType = {
   creation_date: Date;
   connection_type: string;
   image: string | undefined;
+  permission: string;
 };
