@@ -7,6 +7,6 @@ export type ProduitType = {
     imageLien: string[],
     colorProduct: string[],
     tailleProduct: string[],
-    avisMoyenne: number
+    avisMoyenne: number,
     avisProduct: AvisType[],
 }
