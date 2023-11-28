@@ -23,9 +23,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 name: true,
                 description: true,
                 price: true,
-                product_image: {
+                product_images: {
                     select: {
-                        name: true
+                        image:{
+                            select:{
+                                name: true
+                            }
+                        }
                     }
                 },
                 product_color: {
@@ -86,16 +90,24 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 moyenne += thisAvis.notation;
                 avis.push(avi);
             })
+
+
             if (moyenne != 0) {
                 moyenne = moyenne / thisProduit.avis.length
             }
+
+            const image: string[] = []
+            thisProduit.product_images.forEach(thisImage =>{
+                const img: string = `${process.env.PUBLIC_DOMAINE_BUCKET_URL}${thisImage?.image.name}`
+                image.push(img);
+            })
 
 
             const produit: ProduitType = {
                 productUID: thisProduit.product_uid,
                 nameProduct: thisProduit.name,
                 price: thisProduit.price,
-                imageLien: `${process.env.PUBLIC_DOMAINE_BUCKET_URL}${thisProduit.product_image?.name}`,
+                imageLien: image,
                 colorProduct: thisProduit.product_color.map((color) => color.color.value),
                 tailleProduct: thisProduit.product_taille.map((taille) => taille.taille.value),
                 avisMoyenne: moyenne,

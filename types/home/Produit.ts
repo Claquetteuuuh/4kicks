@@ -4,9 +4,9 @@ export type ProduitType = {
     productUID : string,
     nameProduct: string,
     price: number,
-    imageLien: string,
+    imageLien: string[],
     colorProduct: string[],
     tailleProduct: string[],
-    avisMoyenne: number
+    avisMoyenne: number,
     avisProduct: AvisType[],
 }

@@ -42,7 +42,7 @@ model Account {
   permission      Permission  @default(USER)
   image_uid       String?
   completed       Boolean
-
+  validated       Boolean     @default(false)
   profile_image Image? @relation(fields: [image_uid], references: [image_uid])
 
   product_in_panier ProductInPanier[]
@@ -60,9 +60,19 @@ model Image {
   image_uid String @id @default(uuid())
   name      String @unique
 
-  account Account[]
-  product Product[]
-  affiche Affiche[]
+  account        Account[]
+  affiche        Affiche[]
+  product_images ProductImages[]
+}
+
+model ProductImages {
+  image_uid   String
+  product_uid String
+
+  image   Image   @relation(fields: [image_uid], references: [image_uid])
+  product Product @relation(fields: [product_uid], references: [product_uid])
+
+  @@id([image_uid, product_uid])
 }
 
 model Product {
@@ -70,16 +80,50 @@ model Product {
   name          String
   description   String
   price         Float
-  image_uid     String?
   creation_date DateTime @default(now())
-
-  product_image Image? @relation(fields: [image_uid], references: [image_uid])
 
   product_in_panier ProductInPanier[]
   favorite          Favorite[]
   avis              Avis[]
   product_in_achat  ProductInAchat[]
   product_categorie ProductCategories[]
+  product_color     ProductColors[]
+  product_taille    ProductTaille[]
+  product_images    ProductImages[]
+}
+
+model Taille {
+  taille_uid String @id @default(uuid())
+  value      String
+
+  product_taille ProductTaille[]
+}
+
+model ProductTaille {
+  taille_uid  String
+  product_uid String
+
+  product Product @relation(fields: [product_uid], references: [product_uid])
+  taille  Taille  @relation(fields: [taille_uid], references: [taille_uid])
+
+  @@id([taille_uid, product_uid])
+}
+
+model Color {
+  color_uid String @id @default(uuid())
+  value     String
+
+  product_color ProductColors[]
+}
+
+model ProductColors {
+  color_uid   String
+  product_uid String
+
+  color   Color   @relation(fields: [color_uid], references: [color_uid])
+  product Product @relation(fields: [product_uid], references: [product_uid])
+
+  @@id([color_uid, product_uid])
 }
 
 model ProductInPanier {
@@ -266,14 +310,43 @@ GET:
 
 GET:
 ```ts
-    type Articles = {
-
+    type Article = {
+      productUID : string,
+      nameProduct: string,
+      price: number,
+      imageLien: string[]
     }
     type Categories = {
         categorie_name: string,
-        articles: Articles[];
+        articles: Article[];
     }
-```
+    type Avis = {
+      avisUID: string,
+      notation: number,
+      content: string,
+      creationDate: Date,
+      userName: string,
+    }
+    type Affiche = {
+      afficheUid: string,
+      subtitle?: string,
+      title: string,
+      description: string,
+      callToAction: string | null,
+      callToActionUrl: string | null,
+      imageLien: string
+    }
+    type Produit = {
+      productUID : string,
+      nameProduct: string,
+      price: number,
+      imageLien: string[],
+      colorProduct: string[],
+      tailleProduct: string[],
+      avisMoyenne: number,
+      avisProduct: AvisType[],
+    }
+  ```
 
 ### Code d'erreur
 
