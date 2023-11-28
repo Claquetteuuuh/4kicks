@@ -35,16 +35,17 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { ToastAction } from "@/components/ui/toast"
-import { useToast } from "@/components/ui/use-toast"
-import { CategorieType } from "../../../types/dashboard/CategorieType";
-import styles from "./categorie_table.module.css";
-import axios from "axios";
+import styles from "./account_table.module.css";
 import { AccountType } from "../../../types/dashboard/AccountType";
 
-export default function CategorieTable({ data, handleDelete }: { data: CategorieType[], handleDelete: (id: string) => void }) {
-
-  const columns: ColumnDef<CategorieType>[] = [
+export default function AccountTable({
+  data,
+  handleDelete,
+}: {
+  data: AccountType[];
+  handleDelete: (id: string, email: string) => void;
+}) {
+  const columns: ColumnDef<AccountType>[] = [
     {
       id: "select",
       header: ({ table }) => (
@@ -70,14 +71,27 @@ export default function CategorieTable({ data, handleDelete }: { data: Categorie
       enableHiding: false,
     },
     {
-      accessorKey: "uid",
-      header: "uid",
+      accessorKey: "email",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+            className={styles.button_th}
+          >
+            Email
+            <ArrowUpDown className="ml-2 h-10 w-10" />
+          </Button>
+        );
+      },
       cell: ({ row }) => (
-        <div className={styles.top_item}>{row.original.categorie_uid}</div>
+        <div className="lowercase">
+          {`${row.original.email}`}
+        </div>
       ),
     },
     {
-      accessorKey: "name",
+      accessorKey: "username",
       header: ({ column }) => {
         return (
           <Button
@@ -85,12 +99,50 @@ export default function CategorieTable({ data, handleDelete }: { data: Categorie
             className={styles.button_th}
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-            Name
+            Username
             <ArrowUpDown className="ml-2 h-10 w-10" />
           </Button>
         );
       },
-      cell: ({ row }) => <div className="lowercase">{row.original.name}</div>,
+      cell: ({ row }) => (
+        <div className="lowercase">{row.original.username}</div>
+      ),
+    },
+    {
+      accessorKey: "first_name",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            className={styles.button_th}
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Prenom
+            <ArrowUpDown className="ml-2 h-10 w-10" />
+          </Button>
+        );
+      },
+      cell: ({ row }) => (
+        <div className="lowercase">{row.original.first_name}</div>
+      ),
+    },
+    {
+      accessorKey: "last_name",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            className={styles.button_th}
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Nom
+            <ArrowUpDown className="ml-2 h-10 w-10" />
+          </Button>
+        );
+      },
+      cell: ({ row }) => (
+        <div className="lowercase">{row.original.last_name}</div>
+      ),
     },
     {
       accessorKey: "creation_date",
@@ -113,6 +165,33 @@ export default function CategorieTable({ data, handleDelete }: { data: Categorie
       ),
     },
     {
+      accessorKey: "validated",
+      header: "Validé",
+      cell: ({ row }) => (
+        <div className={styles.top_item}>{`${row.original.validated}`}</div>
+      ),
+    },
+    {
+        accessorKey: "preference",
+        header: ({ column }) => {
+          return (
+            <Button
+              variant="ghost"
+              onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+              className={styles.button_th}
+            >
+              Préférence
+              <ArrowUpDown className="ml-2 h-10 w-10" />
+            </Button>
+          );
+        },
+        cell: ({ row }) => (
+          <div className="lowercase">
+            {`${row.original.preference}`}
+          </div>
+        ),
+      },
+    {
       id: "actions",
       enableHiding: false,
       cell: ({ row }) => {
@@ -124,30 +203,41 @@ export default function CategorieTable({ data, handleDelete }: { data: Categorie
                 <MoreHorizontal className="h-10 w-10" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className={styles.dropdown_content} align="end">
+            <DropdownMenuContent
+              className={styles.dropdown_content}
+              align="end"
+            >
               <DropdownMenuLabel className={styles.dropdown_item}>
                 Actions
               </DropdownMenuLabel>
               <DropdownMenuItem
                 className={styles.dropdown_item}
                 onClick={() =>
-                  navigator.clipboard.writeText(row.original.categorie_uid)
+                  navigator.clipboard.writeText(row.original.account_uid)
                 }
               >
                 Copy categorie ID
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={e => {handleDelete(row.original.categorie_uid)}} className={`${styles.delete_button} ${styles.dropdown_item}`}>
+              <DropdownMenuItem
+                onClick={(e) => {
+                  handleDelete(row.original.account_uid, row.original.email);
+                }}
+                className={`${styles.delete_button} ${styles.dropdown_item}`}
+              >
                 Delete
               </DropdownMenuItem>
-              <DropdownMenuItem className={`${styles.dropdown_item} ${styles.info_button}`}>Informations</DropdownMenuItem>
+              <DropdownMenuItem
+                className={`${styles.dropdown_item} ${styles.info_button}`}
+              >
+                Informations
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         );
       },
     },
   ];
-  
 
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -180,20 +270,50 @@ export default function CategorieTable({ data, handleDelete }: { data: Categorie
     <div className={styles.container}>
       <div className="flex items-center py-4">
         <Input
-          placeholder="Filter name..."
-          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
+          placeholder="Filter email..."
+          value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("name")?.setFilterValue(event.target.value)
+            table.getColumn("email")?.setFilterValue(event.target.value)
+          }
+          className={`max-w-sm ${styles.search_input}`}
+        />
+        <Input
+          placeholder="Filter username..."
+          value={(table.getColumn("username")?.getFilterValue() as string) ?? ""}
+          onChange={(event) =>
+            table.getColumn("username")?.setFilterValue(event.target.value)
+          }
+          className={`max-w-sm ${styles.search_input}`}
+        />
+        <Input
+          placeholder="Filter nom..."
+          value={(table.getColumn("last_name")?.getFilterValue() as string) ?? ""}
+          onChange={(event) =>
+            table.getColumn("last_name")?.setFilterValue(event.target.value)
+          }
+          className={`max-w-sm ${styles.search_input}`}
+        />
+        <Input
+          placeholder="Filter preference..."
+          value={(table.getColumn("preference")?.getFilterValue() as string) ?? ""}
+          onChange={(event) =>
+            table.getColumn("preference")?.setFilterValue(event.target.value)
           }
           className={`max-w-sm ${styles.search_input}`}
         />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" className={`ml-auto ${styles.columns_button}`}>
+            <Button
+              variant="outline"
+              className={`ml-auto ${styles.columns_button}`}
+            >
               Columns <ChevronDown className="ml-2 h-10 w-10" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className={styles.selected_columns_container} align="end">
+          <DropdownMenuContent
+            className={styles.selected_columns_container}
+            align="end"
+          >
             {table
               .getAllColumns()
               .filter((column) => column.getCanHide())

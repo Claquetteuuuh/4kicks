@@ -1,0 +1,15 @@
+export type AccountType = {
+    account_uid: string,
+    completed: boolean,
+    connection_type: string,
+    creation_date: string,
+    email: string,
+    first_name: string,
+    last_name: string,
+    image_uid: string | undefined,
+    newsletter: boolean,
+    permission: string,
+    preference: string,
+    username: string,
+    validated: boolean,
+}
