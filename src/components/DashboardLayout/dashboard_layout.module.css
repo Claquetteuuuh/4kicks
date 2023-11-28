@@ -10,6 +10,7 @@
   position: relative;
 }
 .nav {
+  overflow-y: scroll;
   min-width: 280px;
   width: 20%;
   display: flex;

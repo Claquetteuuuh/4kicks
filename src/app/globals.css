@@ -33,6 +33,10 @@
     --text-font-size-l: clamp(2rem, 1.6vw, 2.4rem);
     --text-font-size-m: clamp(1.4rem, 1.2vw, 2rem);
 
+    --alert-color-100: #CE2C31;
+    --alert-color-60: #CE2C3160;
+    --alert-color-40: #CE2C3140;
+
     --background: 0 0% 100%;
     --foreground: 240 10% 3.9%;
 
