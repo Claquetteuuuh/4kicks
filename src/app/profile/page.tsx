@@ -11,7 +11,7 @@ const Page = ({ params }: { params: { user: userType } }) => {
   return (
     <CheckAccountLayout user={params.user}>
       <Layout params={params}>
-        <button onClick={(e) => signOut()}>disconnect</button>
+        <button onClick={(e) => signOut().then(e => router.push("/login"))}>disconnect</button>
       </Layout>
     </CheckAccountLayout>
   );
