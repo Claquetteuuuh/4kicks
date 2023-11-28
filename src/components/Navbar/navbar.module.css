@@ -8,7 +8,7 @@
 .container a {
   height: 80%;
 }
-.container a img {
+.container a img { 
   height: 100%;
   margin-top: -5px;
 }
@@ -18,7 +18,7 @@
 .container .actions {
   width: 40%;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   align-items: center;
 }
 .button_connecter {

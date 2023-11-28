@@ -55,7 +55,7 @@ export default function Home({ params }: { params: { user: userType } }) {
                     </div>
                     <div className={styles.container_image}>
                       <img
-                        src={item.imageLien}
+                        src={item.imageLien[0]}
                         alt="image de chaussure"
                         className={styles.article_image}
                       />
