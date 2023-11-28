@@ -30,6 +30,7 @@ model Account {
   image_uid       String?
   completed       Boolean     @default(false)
   validated       Boolean     @default(false)
+  newsletter      Boolean     @default(false)
 
   profile_image Image? @relation(fields: [image_uid], references: [image_uid])
 

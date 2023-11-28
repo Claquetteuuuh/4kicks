@@ -5,14 +5,14 @@ import React, { useState, useEffect, ReactHTMLElement } from "react";
 import styles from "./complete.module.css";
 import TextInput from "@/components/TextInput/TextInput";
 import { useSearchParams, useRouter } from "next/navigation";
-import { Combobox } from "@headlessui/react";
 import SelectInput from "@/components/selectInput/SelectInput";
 import PlainButton from "@/components/plainButton/plainButton";
 import CheckBox from "@/components/checkBox/CheckBox";
 import { useSession } from "next-auth/react";
 import axios from "axios";
-import * as jose from "jose";
 import { userType } from "../../../../types/global/UserType";
+import { ToastAction } from "@/components/ui/toast"
+import { toast, useToast } from "@/components/ui/use-toast"
 
 const Page = ({ params }: { params: { user: userType } }) => {
   const searchParams = useSearchParams();
@@ -54,7 +54,11 @@ const Page = ({ params }: { params: { user: userType } }) => {
   }, [params.user]);
 
   const createToast = (type: "error" | "info", description: string) => {
-    // toast
+    toast({
+      className: styles.toast,
+      title: "Erreur",
+      description: "Les deux mots de passes ne correspondent pas !",
+    })
   };
 
   const handleResendEmail = () => {
@@ -108,6 +112,7 @@ const Page = ({ params }: { params: { user: userType } }) => {
           last_name: lastName,
           password: password,
           preference: pref,
+          newsletter: acceptPromo,
         },
         {
           headers: {

@@ -4,6 +4,7 @@ import SessionProvider from "@/components/SessionProvider/SessionProvider";
 import "./globals.css";
 import { getCurrentUser } from "../lib/getCurrentUser";
 import { userType } from "../../types/global/UserType";
+import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -30,6 +31,7 @@ export default async function RootLayout({
     <html lang="fr">
       <body className={inter.className}>
         <SessionProvider>{children}</SessionProvider>
+        <Toaster />
       </body>
     </html>
   );
