@@ -3,7 +3,7 @@ import prisma from "@/lib/prisma";
 import bcrypt from "bcrypt";
 
 export const POST = async (req: NextRequest) => {
-  const { username, first_name, last_name, password, preference } =
+  const { username, first_name, last_name, password, preference, newsletter } =
     await req.json();
   const email = req.headers.get("email");
 
@@ -26,6 +26,7 @@ export const POST = async (req: NextRequest) => {
         password: hashedPasswd,
         preference: preference,
         completed: true,
+        newsletter: newsletter
       },
     })
     if(updated){
@@ -61,6 +62,7 @@ export const POST = async (req: NextRequest) => {
         last_name: last_name,
         preference: preference,
         completed: true,
+        newsletter: newsletter
       },
     });
     if (!newUser) {
