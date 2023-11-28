@@ -1,0 +1,104 @@
+.dashboard_container{
+
+}
+.dashboard {
+  border-top: 1px solid var(--color4-40);
+  display: flex;
+  height: calc(100vh - 70px);
+  background-color: var(--first-color-100);
+  align-items: center;
+  position: relative;
+}
+.nav {
+  min-width: 280px;
+  width: 20%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  z-index: 30;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px,
+    rgba(0, 0, 0, 0.08) 0px 2px 0px 1px;
+}
+.nav ul {
+  margin-top: 40px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.nav ul a {
+  width: 100%;
+}
+.selected {
+  color: var(--third-color-100);
+}
+.selected svg {
+  fill: var(--third-color-100);
+}
+.nav ul li {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  padding: 10px 10%;
+  height: 70px;
+
+  font-size: var(--text-font-size-l);
+  position: relative;
+}
+.nav ul li::before {
+  content: "";
+  position: absolute;
+  width: 90%;
+  height: 2px;
+  border-radius: 10px;
+  opacity: 0.1;
+  background-color: var(--third-color-100);
+  top: 100%;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+.nav ul li svg {
+  height: 100%;
+  margin-right: 30px;
+}
+.content {
+  margin: 2%;
+  height: 95%;
+  overflow-x: none;
+  overflow-y: scroll;
+  width: 80%;
+}
+
+@media screen and (max-width: 840px) {
+  .dashboard {
+    flex-direction: column;
+  }
+  .dashboard .nav {
+    overflow-x: scroll;
+    min-width: auto;
+    height: 90px;
+    width: 100%;
+  }
+  .dashboard .nav ul {
+    flex-direction: row;
+    margin: 0;
+    margin-top: 10px;
+  }
+  .nav ul li::before {
+    width: 2px;
+    top: 0;
+    left: 100%;
+    transform: translate(0, 0);
+    height: 90%;
+  }
+  .nav ul li svg {
+    margin-right: 10px;
+  }
+  .dashboard .content {
+    width: 98%;
+  }
+
+}

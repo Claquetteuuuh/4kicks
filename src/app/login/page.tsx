@@ -28,6 +28,7 @@ const Login = ({ params }: { params: { user: userType } }) => {
   useEffect(() => {
     if (params.user) {
       router.push("/")
+      router.refresh();
     }
   }, [params]);
 
