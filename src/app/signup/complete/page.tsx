@@ -46,10 +46,10 @@ const Page = ({ params }: { params: { user: userType } }) => {
   useEffect(() => {
     if (params.user) {
       setConnectionType(params.user.connection_type);
-    }
-    if (params.user.completed) {
-      router.push("/");
-      router.refresh();
+      if (params.user.completed) {
+        router.push("/");
+        router.refresh();
+      }
     }
   }, [params.user]);
 
