@@ -25,8 +25,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 afficheUid: thisAffiche.affiche_uid,
                 title: thisAffiche.title,
                 description: thisAffiche.description,
-                callToAction: thisAffiche.callToAction,
-                callToActionUrl: thisAffiche.callToActionUrl,
+                callToAction: thisAffiche.callToAction as string,
+                callToActionUrl: thisAffiche.callToActionUrl as string,
                 imageLien: `${process.env.PUBLIC_DOMAINE_BUCKET_URL}${thisAffiche.image.name}`
             }
             affichesReturned.push(affiche)
