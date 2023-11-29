@@ -8,11 +8,30 @@ import { userType } from "../../types/global/UserType";
 import axios from "axios";
 import { useSearchParams } from "next/dist/client/components/navigation";
 import { ArticlesType } from "../../types/home/Article";
+import { AfficheType } from "../../types/home/Affiche";
+import test from "node:test";
+import Slider from "../components/Slider/Slider"
+import { Component } from "lucide-react";
 
 export default function Home({ params }: { params: { user: userType } }) {
   const [dataSearch, setdataSearch] = useState<ArticlesType[]>([]);
+  const [affiches, setAffiches] = useState<AfficheType[]>([]);
 
   const parametre = useSearchParams();
+
+  useEffect(() => {
+    if (affiches.length === 0) {
+      axios
+        .get(`/api/affiches`)
+        .then((response) => {
+          console.log(response);
+          setAffiches(response.data);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  }, [affiches]);
 
 
   useEffect(() => {
@@ -68,6 +87,7 @@ export default function Home({ params }: { params: { user: userType } }) {
           </div>
         </div>
       </Layout>
+      <Slider/>
     </CheckAccountLayout>
   );
 }

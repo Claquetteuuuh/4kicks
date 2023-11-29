@@ -114,12 +114,12 @@ export default function Navbar({ user }: { user: userType }) {
           <p className={styles.paragraphe_button}>Nouveautés</p>
         </button>
       </div>
-      <div className={styles.container_navigation_menu}>
+      <div>
         <NavigationMenu className={styles.navigation_menu}>
           <NavigationMenuList className={styles.navigation_list}>
             <NavigationMenuItem>
               <NavigationMenuTrigger className={styles.navigation_item1}>Homme</NavigationMenuTrigger>
-              <NavigationMenuContent>
+              <NavigationMenuContent className={styles.container_content}>
               <div className={styles.container_nouveautes}>
                   <div>
                     <ul className="">
@@ -250,9 +250,9 @@ export default function Navbar({ user }: { user: userType }) {
                 </div>
               </NavigationMenuContent>
             </NavigationMenuItem>
-            <NavigationMenuItem>
+            <NavigationMenuItem className={styles.test}>
               <NavigationMenuTrigger className={styles.navigation_item1}>Femme</NavigationMenuTrigger>
-              <NavigationMenuContent>
+              <NavigationMenuContent className={styles.container_content}>
               <div className={styles.container_nouveautes}>
                   <div>
                     <ul>

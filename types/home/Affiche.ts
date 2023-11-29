@@ -4,6 +4,6 @@ export type AfficheType = {
 	title: string,
 	description: string,
 	callToAction: string | null,
-	callToActionUrl: string | null,
+	callToActionUrl: string | undefined,
 	imageLien: string
 }
