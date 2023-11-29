@@ -99,7 +99,7 @@ export default function AccountTable({
             className={styles.button_th}
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-            Username
+            Pseudo
             <ArrowUpDown className="ml-2 h-10 w-10" />
           </Button>
         );

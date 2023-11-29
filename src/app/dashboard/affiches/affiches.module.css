@@ -1,0 +1,36 @@
+.toast_delete {
+    height: 70px;
+    font-size: var(--text-font-size-l);
+    border-radius: 10px;
+}
+
+.toast_delete div:nth-child(1) {
+    margin-top: -5px;
+}
+
+.toast_delete div {
+    height: 1.4em;
+    font-size: var(--text-font-size-m);
+}
+
+.toast_delete svg {
+    height: 10px;
+    width: 10px;
+}
+
+.toast_delete div:nth-child(2) {
+    font-size: calc(var(--text-font-size-m) * .7);
+}
+
+.toast_delete_button {
+    border-radius: 5px;
+    border: 1px solid #00000070;
+    padding: 2%;
+    font-size: var(--text-font-size-m);
+    transition: all .3s;
+}
+
+.toast_delete_button:hover {
+    background-color: var(--alert-color-100);
+    color: var(--first-color-100);
+}

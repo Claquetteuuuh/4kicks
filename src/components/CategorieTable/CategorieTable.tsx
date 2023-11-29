@@ -85,7 +85,7 @@ export default function CategorieTable({ data, handleDelete }: { data: Categorie
             className={styles.button_th}
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-            Name
+            Nom
             <ArrowUpDown className="ml-2 h-10 w-10" />
           </Button>
         );
