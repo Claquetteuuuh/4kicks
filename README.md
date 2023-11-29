@@ -366,4 +366,12 @@ C-006: L'utilisateur complete son compte, le compte n'existe pas en base de donn
 
 ### Dashboard
 
+#### Categories
+
 C-001: Try to get all categories but it create a db error
+
+#### Accounts
+
+A-001: Account uid not specified in header in dashboard delete request
+
+A-002: Fail delete account in dashboard delete request
