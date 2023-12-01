@@ -16,7 +16,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const prisma: PrismaClient = new PrismaClient();
 
         const affiches = await prisma.affiche.findMany({
-            select: { affiche_uid: true, image: { select: { name: true } }, title: true, description: true, callToAction: true, callToActionUrl: true }
+            select: { affiche_uid: true, image: { select: { name: true } }, title: true, description: true, subtitle: true, callToAction: true, callToActionUrl: true }
         });
 
         const affichesReturned: AfficheType[] = []
@@ -25,6 +25,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 afficheUid: thisAffiche.affiche_uid,
                 title: thisAffiche.title,
                 description: thisAffiche.description,
+                subtitle: thisAffiche.subtitle,
                 callToAction: thisAffiche.callToAction as string,
                 callToActionUrl: thisAffiche.callToActionUrl as string,
                 imageLien: `${process.env.PUBLIC_DOMAINE_BUCKET_URL}${thisAffiche.image.name}`
