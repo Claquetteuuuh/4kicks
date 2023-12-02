@@ -29,7 +29,7 @@ export default async function RootLayout({
   }
   return (
     <html lang="fr">
-      <body className={inter.className}>
+      <body suppressHydrationWarning={true} className={inter.className}>
         <SessionProvider>{children}</SessionProvider>
         <Toaster />
       </body>
