@@ -66,11 +66,13 @@ model ProductImages {
 }
 
 model Product {
-  product_uid   String   @id @default(uuid())
-  name          String
-  description   String
-  price         Float
-  creation_date DateTime @default(now())
+  product_uid          String   @id @default(uuid())
+  name                 String
+  description          String
+  complete_description String
+  price                Float
+  creation_date        DateTime @default(now())
+  marque               String
 
   product_in_panier ProductInPanier[]
   favorite          Favorite[]
