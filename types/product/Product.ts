@@ -9,7 +9,8 @@ export type FullProductType = {
     sizes: string[],
     description: string,
     complete_description: string,
-    avis: AvisType[]
+    avis: AvisType[],
     images_url: string[],
+    avis_avg: number
 
 }
