@@ -35,17 +35,18 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import styles from "./account_table.module.css";
-import { AccountType } from "../../../types/dashboard/AccountType";
+import styles from "./product_table.module.css";
+import { ProductType } from "../../../types/dashboard/ProductType";
+import Link from "next/link";
 
-export default function AccountTable({
+export default function ProductTable({
   data,
   handleDelete,
 }: {
-  data: AccountType[];
+  data: ProductType[];
   handleDelete: (id: string, email: string) => void;
 }) {
-  const columns: ColumnDef<AccountType>[] = [
+  const columns: ColumnDef<ProductType>[] = [
     {
       id: "select",
       header: ({ table }) => (
@@ -71,69 +72,13 @@ export default function AccountTable({
       enableHiding: false,
     },
     {
-      accessorKey: "email",
+      accessorKey: "name",
       header: ({ column }) => {
         return (
           <Button
             variant="ghost"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
             className={styles.button_th}
-          >
-            Email
-            <ArrowUpDown className="ml-2 h-10 w-10" />
-          </Button>
-        );
-      },
-      cell: ({ row }) => (
-        <div className="lowercase">
-          {`${row.original.email}`}
-        </div>
-      ),
-    },
-    {
-      accessorKey: "username",
-      header: ({ column }) => {
-        return (
-          <Button
-            variant="ghost"
-            className={styles.button_th}
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            Pseudo
-            <ArrowUpDown className="ml-2 h-10 w-10" />
-          </Button>
-        );
-      },
-      cell: ({ row }) => (
-        <div className="lowercase">{row.original.username}</div>
-      ),
-    },
-    {
-      accessorKey: "first_name",
-      header: ({ column }) => {
-        return (
-          <Button
-            variant="ghost"
-            className={styles.button_th}
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            Prenom
-            <ArrowUpDown className="ml-2 h-10 w-10" />
-          </Button>
-        );
-      },
-      cell: ({ row }) => (
-        <div className="lowercase">{row.original.first_name}</div>
-      ),
-    },
-    {
-      accessorKey: "last_name",
-      header: ({ column }) => {
-        return (
-          <Button
-            variant="ghost"
-            className={styles.button_th}
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
             Nom
             <ArrowUpDown className="ml-2 h-10 w-10" />
@@ -141,8 +86,42 @@ export default function AccountTable({
         );
       },
       cell: ({ row }) => (
-        <div className="lowercase">{row.original.last_name}</div>
+        <div className="lowercase">{`${row.original.name}`}</div>
       ),
+    },
+    {
+      accessorKey: "description",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            className={styles.button_th}
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Description
+            <ArrowUpDown className="ml-2 h-10 w-10" />
+          </Button>
+        );
+      },
+      cell: ({ row }) => (
+        <div className="lowercase">{row.original.description}</div>
+      ),
+    },
+    {
+      accessorKey: "price",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            className={styles.button_th}
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Prix
+            <ArrowUpDown className="ml-2 h-10 w-10" />
+          </Button>
+        );
+      },
+      cell: ({ row }) => <div className="lowercase">{row.original.price}€</div>,
     },
     {
       accessorKey: "creation_date",
@@ -165,35 +144,40 @@ export default function AccountTable({
       ),
     },
     {
-      accessorKey: "validated",
-      header: "Validé",
-      cell: ({ row }) => (
-        <div className={styles.top_item}>{`${row.original.validated}`}</div>
-      ),
-    },
-    {
-        accessorKey: "preference",
-        header: ({ column }) => {
-          return (
-            <Button
-              variant="ghost"
-              onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-              className={styles.button_th}
-            >
-              Préférence
-              <ArrowUpDown className="ml-2 h-10 w-10" />
-            </Button>
-          );
-        },
-        cell: ({ row }) => (
-          <div className="lowercase">
-            {`${row.original.preference}`}
-          </div>
-        ),
-      },
-    {
       id: "actions",
       enableHiding: false,
+      header: () => {
+        return (
+          <div className={styles.add_button}>
+            <Link
+              href={"/dashboard/products/new"}
+              className={styles.add_button}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="ionicon"
+                viewBox="0 0 512 512"
+              >
+                <path
+                  d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192 192-86 192-192z"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeMiterlimit="10"
+                  strokeWidth="32"
+                />
+                <path
+                  fill="none"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="32"
+                  d="M256 176v160M336 256H176"
+                />
+              </svg>
+            </Link>
+          </div>
+        );
+      },
       cell: ({ row }) => {
         return (
           <DropdownMenu>
@@ -213,15 +197,15 @@ export default function AccountTable({
               <DropdownMenuItem
                 className={styles.dropdown_item}
                 onClick={() =>
-                  navigator.clipboard.writeText(row.original.account_uid)
+                  navigator.clipboard.writeText(row.original.product_uid)
                 }
               >
-                Copy Account ID
+                Copy product ID
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem
                 onClick={(e) => {
-                  handleDelete(row.original.account_uid, row.original.email);
+                  handleDelete(row.original.product_uid, row.original.name);
                 }}
                 className={`${styles.delete_button} ${styles.dropdown_item}`}
               >
@@ -270,34 +254,20 @@ export default function AccountTable({
     <div className={styles.container}>
       <div className="flex items-center py-4">
         <Input
-          placeholder="Filter email..."
-          value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
+          placeholder="Filter name..."
+          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("email")?.setFilterValue(event.target.value)
+            table.getColumn("name")?.setFilterValue(event.target.value)
           }
           className={`max-w-sm ${styles.search_input}`}
         />
         <Input
-          placeholder="Filter username..."
-          value={(table.getColumn("username")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("username")?.setFilterValue(event.target.value)
+          placeholder="Filter description..."
+          value={
+            (table.getColumn("description")?.getFilterValue() as string) ?? ""
           }
-          className={`max-w-sm ${styles.search_input}`}
-        />
-        <Input
-          placeholder="Filter nom..."
-          value={(table.getColumn("last_name")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("last_name")?.setFilterValue(event.target.value)
-          }
-          className={`max-w-sm ${styles.search_input}`}
-        />
-        <Input
-          placeholder="Filter preference..."
-          value={(table.getColumn("preference")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("preference")?.setFilterValue(event.target.value)
+            table.getColumn("description")?.setFilterValue(event.target.value)
           }
           className={`max-w-sm ${styles.search_input}`}
         />
