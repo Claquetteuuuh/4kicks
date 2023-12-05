@@ -375,3 +375,13 @@ C-001: Try to get all categories but it create a db error
 A-001: Account uid not specified in header in dashboard delete request
 
 A-002: Fail delete account in dashboard delete request
+
+A-003: Fail getting all accounts
+
+#### Products
+
+P-001: Product uid not specified in header in dashboard delete request
+
+P-002: Fail delete product in dashboard delete request
+
+P-003: Fail getting all products

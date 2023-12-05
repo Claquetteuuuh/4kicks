@@ -1,7 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
-import { ProduitType } from "../../../../types/home/Produit";
 import { AvisType } from "../../../../types/home/Avis";
+import { FullProductType } from "../../../../types/product/Product";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 
@@ -22,11 +22,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 product_uid: true,
                 name: true,
                 description: true,
+                complete_description: true,
                 price: true,
+                marque: true,
                 product_images: {
                     select: {
-                        image:{
-                            select:{
+                        image: {
+                            select: {
                                 name: true
                             }
                         }
@@ -72,7 +74,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             }
         })
 
-        const produitReturned: ProduitType[] = [];
+        const produitReturned: FullProductType[] = [];
 
         produits.forEach(thisProduit => {
 
@@ -97,21 +99,25 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             }
 
             const image: string[] = []
-            thisProduit.product_images.forEach(thisImage =>{
+            thisProduit.product_images.forEach(thisImage => {
                 const img: string = `${process.env.PUBLIC_DOMAINE_BUCKET_URL}${thisImage?.image.name}`
                 image.push(img);
             })
 
 
-            const produit: ProduitType = {
-                productUID: thisProduit.product_uid,
-                nameProduct: thisProduit.name,
+            const produit: FullProductType = {
+                product_uid: thisProduit.product_uid,
+                product_name: thisProduit.name,
                 price: thisProduit.price,
-                imageLien: image,
-                colorProduct: thisProduit.product_color.map((color) => color.color.value),
-                tailleProduct: thisProduit.product_taille.map((taille) => taille.taille.value),
-                avisMoyenne: moyenne,
-                avisProduct: avis
+                marque: thisProduit.marque,
+                colors: thisProduit.product_color.map((color) => color.color.value),
+                sizes: thisProduit.product_taille.map((taille) => taille.taille.value),
+                description: thisProduit.description,
+                complete_description: thisProduit.complete_description,
+                avis: avis,
+                images_url: image,
+                avis_avg: moyenne
+
             }
 
             produitReturned.push(produit);
