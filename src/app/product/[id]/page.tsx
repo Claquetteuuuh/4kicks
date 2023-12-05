@@ -14,6 +14,8 @@ import PlainButton from "@/components/plainButton/plainButton";
 import ProductCategories from "@/components/ProductCategories/ProductCategories";
 import { Product } from "@prisma/client";
 import { ProduitType } from "../../../../types/home/Produit";
+import Footer from "@/components/footer/Footer";
+import Loading from "@/components/Loading/Loading";
 
 type paramType = {
   id?: string;
@@ -75,9 +77,7 @@ const testDataList: ProduitType[] = [
       "https://candyworld.fr/cdn/shop/products/image_1b6c8a23-5747-402d-818e-c9d28729972d.png?v=1676967731&width=800",
     ],
   },
-  
-  
-]
+];
 
 const testData: FullProductType = {
   product_uid: "abcdef",
@@ -129,17 +129,16 @@ const Page = ({ params }: { params: { user: userType } }) => {
     setSelectedSize(produit?.sizes[0]);
   }, [produit]);
   useEffect(() => {
-    // const url = `/api/produits/?uid=${params?.id}`;
-    // axios
-    //   .get(url)
-    //   .then((e) => {
-    //     setProduit(e.data.produit)
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
-    setProduit(testData);
-    setSameThemeProducts(testDataList)
+    const url = `/api/produits?uid=${param?.id}`;
+    axios
+      .get(url)
+      .then((e) => {
+        setProduit(e.data.produit)
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    setSameThemeProducts(testDataList);
   }, []);
   return (
     <CheckAccountLayout user={params.user}>
@@ -259,16 +258,22 @@ const Page = ({ params }: { params: { user: userType } }) => {
               </div>
             </div>
             <div className={styles.other_products}>
-              <ProductCategories
-                allProducts={sameThemeProducts}
-                name={"Chaussure du même thème mon bb"}
-              />
+              {sameThemeProducts ? (
+                <ProductCategories
+                  allProducts={sameThemeProducts}
+                  name={"Chaussure du même thème mon bb"}
+                />
+              ) : (
+                <Loading />
+
+)}
             </div>
           </>
         ) : (
-          <p>Loading ...</p>
+          <Loading />
         )}
       </div>
+      <Footer />
     </CheckAccountLayout>
   );
 };

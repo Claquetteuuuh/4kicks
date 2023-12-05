@@ -1,0 +1,22 @@
+.loading{
+    width: 100%;
+    height: calc(100vh - 110px);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.point_container{
+    display: flex;
+    align-items: end;
+    margin-top: -40px;
+}
+.point{
+    height: 5vw;
+    width: 5vw;
+    background-color: var(--third-color-100);
+    border-radius: 50%;
+    margin: 0 10px;
+}
+
