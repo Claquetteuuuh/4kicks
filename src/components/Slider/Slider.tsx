@@ -41,6 +41,9 @@ function Slider() {
             <div className={styles.container_text}>
               <h1 className={styles.title}>{item.title}</h1>
               <p className={styles.subtitles}>{item.subtitle}</p>
+              <a className={styles.button_calltoaction} href={item.callToActionUrl}>
+                <button className={styles.button}>{item.callToAction}</button>
+              </a>
           </div>  
             </div>
         ))
