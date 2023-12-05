@@ -44,7 +44,6 @@ export default function Navbar({ user }: { user: userType }) {
               placeholder="Rechercher..."
               state={motCles}
               setState={setmotCles}
-              className={styles.text_input}
             />
           </form>
         </div>
