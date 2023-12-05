@@ -8,11 +8,9 @@ import styles from "./product_uid.module.css";
 import SelectInput from "@/components/selectInput/SelectInput";
 import Navbar from "@/components/Navbar/Navbar";
 import { userType } from "../../../../types/global/UserType";
-import ConnectionLayout from "@/components/connectionLayout/ConnectionLayout";
 import CheckAccountLayout from "@/components/checkAccountLayout/CheckAccountLayout";
 import PlainButton from "@/components/plainButton/plainButton";
 import ProductCategories from "@/components/ProductCategories/ProductCategories";
-import { Product } from "@prisma/client";
 import { ProduitType } from "../../../../types/home/Produit";
 import Footer from "@/components/footer/Footer";
 import Loading from "@/components/Loading/Loading";
@@ -78,40 +76,6 @@ const testDataList: ProduitType[] = [
     ],
   },
 ];
-
-const testData: FullProductType = {
-  product_uid: "abcdef",
-  product_name: "Apagnan kick",
-  price: 140.0,
-  marque: "Coubeh",
-  colors: ["nwar", "rouj", "blen"],
-  sizes: ["xl", "xs", "xxxs"],
-  description: "Chaussure pour pagnan timide",
-  complete_description:
-    "Puceau moi, sérieusement, on me l'avait pas sortie celle là depuis longtemps. Demande à mes potes si j'suis puceau, tu vas voir les réponses qu'tu vas te prendre",
-  avis: [
-    {
-      avisUID: "012",
-      notation: 3,
-      content: "ok mon reuf",
-      creationDate: new Date(),
-      userName: "Le mek la",
-    },
-    {
-      avisUID: "012",
-      notation: 3,
-      content: "ok mon reuf",
-      creationDate: new Date(),
-      userName: "Le mek la",
-    },
-  ],
-  images_url: [
-    "https://candyworld.fr/cdn/shop/products/image_61afe124-51f0-45b7-9af4-75fab94adf8a.png?v=1676967847&width=800",
-    "https://candyworld.fr/cdn/shop/products/image_8af1dcdf-501f-4b88-86a8-014366ce3f57.png?v=1676967767&width=800",
-    "https://candyworld.fr/cdn/shop/products/image_1b6c8a23-5747-402d-818e-c9d28729972d.png?v=1676967731&width=800",
-  ],
-  avis_avg: 4,
-};
 
 const Page = ({ params }: { params: { user: userType } }) => {
   const stars = [1, 2, 3, 4, 5];
@@ -230,9 +194,8 @@ const Page = ({ params }: { params: { user: userType } }) => {
                   <div className={styles.stars_container}>
                     {stars.map((star) => {
                       return (
-                        <div>
+                        <div key={star}>
                           <svg
-                            key={star}
                             className={
                               star <= produit.avis_avg ? styles.filled : ""
                             }

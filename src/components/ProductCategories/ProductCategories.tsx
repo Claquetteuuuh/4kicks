@@ -21,7 +21,7 @@ const ProductCategories = ({
         {
             allProducts.slice(0, 4).map(product => {
                 return(
-                    <div className={styles.product_item}>
+                    <div key={product.productUID} className={styles.product_item}>
                         <div className={styles.img_container}>
                             <img src={product.imageLien[0]} alt={`image of ${product.nameProduct}`} />
                         </div>

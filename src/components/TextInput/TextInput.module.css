@@ -18,9 +18,6 @@
     color: var(--third-color-100);
     font-size: 2rem;
 }
-.input input{
-    color: var(--third-color-100);
-}
 .label{
     position: absolute;
     left: 10px;
