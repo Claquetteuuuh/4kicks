@@ -25,7 +25,15 @@ function Slider() {
   }, [affiches]);
 
   return (
-    <Carousel className={styles.carousel} showThumbs={false} autoPlay={true} interval={6000} infiniteLoop={true} verticalSwipe={'natural'}>
+    <Carousel 
+    className={styles.carousel} 
+    showThumbs={false} 
+    autoPlay={true} 
+    interval={6000} 
+    infiniteLoop={true} 
+    verticalSwipe={'natural'}
+    showArrows={false}
+    >
       {affiches && (
         affiches.map((item: AfficheType) => (
           <div key={item.afficheUid} className={styles.container_ducarousel}>
@@ -33,12 +41,7 @@ function Slider() {
             <div className={styles.container_text}>
               <h1 className={styles.title}>{item.title}</h1>
               <p className={styles.subtitles}>{item.subtitle}</p>
-          </div>
-              <div>
-                <a href={item.callToActionUrl} className={styles.callToAction}>
-                  <button className={styles.button_calltoaction}>{item.callToAction}</button>
-                </a>
-              </div>
+          </div>  
             </div>
         ))
       )}

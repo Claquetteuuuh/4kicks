@@ -88,9 +88,26 @@ export default function Home({ params }: { params: { user: userType } }) {
           </div>
         </div>
       </Layout>
-      <Slider/>
-      <Footer/>
+      <Slider />
+      <div className={styles.container_authenticity}>
+        <img src="/icons/shield-checkmark.svg" alt="shield checkmark" className={styles.img_shield} />
+        <div className={styles.container_p_authenticity}>
+          <p className={styles.p_title}>AUTHENTICITE</p>
+          <p className={styles.p_subtitle}>Vérifie par nos équipe</p>
+        </div>
+        <img src="/icons/airplane1.svg" alt="airplane pictures" className={styles.img_airplane} />
+        <div className={styles.container_p_authenticity}>
+          <p className={styles.p_title}>RETOUR GRATUIT</p>
+          <p className={styles.p_subtitle}>Sous 30 jours</p>
+        </div>
+        <img src="/icons/card1.svg" alt="portefeuille" className={styles.img_portefeuille} />
+        <div className={styles.container_p_authenticity}>
+          <p className={styles.p_title}>PRIX ABORDABLE</p>
+          <p className={styles.p_subtitle}>20% moins chère</p>
+        </div>
+      </div>
+      <Footer />
     </CheckAccountLayout>
-    
+
   );
 }
