@@ -11,10 +11,73 @@ import { userType } from "../../../../types/global/UserType";
 import ConnectionLayout from "@/components/connectionLayout/ConnectionLayout";
 import CheckAccountLayout from "@/components/checkAccountLayout/CheckAccountLayout";
 import PlainButton from "@/components/plainButton/plainButton";
+import ProductCategories from "@/components/ProductCategories/ProductCategories";
+import { Product } from "@prisma/client";
+import { ProduitType } from "../../../../types/home/Produit";
 
 type paramType = {
   id?: string;
 };
+
+const testDataList: ProduitType[] = [
+  {
+    productUID: "abcdef",
+    nameProduct: "Apagnan kick",
+    price: 140.0,
+    description: "Chaussure pour pagnan timide",
+    imageLien: [
+      "https://candyworld.fr/cdn/shop/products/image_61afe124-51f0-45b7-9af4-75fab94adf8a.png?v=1676967847&width=800",
+      "https://candyworld.fr/cdn/shop/products/image_8af1dcdf-501f-4b88-86a8-014366ce3f57.png?v=1676967767&width=800",
+      "https://candyworld.fr/cdn/shop/products/image_1b6c8a23-5747-402d-818e-c9d28729972d.png?v=1676967731&width=800",
+    ],
+  },
+  {
+    productUID: "abcdef",
+    nameProduct: "Apagnan kick",
+    price: 140.0,
+    description: "Chaussure pour pagnan timide",
+    imageLien: [
+      "https://candyworld.fr/cdn/shop/products/image_61afe124-51f0-45b7-9af4-75fab94adf8a.png?v=1676967847&width=800",
+      "https://candyworld.fr/cdn/shop/products/image_8af1dcdf-501f-4b88-86a8-014366ce3f57.png?v=1676967767&width=800",
+      "https://candyworld.fr/cdn/shop/products/image_1b6c8a23-5747-402d-818e-c9d28729972d.png?v=1676967731&width=800",
+    ],
+  },
+  {
+    productUID: "abcdef",
+    nameProduct: "Apagnan kick",
+    price: 140.0,
+    description: "Chaussure pour pagnan timide",
+    imageLien: [
+      "https://candyworld.fr/cdn/shop/products/image_61afe124-51f0-45b7-9af4-75fab94adf8a.png?v=1676967847&width=800",
+      "https://candyworld.fr/cdn/shop/products/image_8af1dcdf-501f-4b88-86a8-014366ce3f57.png?v=1676967767&width=800",
+      "https://candyworld.fr/cdn/shop/products/image_1b6c8a23-5747-402d-818e-c9d28729972d.png?v=1676967731&width=800",
+    ],
+  },
+  {
+    productUID: "abcdef",
+    nameProduct: "Apagnan kick",
+    price: 140.0,
+    description: "Chaussure pour pagnan timide",
+    imageLien: [
+      "https://candyworld.fr/cdn/shop/products/image_61afe124-51f0-45b7-9af4-75fab94adf8a.png?v=1676967847&width=800",
+      "https://candyworld.fr/cdn/shop/products/image_8af1dcdf-501f-4b88-86a8-014366ce3f57.png?v=1676967767&width=800",
+      "https://candyworld.fr/cdn/shop/products/image_1b6c8a23-5747-402d-818e-c9d28729972d.png?v=1676967731&width=800",
+    ],
+  },
+  {
+    productUID: "abcdef",
+    nameProduct: "Apagnan kick",
+    price: 140.0,
+    description: "Chaussure pour pagnan timide",
+    imageLien: [
+      "https://candyworld.fr/cdn/shop/products/image_61afe124-51f0-45b7-9af4-75fab94adf8a.png?v=1676967847&width=800",
+      "https://candyworld.fr/cdn/shop/products/image_8af1dcdf-501f-4b88-86a8-014366ce3f57.png?v=1676967767&width=800",
+      "https://candyworld.fr/cdn/shop/products/image_1b6c8a23-5747-402d-818e-c9d28729972d.png?v=1676967731&width=800",
+    ],
+  },
+  
+  
+]
 
 const testData: FullProductType = {
   product_uid: "abcdef",
@@ -59,6 +122,8 @@ const Page = ({ params }: { params: { user: userType } }) => {
 
   const [selectedSize, setSelectedSize] = useState(produit?.sizes[0]);
 
+  const [sameThemeProducts, setSameThemeProducts] = useState<ProduitType[]>([]);
+
   useEffect(() => {
     setDisplayedImage(produit?.images_url[0]);
     setSelectedSize(produit?.sizes[0]);
@@ -74,6 +139,7 @@ const Page = ({ params }: { params: { user: userType } }) => {
     //     console.log(err);
     //   });
     setProduit(testData);
+    setSameThemeProducts(testDataList)
   }, []);
   return (
     <CheckAccountLayout user={params.user}>
@@ -192,7 +258,12 @@ const Page = ({ params }: { params: { user: userType } }) => {
                 </div>
               </div>
             </div>
-            <div className={styles.other_products}></div>
+            <div className={styles.other_products}>
+              <ProductCategories
+                allProducts={sameThemeProducts}
+                name={"Chaussure du même thème mon bb"}
+              />
+            </div>
           </>
         ) : (
           <p>Loading ...</p>
