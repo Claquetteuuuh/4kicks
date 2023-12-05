@@ -129,17 +129,19 @@ const Page = ({ params }: { params: { user: userType } }) => {
     setSelectedSize(produit?.sizes[0]);
   }, [produit]);
   useEffect(() => {
-    const url = `/api/produits?uid=${param?.id}`;
-    axios
-      .get(url)
-      .then((e) => {
-        setProduit(e.data.produit)
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    setSameThemeProducts(testDataList);
-  }, []);
+    if (param?.id) {
+      const url = `/api/produits?uid=${param?.id}`;
+      axios
+        .get(url)
+        .then((e) => {
+          setProduit(e.data[0]);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      setSameThemeProducts(testDataList);
+    }
+  }, [param?.id]);
   return (
     <CheckAccountLayout user={params.user}>
       <Navbar user={params.user} />
@@ -265,8 +267,7 @@ const Page = ({ params }: { params: { user: userType } }) => {
                 />
               ) : (
                 <Loading />
-
-)}
+              )}
             </div>
           </>
         ) : (

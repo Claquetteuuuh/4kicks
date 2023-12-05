@@ -200,7 +200,7 @@ export default function ProductTable({
                   navigator.clipboard.writeText(row.original.product_uid)
                 }
               >
-                Copy categorie ID
+                Copy product ID
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem
