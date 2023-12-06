@@ -18,7 +18,9 @@ import Footer from "@/components/footer/Footer";
 export default function Home({ params }: { params: { user: userType } }) {
   const [dataSearch, setdataSearch] = useState<ArticlesType[]>([]);
   const [affiches, setAffiches] = useState<AfficheType[]>([]);
-  const [categorie, setCategorie] = useState<ProduitType[]>([]);
+  const [categorieN, setCategorieN] = useState<ArticlesType[]>([]);
+  const [categorieF, setCategorieF] = useState<ArticlesType[]>([]);
+  const [categorieH, setCategorieH] = useState<ArticlesType[]>([]);
 
   const parametre = useSearchParams();
 
@@ -27,7 +29,7 @@ export default function Home({ params }: { params: { user: userType } }) {
       axios
         .get(`/api/affiches`)
         .then((response) => {
-         // console.log(response);
+          // console.log(response);
           setAffiches(response.data);
         })
         .catch((error) => {
@@ -37,18 +39,46 @@ export default function Home({ params }: { params: { user: userType } }) {
   }, [affiches]);
 
   useEffect(() => {
-    if (categorie.length === 0) {
+    if (categorieN.length === 0) {
       axios
-        .get(`/api/produit`)
+        .get(`/api/categories?category=nouveautés`)
         .then((response) => {
           console.log(response);
-          setCategorie(response.data);
+          setCategorieN(response.data);
         })
         .catch((error) => {
           console.error(error);
         });
     }
-  }, [categorie]);
+  }, [categorieN]);
+
+  useEffect(() => {
+    if (categorieH.length === 0) {
+      axios
+        .get(`/api/categories?category=homme`)
+        .then((response) => {
+          console.log(response);
+          setCategorieH(response.data);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  }, [categorieH]);
+
+  useEffect(() => {
+    if (categorieF.length === 0) {
+      axios
+        .get(`/api/categories?category=femme`)
+        .then((response) => {
+          console.log(response);
+          setCategorieF(response.data);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  }, [categorieF]);
 
 
   useEffect(() => {
@@ -122,23 +152,88 @@ export default function Home({ params }: { params: { user: userType } }) {
           <p className={styles.p_subtitle}>20% moins chère</p>
         </div>
       </div>
-      <Footer />
       <div className={styles.container_header}>
-          <div className={styles.article_container}>
-            <h1>Nouveautés</h1>
-            {categorie ? (
-              categorie.map((cate: ProduitType) => {
-                return (
-                  <div key={cate.productUID} className={styles.container}>
-                    
+        <div className={styles.article_container}>
+          <h1>Nouveautés</h1>
+          {categorieN ? (
+            categorieN.map((cate: ArticlesType) => {
+              return (
+                <div key={cate.productUID} className={styles.container}>
+                  <div className={styles.container_image}>
+                    <img
+                      src={cate.imageLien[0]}
+                      alt="image de chaussure"
+                      className={styles.article_image}
+                    />
                   </div>
-                );
-              })
-            ) : (
-              <p>Pas de donnee</p>
-            )}
-          </div>
+                  <div>
+                    <p className={styles.article_name}>{cate.nameProduct}</p>
+                    <p>{cate.price}</p>
+                  </div>
+                  <p>Chaussure pour apagnan</p>
+                </div>
+              );
+            })
+          ) : (
+            <p>Pas de donnee</p>
+          )}
         </div>
+      </div>
+      <div className={styles.container_header}>
+        <div className={styles.article_container}>
+          <h1>Homme</h1>
+          {categorieH ? (
+            categorieH.map((cate: ArticlesType) => {
+              return (
+                <div key={cate.productUID} className={styles.container}>
+                  <div className={styles.container_image}>
+                    <img
+                      src={cate.imageLien[0]}
+                      alt="image de chaussure"
+                      className={styles.article_image}
+                    />
+                  </div>
+                  <div>
+                    <p className={styles.article_name}>{cate.nameProduct}</p>
+                    <p>{cate.price}</p>
+                  </div>
+                  <p>Chaussure pour apagnan</p>
+                </div>
+              );
+            })
+          ) : (
+            <p>Pas de donnee</p>
+          )}
+        </div>
+      </div>
+      <div className={styles.container_header}>
+        <div className={styles.article_container}>
+          <h1>Nouveautés</h1>
+          {categorieF ? (
+            categorieF.map((cate: ArticlesType) => {
+              return (
+                <div key={cate.productUID} className={styles.container}>
+                  <div className={styles.container_image}>
+                    <img
+                      src={cate.imageLien[0]}
+                      alt="image de chaussure"
+                      className={styles.article_image}
+                    />
+                  </div>
+                  <div>
+                    <p className={styles.article_name}>{cate.nameProduct}</p>
+                    <p>{cate.price}</p>
+                  </div>
+                  <p>Chaussure pour apagnan</p>
+                </div>
+              );
+            })
+          ) : (
+            <p>Pas de donnee</p>
+          )}
+        </div>
+      </div>
+      <Footer />
     </CheckAccountLayout>
 
   );
