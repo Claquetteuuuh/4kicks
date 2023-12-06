@@ -42,7 +42,6 @@ const DashboardLayout = ({
   }, [pathname]);
   return (
     <div className={styles.dashboard_container}>
-      <Navbar user={params.user} />
       <div className={styles.dashboard}>
         <div className={styles.nav}>
           <ul>
