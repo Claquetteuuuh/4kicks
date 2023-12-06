@@ -1,6 +1,5 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import Layout from "@/components/Layout/Layout";
 import Navbar from "@/components/Navbar/Navbar";
 import styles from "./main_page.module.css";
 import CheckAccountLayout from "@/components/checkAccountLayout/CheckAccountLayout";
@@ -75,7 +74,6 @@ export default function Home({ params }: { params: { user: userType } }) {
   }, [parametre?.get("mot")]);
   return (
     <CheckAccountLayout user={params.user}>
-      <Layout params={params}>
         <div className={styles.container_header}>
           <div className={styles.article_container}>
             {dataSearch ? (
@@ -146,7 +144,6 @@ export default function Home({ params }: { params: { user: userType } }) {
             )}
           </div>
         </div>
-      </Layout>
     </CheckAccountLayout>
   );
 }
