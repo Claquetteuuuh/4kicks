@@ -1,6 +1,5 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import Layout from "@/components/Layout/Layout";
 import Navbar from "@/components/Navbar/Navbar";
 import styles from "./main_page.module.css";
 import CheckAccountLayout from "@/components/checkAccountLayout/CheckAccountLayout";
@@ -18,9 +17,7 @@ import Footer from "@/components/footer/Footer";
 export default function Home({ params }: { params: { user: userType } }) {
   const [dataSearch, setdataSearch] = useState<ArticlesType[]>([]);
   const [affiches, setAffiches] = useState<AfficheType[]>([]);
-  const [categorieN, setCategorieN] = useState<ProduitType[]>([]);
-  const [categorieF, setCategorieF] = useState<ProduitType[]>([]);
-  const [categorieH, setCategorieH] = useState<ProduitType[]>([]);
+  const [categorie, setCategorie] = useState<ProduitType[]>([]);
 
   const parametre = useSearchParams();
 
@@ -77,7 +74,6 @@ export default function Home({ params }: { params: { user: userType } }) {
   }, [parametre?.get("mot")]);
   return (
     <CheckAccountLayout user={params.user}>
-      <Layout params={params}>
         <div className={styles.container_header}>
           <div className={styles.article_container}>
             {dataSearch ? (
@@ -134,9 +130,20 @@ export default function Home({ params }: { params: { user: userType } }) {
             <p className={styles.p_subtitle}>20% moins chère</p>
           </div>
         </div>
-        <h1>Nouveautés</h1>
-
-      </Layout>
+        <div className={styles.container_header}>
+          <div className={styles.article_container}>
+            <h1>Nouveautés</h1>
+            {categorie ? (
+              categorie.map((cate: ProduitType) => {
+                return (
+                  <div key={cate.productUID} className={styles.container}></div>
+                );
+              })
+            ) : (
+              <p>Pas de donnee</p>
+            )}
+          </div>
+        </div>
     </CheckAccountLayout>
   );
 }
