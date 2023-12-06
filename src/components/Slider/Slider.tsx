@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import "react-responsive-carousel/lib/styles/carousel.min.css"
+import ReactDOM from 'react-dom';
+import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from 'react-responsive-carousel';
 import styles from "./Slider.module.css"
 import axios from 'axios';
@@ -24,28 +25,24 @@ function Slider() {
   }, [affiches]);
 
   return (
-    <div className={styles.container}>
-    <Carousel className={styles.carousel}>
+    <Carousel className={styles.carousel} showThumbs={false} autoPlay={true} interval={6000} infiniteLoop={true} verticalSwipe={'natural'}>
       {affiches && (
         affiches.map((item: AfficheType) => (
           <div key={item.afficheUid} className={styles.container_ducarousel}>
-            <div className={styles.container_images}>
-              <img src={item.imageLien} alt="image de chaussure" />
-            </div>
+              <img className={styles.img} src={item.imageLien} alt="image de chaussure" />
             <div className={styles.container_text}>
               <h1 className={styles.title}>{item.title}</h1>
-              <p>{item.subtitle}</p>
+              <p className={styles.subtitles}>{item.subtitle}</p>
+          </div>
               <div>
                 <a href={item.callToActionUrl} className={styles.callToAction}>
-                  <button>{item.callToAction}</button>
+                  <button className={styles.button_calltoaction}>{item.callToAction}</button>
                 </a>
               </div>
             </div>
-          </div>
         ))
       )}
     </Carousel>
-    </div>
   );
 }
 

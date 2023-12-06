@@ -216,7 +216,7 @@ export default function AccountTable({
                   navigator.clipboard.writeText(row.original.account_uid)
                 }
               >
-                Copy categorie ID
+                Copy Account ID
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem

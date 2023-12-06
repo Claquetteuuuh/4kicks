@@ -12,6 +12,7 @@ import { AfficheType } from "../../types/home/Affiche";
 import test from "node:test";
 import Slider from "../components/Slider/Slider"
 import { Component } from "lucide-react";
+import Footer from "@/components/footer/Footer";
 
 export default function Home({ params }: { params: { user: userType } }) {
   const [dataSearch, setdataSearch] = useState<ArticlesType[]>([]);
@@ -88,6 +89,8 @@ export default function Home({ params }: { params: { user: userType } }) {
         </div>
       </Layout>
       <Slider/>
+      <Footer/>
     </CheckAccountLayout>
+    
   );
 }
