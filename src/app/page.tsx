@@ -18,7 +18,9 @@ import Footer from "@/components/footer/Footer";
 export default function Home({ params }: { params: { user: userType } }) {
   const [dataSearch, setdataSearch] = useState<ArticlesType[]>([]);
   const [affiches, setAffiches] = useState<AfficheType[]>([]);
-  const [categorie, setCategorie] = useState<ProduitType[]>([]);
+  const [categorieN, setCategorieN] = useState<ProduitType[]>([]);
+  const [categorieF, setCategorieF] = useState<ProduitType[]>([]);
+  const [categorieH, setCategorieH] = useState<ProduitType[]>([]);
 
   const parametre = useSearchParams();
 
@@ -132,20 +134,8 @@ export default function Home({ params }: { params: { user: userType } }) {
             <p className={styles.p_subtitle}>20% moins chère</p>
           </div>
         </div>
-        <div className={styles.container_header}>
-          <div className={styles.article_container}>
-            <h1>Nouveautés</h1>
-            {categorie ? (
-              categorie.map((cate: ProduitType) => {
-                return (
-                  <div key={cate.productUID} className={styles.container}></div>
-                );
-              })
-            ) : (
-              <p>Pas de donnee</p>
-            )}
-          </div>
-        </div>
+        <h1>Nouveautés</h1>
+
       </Layout>
     </CheckAccountLayout>
   );
