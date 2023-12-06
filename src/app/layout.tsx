@@ -6,7 +6,6 @@ import { getCurrentUser } from "../lib/getCurrentUser";
 import { userType } from "../../types/global/UserType";
 import { Toaster } from "@/components/ui/toaster";
 import Navbar from "@/components/Navbar/Navbar";
-import Layout from "@/components/Layout/Layout";
 import Footer from "@/components/footer/Footer";
 
 const inter = Inter({ subsets: ["latin"] });

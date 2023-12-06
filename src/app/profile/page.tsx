@@ -1,18 +1,87 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { userType } from "../../../types/global/UserType";
 import { useRouter } from "next/navigation";
 import { signOut } from "next-auth/react";
-import Layout from "@/components/Layout/Layout";
 import CheckAccountLayout from "@/components/checkAccountLayout/CheckAccountLayout";
+import styles from "./profile.module.css";
+import TextInput from "@/components/TextInput/TextInput";
+import SelectInput from "@/components/selectInput/SelectInput";
+import PlainButton from "@/components/plainButton/plainButton";
 
 const Page = ({ params }: { params: { user: userType } }) => {
   const router = useRouter();
+
+  const preferences = ["Homme", "Femme", "Mix"];
+
+  const [username, setUsername] = useState(params.user.username);
+  const [firstName, setFirstName] = useState(params.user.first_name);
+  const [lastName, setLastName] = useState(params.user.last_name);
+  const [gender, setGender] = useState(preferences[0]);
+  const [email, setEmail] = useState(params.user.email);
+
   return (
     <CheckAccountLayout user={params.user}>
-      <Layout params={params}>
-        <button onClick={(e) => signOut().then(e => router.push("/login"))}>disconnect</button>
-      </Layout>
+      <div className={styles.container}>
+        <div className={styles.general}>
+          <div className={styles.profile_picture}>
+            <img
+              src={
+                params.user.image
+                  ? params.user.image
+                  : "/icons/default_pp.png"
+              }
+              alt={
+                params.user.image
+                  ? `image of ${params.user.username}`
+                  : "default profile picture"
+              }
+            />
+            <PlainButton text="Deconnection" color="black" onClick={() => signOut().then((e) => router.push("/login"))} />
+          </div>
+          <div className={styles.personal_info}>
+            <TextInput
+              className={styles.input}
+              placeholder="Username"
+              setState={setUsername}
+              state={username}
+            />
+            <TextInput
+              className={styles.input}
+              placeholder="First name"
+              setState={setFirstName}
+              state={firstName}
+            />
+            <TextInput
+              className={styles.input}
+              placeholder="Last name"
+              setState={setLastName}
+              state={lastName}
+            />
+            <SelectInput
+              elements={preferences}
+              setState={setGender}
+              state={gender}
+              placeholder="Genre"
+            />
+          </div>
+          <div className={styles.connection_info}>
+            <div className={styles.connection}>
+              <p className={styles.type}>Connection Type</p>
+              <p>{params.user.connection_type}</p>
+            </div>
+            <TextInput
+              className={styles.input}
+              placeholder="Email"
+              setState={setEmail}
+              state={email}
+            />
+            <PlainButton className={styles.button}  text="Reinitialiser le mot de passe" />
+            <PlainButton className={`${styles.save} ${styles.button}`} text="Sauvegarder" />
+          </div>
+        </div>
+      </div>
+      disconnect
     </CheckAccountLayout>
   );
 };
