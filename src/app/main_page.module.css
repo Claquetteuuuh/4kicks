@@ -73,3 +73,10 @@
     padding-right: 9%;
     margin-left: 1%;
 }
+
+.categorie {
+    display: flex;
+    flex-direction: column;
+    padding-left: 3%;
+    padding-right: 3%;
+}

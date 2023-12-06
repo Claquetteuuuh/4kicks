@@ -29,7 +29,7 @@ export default function Navbar({ user }: { user: userType }) {
   const handleForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    router.push(`/?mot=${motCles}`);
+    router.push(`/recherche?mot=${motCles}`);
     router.refresh();
   };
 

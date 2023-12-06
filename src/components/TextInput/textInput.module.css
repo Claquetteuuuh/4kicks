@@ -11,11 +11,11 @@
     position: relative;
     height: 40px;
     outline: none;
-    border: 1px solid var(--second-color-100);
+    border: 1px solid var(--third-color-100);
     border-radius: 30px;
     padding: 10px;
     transition: all .3s;
-    color: var(--second-color-100);
+    color: black;
     font-size: 2rem;
 }
 .label{
