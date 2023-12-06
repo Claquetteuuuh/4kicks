@@ -22,54 +22,31 @@ const Page = ({ params }: { params: { user: userType } }) => {
   const [marque, setMarque] = useState("");
   const router = useRouter();
 
-
-
-  useEffect(() => {
-    axios
-      .get("/api/dashboard/categories")
-      .then((e) => {
-        setCategoriesSelected(e.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    axios
-      .post("/api/dashboard/products", {
-        new_name: name,
-        new_description: description,
-        new_price: price,
-        new_c_description: complementDescription,
-        new_marque: marque,
-        new_images: images
+    if (!images   ) {
+      return;
+    }
+    const data = new FormData();
+    let i = 0;
+    Array.from(images).forEach(img => {
+      i+=1;
+      data.set(`file${i}`, img)
+    });
+    data.set("new_name", name)
+    data.set("new_price", price)
+    data.set("new_complementDescription", complementDescription)
+    data.set("new_marque", marque)
+    data.set("new_description", description)
 
-      })
-      .then((e) => {
-        router.refresh();
-        axios
-          .get("/api/dashboard/accounts")
-          .then((e) => {
-            console.log(e)
-          })
-          .catch((err) => {
-
-            console.error(err);
-          });
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+    const res = await fetch("/api/dashboard/products/create", {
+      method: "POST",
+      body: data,
+    })
+    if (!res.ok) throw new Error(await res.text());
+    const resData = await res.json();
+    console.log(resData)
   };
-
-  const handleImgChange = (img: FileList) => {
-    setImages(img);
-  };
-
-
-
   return (
     <DashboardLayout params={params}>
       <form onSubmit={(e) => handleSubmit(e)}>
@@ -80,11 +57,16 @@ const Page = ({ params }: { params: { user: userType } }) => {
         <TextInput required state={marque} setState={setMarque} placeholder="marque" />
         <input
           type="file"
-          name="file"
+          title="file"
           accept="image/*"
           multiple
-          onChange={(e) =>
-            e.target.files?.[0] ? handleImgChange(e.target.files) : false
+          max={4}
+          onChange={(e) => {
+            if (e.target.files?.[0]) {
+              setImages(e.target.files)
+            }
+          }
+
           }
           id="img"
         />
