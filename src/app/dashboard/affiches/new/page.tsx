@@ -12,66 +12,35 @@ import { useRouter } from "next/navigation";
 const Page = ({ params }: { params: { user: userType } }) => {
 
 
-  const [categories, setCategories] = useState<CategorieType[]>();
-  const [categoriesSelected, setCategoriesSelected] = useState([]);
-  const [images, setImages] = useState<FileList>();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [callToAction, setCallToAction] = useState("");
   const [callToActionUrl, setCallToActionUrl] = useState("");
   const [subtitle, setSubtitle] = useState("");
-  const router = useRouter();
   const data = new FormData();
   
   const [img, setImg] = useState<File>()
 
-  useEffect(() => {
-    axios
-      .get("/api/dashboard/categories")
-      .then((e) => {
-        setCategoriesSelected(e.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    try {
-      const data = new FormData();
-      data.set("file", img);
-
-      axios
-      .post("/api/dashboard/affiches", {
-        new_title: title,
-        new_description: description,
-        new_subtitle: subtitle,
-        new_callToAction: callToAction,
-        new_callToActionUrl: callToActionUrl,
-        data: data
-
-      })
-      .then((e) => {
-        router.refresh();
-        axios
-          .get("/api/dashboard/affiches")
-          .then((e) => {
-            console.log(e)
-          })
-          .catch((err) => {
-
-            console.error(err);
-          });
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-    } catch (err: any) {
-      console.error(err);
+    if(!img){
+      return;
     }
-    console.log(data)
-    
+    const data = new FormData();
+    data.set("file", img)
+    data.set("new_title", title)
+    data.set("new_subtitle", subtitle)
+    data.set("new_callToAction", callToAction)
+    data.set("new_callToActionUrl", callToActionUrl)
+    data.set("new_description", description)
+
+    const res = await fetch("/api/dashboard/affiches/create", {
+      method: "POST",
+      body: data,
+    })
+    if (!res.ok) throw new Error(await res.text());
+    const resData = await res.json();
+    console.log(resData)
   };
 
 
@@ -91,7 +60,6 @@ const Page = ({ params }: { params: { user: userType } }) => {
           onChange={(e) => {
             if(e.target.files?.[0]){
               setImg(e.target.files[0])
-              data.set("image", e.target.files[0])
             }
           }
 
@@ -104,16 +72,7 @@ const Page = ({ params }: { params: { user: userType } }) => {
             :
             false
         }
-        {categories ? (
-          <CategoriesCheckboxContainer
-            categories={categories}
-            setState={setCategoriesSelected}
-            state={categoriesSelected}
-          />
-        ) : (
-          false
-        )}
-        <input type="submit"></input>
+        <input type="submit" value={"envoyer"}/>
       </form>
     </DashboardLayout>
   );
