@@ -1,18 +1,13 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import Navbar from "@/components/Navbar/Navbar";
 import styles from "./main_page.module.css";
 import CheckAccountLayout from "@/components/checkAccountLayout/CheckAccountLayout";
 import { userType } from "../../types/global/UserType";
 import axios from "axios";
 import { useSearchParams } from "next/dist/client/components/navigation";
-import { ArticlesType } from "../../types/home/Article";
 import { AfficheType } from "../../types/home/Affiche";
 import { ProduitType } from "../../types/home/Produit";
-import test from "node:test";
 import Slider from "../components/Slider/Slider";
-import { Component } from "lucide-react";
-import Footer from "@/components/footer/Footer";
 import ProductCategories from "@/components/ProductCategories/ProductCategories";
 
 export default function Home({ params }: { params: { user: userType } }) {
