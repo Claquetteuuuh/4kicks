@@ -78,6 +78,7 @@ const testDataList: ProduitType[] = [
 ];
 
 const Page = ({ params }: { params: { user: userType } }) => {
+  const categorie = "Femme"
   const stars = [1, 2, 3, 4, 5];
   const param: paramType | null = useParams();
   const [produit, setProduit] = useState<FullProductType>();
@@ -103,9 +104,20 @@ const Page = ({ params }: { params: { user: userType } }) => {
         .catch((err) => {
           console.log(err);
         });
-      setSameThemeProducts(testDataList);
     }
   }, [param?.id]);
+
+  // categorie
+  useEffect(() => {
+    axios.get(`/api/categories?category=${categorie}`)
+      .then(e => {
+        setSameThemeProducts(e.data);
+      })
+      .catch(err => {
+        console.error(err);
+      } )
+  })
+
   return (
     <CheckAccountLayout user={params.user}>
       <Navbar user={params.user} />
@@ -226,7 +238,7 @@ const Page = ({ params }: { params: { user: userType } }) => {
               {sameThemeProducts ? (
                 <ProductCategories
                   allProducts={sameThemeProducts}
-                  name={"Chaussure du même thème mon bb"}
+                  name={categorie}
                 />
               ) : (
                 <Loading />
