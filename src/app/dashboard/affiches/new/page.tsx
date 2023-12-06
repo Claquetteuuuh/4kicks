@@ -15,14 +15,15 @@ const Page = ({ params }: { params: { user: userType } }) => {
   const [categories, setCategories] = useState<CategorieType[]>();
   const [categoriesSelected, setCategoriesSelected] = useState([]);
   const [images, setImages] = useState<FileList>();
-  const [name, setName] = useState("");
+  const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [price, setPrice] = useState("");
-  const [complementDescription, setComplementDescription] = useState("");
-  const [marque, setMarque] = useState("");
+  const [callToAction, setCallToAction] = useState("");
+  const [callToActionUrl, setCallToActionUrl] = useState("");
+  const [subtitle, setSubtitle] = useState("");
   const router = useRouter();
-
-
+  const data = new FormData();
+  
+  const [img, setImg] = useState<File>()
 
   useEffect(() => {
     axios
@@ -35,22 +36,26 @@ const Page = ({ params }: { params: { user: userType } }) => {
       });
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    axios
-      .post("/api/dashboard/products", {
-        new_name: name,
+    try {
+      const data = new FormData();
+      data.set("file", img);
+
+      axios
+      .post("/api/dashboard/affiches", {
+        new_title: title,
         new_description: description,
-        new_price: price,
-        new_c_description: complementDescription,
-        new_marque: marque,
-        new_images: images
+        new_subtitle: subtitle,
+        new_callToAction: callToAction,
+        new_callToActionUrl: callToActionUrl,
+        data: data
 
       })
       .then((e) => {
         router.refresh();
         axios
-          .get("/api/dashboard/accounts")
+          .get("/api/dashboard/affiches")
           .then((e) => {
             console.log(e)
           })
@@ -62,10 +67,11 @@ const Page = ({ params }: { params: { user: userType } }) => {
       .catch((err) => {
         console.error(err);
       });
-  };
-
-  const handleImgChange = (img: FileList) => {
-    setImages(img);
+    } catch (err: any) {
+      console.error(err);
+    }
+    console.log(data)
+    
   };
 
 
@@ -73,32 +79,28 @@ const Page = ({ params }: { params: { user: userType } }) => {
   return (
     <DashboardLayout params={params}>
       <form onSubmit={(e) => handleSubmit(e)}>
-        <TextInput required state={name} setState={setName} placeholder="Name" />
+        <TextInput required state={title} setState={setTitle} placeholder="Title" />
         <TextInput required state={description} setState={setDescription} placeholder="description" />
-        <TextInput required state={price} setState={setPrice} placeholder="price" />
-        <TextInput required state={complementDescription} setState={setComplementDescription} placeholder="complement description" />
-        <TextInput required state={marque} setState={setMarque} placeholder="marque" />
+        <TextInput required state={callToAction} setState={setCallToAction} placeholder="call to action" />
+        <TextInput required state={subtitle} setState={setSubtitle} placeholder="complement subtitle" />
+        <TextInput required state={callToActionUrl} setState={setCallToActionUrl} placeholder="call to action url" />
         <input
           type="file"
-          name="file"
+          title="file"
           accept="image/*"
-          multiple
-          onChange={(e) =>
-            e.target.files?.[0] ? handleImgChange(e.target.files) : false
+          onChange={(e) => {
+            if(e.target.files?.[0]){
+              setImg(e.target.files[0])
+              data.set("image", e.target.files[0])
+            }
+          }
+
           }
           id="img"
         />
         {
-          images ?
-            <div className={styles.images_container}>
-              {
-                Array.from(images).map(img => {
-                  return (
-                    <img key={img.name} src={URL.createObjectURL(img)} alt={img.name} />
-                  )
-                })
-              }
-            </div>
+          img ?
+            <img key={img.name} src={URL.createObjectURL(img)} alt={img.name} />
             :
             false
         }

@@ -1,5 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import prisma from "@/lib/prisma";
+import { NextResponse } from "next/server";
+import { uploadFile } from "@/lib/bucket";
+import { v4 as uuidv4 } from 'uuid';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method === "GET") {
@@ -24,6 +27,76 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             res.status(200).json({ message: "the affiche has been deleted" });
         } else {
             res.status(400).json({ error: "Error during deleting. A-002" })
+        }
+    }
+    else if (req.method === "POST") {
+
+
+        const contentType = req.headers["Content-Type"] as string;
+        const bucketName = process.env.BUCKET_NAME;
+        const fileName = `${uuidv4()}.jpg`;
+
+        // get the file content
+        interface MyRequestBody {
+            new_title: string;
+            new_description: string;
+            new_subtitle: string;
+            new_CallToAction: string;
+            new_CallToActionUrl: string;
+            data: FormData;
+          }
+          const {
+            new_title, new_description, new_subtitle, new_CallToAction, new_CallToActionUrl, data
+          }: MyRequestBody = req.body;
+          
+          console.log(data)
+        //const { new_title, new_description, new_subtitle, new_CallToAction, new_CallToActionUrl, data } = req.body;
+        const file: File | null = data.get("img") as unknown as File;
+        if (!file) {
+            return NextResponse.json({
+                success: false,
+                message: "any file specified",
+            });
+        }
+
+        const bytes = await file.arrayBuffer();
+        const fileContent = Buffer.from(bytes);
+
+        if (bucketName) {
+            await uploadFile(
+                bucketName,
+                fileName,
+                fileContent,
+                contentType ? contentType : "image/png"
+            );
+
+            const image = await prisma.image.create({
+                data: {
+                    name: fileName,
+                },
+            });
+            let reussi: boolean = false;
+            if (image) {
+                const affiche = await prisma.affiche.create({
+                    data: {
+                        subtitle: new_subtitle,
+                        title: new_title,
+                        description: new_description,
+                        image_uid: image.image_uid,
+                        callToAction: new_CallToAction,
+                        callToActionUrl: new_CallToActionUrl
+                    }
+                });
+                if(affiche){
+                    reussi = true;
+                }
+            }
+
+            if (reussi) {
+                res.status(200).json({ message: "the product has been create" });
+            } else {
+                res.status(400).json({ error: "Error during creating. P-002" })
+            }
         }
     }
 }
