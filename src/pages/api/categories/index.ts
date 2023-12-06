@@ -1,11 +1,10 @@
 import { PrismaClient } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
-import { ArticlesType } from "../../../../types/home/Article"
+import { ProduitType } from "../../../../types/home/Produit";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 
     const host = req.headers.host;
-
     if (process.env.NODE_ENV === "production" && host != process.env.HOST) {
         res.status(401).json({ message: "Your're not authorize to access this route !" })
         return;
@@ -27,14 +26,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                                 price: true,
                                 product_images: {
                                     select: {
-                                        image:{
-                                            select:{
+                                        image: {
+                                            select: {
                                                 name: true
                                             }
                                         }
                                     }
                                 },
-                                description: true
+                                complete_description: true
                             }
                         }
                     }
@@ -46,24 +45,24 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             }
         });
 
-        const categorieReturned: ArticlesType[] = [];
+        const categorieReturned: ProduitType[] = [];
 
         categories.forEach(thisCategorie => {
-            const image: string[] =[]
+            const image: string[] = []
 
-            thisCategorie.product_categorie[0].product.product_images.forEach(thisImage =>{
+            thisCategorie.product_categorie[0].product.product_images.forEach(thisImage => {
                 const imageProv: string = `${process.env.PUBLIC_DOMAINE_BUCKET_URL}${thisImage.image.name}`
                 image.push(imageProv)
             })
 
 
-            const categorie: ArticlesType = {
+            const categorie: ProduitType = {
                 productUID: thisCategorie.product_categorie[0].product_uid,
                 nameProduct: thisCategorie.product_categorie[0].product.name,
                 price: thisCategorie.product_categorie[0].product.price,
                 imageLien: image,
-                description: thisCategorie.product_categorie[0].product.description
-
+                description: thisCategorie.product_categorie[0].product.complete_description
+                
             }
             categorieReturned.push(categorie)
         })
