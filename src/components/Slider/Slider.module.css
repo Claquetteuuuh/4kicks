@@ -40,7 +40,6 @@
   color: var(--color4-60);
   display: flex;
   text-align: center;
-  width: 70%;
   letter-spacing: var(--title-letter-spacing);
 }
 

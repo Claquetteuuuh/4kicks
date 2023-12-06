@@ -22,7 +22,7 @@ const ProductCategories = ({
                 return(
                     <Link href={`/product/${product.productUID as string}`} key={product.productUID} className={styles.product_item}>
                         <div className={styles.img_container}>
-                            <img src={product.imageLien[3]} alt={`image of ${product.nameProduct}`} />
+                            <img src={product.imageLien[0]} alt={`image of ${product.nameProduct}`} />
                         </div>
                         <div className={styles.info}>
                             <div className={styles.info_top}>
