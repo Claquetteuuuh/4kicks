@@ -120,7 +120,6 @@ const Page = ({ params }: { params: { user: userType } }) => {
 
   return (
     <CheckAccountLayout user={params.user}>
-      <Navbar user={params.user} />
       <div className={styles.product_uid}>
         {produit ? (
           <>
@@ -249,7 +248,6 @@ const Page = ({ params }: { params: { user: userType } }) => {
           <Loading />
         )}
       </div>
-      <Footer />
     </CheckAccountLayout>
   );
 };
