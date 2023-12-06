@@ -27,14 +27,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                                 price: true,
                                 product_images: {
                                     select: {
-                                        image:{
-                                            select:{
+                                        image: {
+                                            select: {
                                                 name: true
                                             }
                                         }
                                     }
                                 },
-                                description: true
+                                complete_description: true
                             }
                         }
                     }
@@ -49,9 +49,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const categorieReturned: ArticlesType[] = [];
 
         categories.forEach(thisCategorie => {
-            const image: string[] =[]
+            const image: string[] = []
 
-            thisCategorie.product_categorie[0].product.product_images.forEach(thisImage =>{
+            thisCategorie.product_categorie[0].product.product_images.forEach(thisImage => {
                 const imageProv: string = `${process.env.PUBLIC_DOMAINE_BUCKET_URL}${thisImage.image.name}`
                 image.push(imageProv)
             })
@@ -62,7 +62,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 nameProduct: thisCategorie.product_categorie[0].product.name,
                 price: thisCategorie.product_categorie[0].product.price,
                 imageLien: image,
-                description: thisCategorie.product_categorie[0].product.description
+                description: thisCategorie.product_categorie[0].product.complete_description
 
             }
             categorieReturned.push(categorie)
