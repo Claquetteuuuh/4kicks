@@ -18,9 +18,9 @@ import Footer from "@/components/footer/Footer";
 export default function Home({ params }: { params: { user: userType } }) {
   const [dataSearch, setdataSearch] = useState<ArticlesType[]>([]);
   const [affiches, setAffiches] = useState<AfficheType[]>([]);
-  const [categorieN, setCategorieN] = useState<ArticlesType[]>([]);
-  const [categorieF, setCategorieF] = useState<ArticlesType[]>([]);
-  const [categorieH, setCategorieH] = useState<ArticlesType[]>([]);
+  const [categorieN, setCategorieN] = useState<ProduitType[]>([]);
+  const [categorieF, setCategorieF] = useState<ProduitType[]>([]);
+  const [categorieH, setCategorieH] = useState<ProduitType[]>([]);
 
   const parametre = useSearchParams();
 
@@ -152,33 +152,8 @@ export default function Home({ params }: { params: { user: userType } }) {
           <p className={styles.p_subtitle}>20% moins chère</p>
         </div>
       </div>
-      <div className={styles.container_header}>
-        <div className={styles.article_container}>
-          <h1>Nouveautés</h1>
-          {categorieN ? (
-            categorieN.map((cate: ArticlesType) => {
-              return (
-                <div key={cate.productUID} className={styles.container}>
-                  <div className={styles.container_image}>
-                    <img
-                      src={cate.imageLien[0]}
-                      alt="image de chaussure"
-                      className={styles.article_image}
-                    />
-                  </div>
-                  <div>
-                    <p className={styles.article_name}>{cate.nameProduct}</p>
-                    <p>{cate.price}</p>
-                  </div>
-                  <p>Chaussure pour apagnan</p>
-                </div>
-              );
-            })
-          ) : (
-            <p>Pas de donnee</p>
-          )}
-        </div>
-      </div>
+      <h1>Nouveautés</h1>
+        
       <div className={styles.container_header}>
         <div className={styles.article_container}>
           <h1>Homme</h1>
