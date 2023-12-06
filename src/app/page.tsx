@@ -1,6 +1,5 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import Layout from "@/components/Layout/Layout";
 import Navbar from "@/components/Navbar/Navbar";
 import styles from "./main_page.module.css";
 import CheckAccountLayout from "@/components/checkAccountLayout/CheckAccountLayout";
@@ -9,23 +8,28 @@ import axios from "axios";
 import { useSearchParams } from "next/dist/client/components/navigation";
 import { ArticlesType } from "../../types/home/Article";
 import { AfficheType } from "../../types/home/Affiche";
+import { ProduitType } from "../../types/home/Produit";
 import test from "node:test";
-import Slider from "../components/Slider/Slider"
+import Slider from "../components/Slider/Slider";
 import { Component } from "lucide-react";
 import Footer from "@/components/footer/Footer";
+import ProductCategories from "@/components/ProductCategories/ProductCategories";
 
 export default function Home({ params }: { params: { user: userType } }) {
-  const [dataSearch, setdataSearch] = useState<ArticlesType[]>([]);
   const [affiches, setAffiches] = useState<AfficheType[]>([]);
+  const [categorieN, setCategorieN] = useState<ProduitType[]>([]);
+  const [categorieF, setCategorieF] = useState<ProduitType[]>([]);
+  const [categorieH, setCategorieH] = useState<ProduitType[]>([]);
 
   const parametre = useSearchParams();
+
 
   useEffect(() => {
     if (affiches.length === 0) {
       axios
         .get(`/api/affiches`)
         .then((response) => {
-          console.log(response);
+          // console.log(response);
           setAffiches(response.data);
         })
         .catch((error) => {
@@ -34,63 +38,85 @@ export default function Home({ params }: { params: { user: userType } }) {
     }
   }, [affiches]);
 
-
   useEffect(() => {
-    if (parametre?.get("mot")) {
+    if (categorieN.length === 0) {
       axios
-        .get(`/api/recherches?mot=${parametre?.get("mot")}`)
-        .then((e) => {
-          console.log(e);
-          setdataSearch(e.data);
+        .get(`/api/categories?category=nouveautés`)
+        .then((response) => {
+          console.log(response);
+          setCategorieN(response.data);
         })
-        .catch((err) => {
-          console.log("ok");
-          console.error(err);
-        });
-    } else {
-      axios
-        .get(`/api/recherches`)
-        .then((e) => {
-          setdataSearch(e.data);
-        })
-        .catch((err) => {
-          console.error(err);
+        .catch((error) => {
+          console.error(error);
         });
     }
-  }, [parametre?.get("mot")]);
+  }, [categorieN]);
+
+  useEffect(() => {
+    if (categorieH.length === 0) {
+      axios
+        .get(`/api/categories?category=homme`)
+        .then((response) => {
+          console.log(response);
+          setCategorieH(response.data);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  }, [categorieH]);
+
+  useEffect(() => {
+    if (categorieF.length === 0) {
+      axios
+        .get(`/api/categories?category=femme`)
+        .then((response) => {
+          console.log(response);
+          setCategorieF(response.data);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  }, [categorieF]);
+
   return (
     <CheckAccountLayout user={params.user}>
-      <Layout params={params}>
-        <div className={styles.container_header}>
-          <div className={styles.article_container}>
-            {dataSearch ? (
-              dataSearch.map((item: ArticlesType) => {
-                return (
-                  <div key={item.productUID} className={styles.container}>
-                    <div className={styles.container_name}>
-                      <h1 className={styles.article_name}>
-                        {item.nameProduct}
-                      </h1>
-                    </div>
-                    <div className={styles.container_image}>
-                      <img
-                        src={item.imageLien[0]}
-                        alt="image de chaussure"
-                        className={styles.article_image}
-                      />
-                    </div>
-                  </div>
-                );
-              })
-            ) : (
-              <p>Pas de donnee</p>
-            )}
-          </div>
+      <Slider />
+      <div className={styles.container_authenticity}>
+        <img
+          src="/icons/shield-checkmark.svg"
+          alt="shield checkmark"
+          className={styles.img_shield}
+        />
+        <div className={styles.container_p_authenticity}>
+          <p className={styles.p_title}>AUTHENTICITE</p>
+          <p className={styles.p_subtitle}>Vérifie par nos équipe</p>
         </div>
-      </Layout>
-      <Slider/>
-      <Footer/>
+        <img
+          src="/icons/airplane1.svg"
+          alt="airplane pictures"
+          className={styles.img_airplane}
+        />
+        <div className={styles.container_p_authenticity}>
+          <p className={styles.p_title}>RETOUR GRATUIT</p>
+          <p className={styles.p_subtitle}>Sous 30 jours</p>
+        </div>
+        <img
+          src="/icons/card1.svg"
+          alt="portefeuille"
+          className={styles.img_portefeuille}
+        />
+        <div className={styles.container_p_authenticity}>
+          <p className={styles.p_title}>PRIX ABORDABLE</p>
+          <p className={styles.p_subtitle}>20% moins chère</p>
+        </div>
+      </div>
+      <div className={styles.categorie}>
+        <ProductCategories allProducts={categorieN} name="Nouveautés" />
+        <ProductCategories allProducts={categorieH} name="Homme" />
+        <ProductCategories allProducts={categorieF} name="Femme" />
+      </div>
     </CheckAccountLayout>
-    
   );
 }

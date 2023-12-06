@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./product_categories.module.css";
+import styles from "./ProductRecherche.module.css";
 import { ProduitType } from "../../../types/home/Produit";
 import Link from "next/link";
 
@@ -14,12 +14,11 @@ const ProductCategories = ({
   return (
     <div className={styles.container}>
       <div className={styles.top}>
-        <h3>{name}</h3>
-        <Link href={`/categories?name=${name}`}>voir plus</Link>
+        <h2>"{name}"</h2>
       </div>
       <div className={styles.products_container}>
         {
-            allProducts.slice(0, 4).map(product => {
+            allProducts.map(product => {
                 return(
                     <Link href={`/product/${product.productUID as string}`} key={product.productUID} className={styles.product_item}>
                         <div className={styles.img_container}>

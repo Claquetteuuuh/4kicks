@@ -29,4 +29,54 @@
     aspect-ratio: 1/1;
 }
 
+.img_shield, .img_airplane {
+    aspect-ratio: 3/3;
+    width: 3%;
+    height: 3%;
+    object-fit: cover;
+    margin-left: 7%;
+}
 
+.img_portefeuille {
+    aspect-ratio: 3/3;
+    width: 3.2%;
+    height: 3.2%;
+    object-fit: cover;
+    margin-left: 8%;
+}
+
+.container_authenticity {
+    background-color: var(--second-color-100);
+    margin-bottom: 5rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 2% 2%;
+}
+
+.p_title, .p_subtitle {
+    font-size: var(--text-font-size-xl);
+}
+
+.p_title {
+    color: rgba(0, 0, 0, 0.7);
+    font-weight: bold;
+}
+
+.p_subtitle {
+    color: var(--color4-60);
+    font-weight: bold;
+}
+
+.container_p_authenticity {
+    padding-right: 9%;
+    margin-left: 1%;
+}
+
+.categorie {
+    display: flex;
+    flex-direction: column;
+    padding-left: 3%;
+    padding-right: 3%;
+}

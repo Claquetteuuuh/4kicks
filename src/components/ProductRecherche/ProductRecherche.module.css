@@ -10,8 +10,8 @@
     align-items: center;
     justify-content: space-between;
 }
-.top h3{
-    font-size: var(--title-font-size-l);
+.top h2{
+    font-size: var(--title-font-size-xl);
     font-weight: 500;
     opacity: .6;
 }
@@ -30,6 +30,7 @@
     cursor: pointer;
     margin: 20px 0;
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
 }
@@ -39,6 +40,7 @@
 .product_item{
     width: calc(100% / 4.5);
     height: calc(100% / 4.5 + 60px);
+    flex-basis: 25%;
 }
 .img_container{
     width: 100%;

@@ -1,0 +1,80 @@
+.container{
+    height: calc(100vh - 110px);
+}
+.general{
+    height: 90%;
+    border-radius: 10px;
+    border: 2px solid var(--second-color-100);
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+.profile_picture{
+    display: flex;
+    flex-direction: column;
+    height: 60%;
+    width: 15%;
+}
+.profile_picture img{
+    width: 100%;
+    border-radius: 50%;
+}
+.profile_picture button{
+    font-weight: 400;
+}
+
+.personal_info{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 30%;
+}
+.input label{
+    color: var(--color4-60);
+}
+.input input{
+    border-color: var(--color4-60);
+    border-radius: 10px;
+    color: var(--color4-60);
+}
+.input input:valid{
+    background: none;
+}
+
+.connection_info{
+    gap: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 30%;
+}
+
+.connection p{
+    font-size: var(--text-font-size-m);
+    text-transform: capitalize;
+    font-weight: 400;
+    opacity: .7;
+}
+.connection .type{
+    opacity: 1;
+    font-weight: 600;
+    font-size: var(--text-font-size-l);
+}
+.button{
+    height: 40px;
+    border-radius: 10px;
+    font-weight: 400;
+}
+.button:hover{
+    border-radius: 5px;
+}
+.save{
+    background: none;
+    border: 2px solid var(--third-color-100);
+    color: var(--third-color-100);
+}
+.save:hover{
+    background: var(--third-color-100);
+    color: var(--first-color-100);
+    border-radius: 10px;
+}

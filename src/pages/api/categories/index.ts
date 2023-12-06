@@ -33,7 +33,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                                             }
                                         }
                                     }
-                                }
+                                },
+                                description: true
                             }
                         }
                     }
@@ -41,7 +42,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
             },
             where: {
-                name: categoryName
+                name: categoryName.toLocaleLowerCase()
             }
         });
 
@@ -60,7 +61,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 productUID: thisCategorie.product_categorie[0].product_uid,
                 nameProduct: thisCategorie.product_categorie[0].product.name,
                 price: thisCategorie.product_categorie[0].product.price,
-                imageLien: image
+                imageLien: image,
+                description: thisCategorie.product_categorie[0].product.description
 
             }
             categorieReturned.push(categorie)
