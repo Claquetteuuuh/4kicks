@@ -9,9 +9,9 @@ import axios from "axios";
 import { useSearchParams } from "next/dist/client/components/navigation";
 import { ArticlesType } from "../../types/home/Article";
 import { AfficheType } from "../../types/home/Affiche";
-import { ProduitType } from "../../types/home/Produit"
+import { ProduitType } from "../../types/home/Produit";
 import test from "node:test";
-import Slider from "../components/Slider/Slider"
+import Slider from "../components/Slider/Slider";
 import { Component } from "lucide-react";
 import Footer from "@/components/footer/Footer";
 
@@ -27,7 +27,7 @@ export default function Home({ params }: { params: { user: userType } }) {
       axios
         .get(`/api/affiches`)
         .then((response) => {
-         // console.log(response);
+          // console.log(response);
           setAffiches(response.data);
         })
         .catch((error) => {
@@ -49,7 +49,6 @@ export default function Home({ params }: { params: { user: userType } }) {
         });
     }
   }, [categorie]);
-
 
   useEffect(() => {
     if (parametre?.get("mot")) {
@@ -103,35 +102,43 @@ export default function Home({ params }: { params: { user: userType } }) {
             )}
           </div>
         </div>
-      </Layout>
-      <Slider />
-      <div className={styles.container_authenticity}>
-        <img src="/icons/shield-checkmark.svg" alt="shield checkmark" className={styles.img_shield} />
-        <div className={styles.container_p_authenticity}>
-          <p className={styles.p_title}>AUTHENTICITE</p>
-          <p className={styles.p_subtitle}>Vérifie par nos équipe</p>
+        <Slider />
+        <div className={styles.container_authenticity}>
+          <img
+            src="/icons/shield-checkmark.svg"
+            alt="shield checkmark"
+            className={styles.img_shield}
+          />
+          <div className={styles.container_p_authenticity}>
+            <p className={styles.p_title}>AUTHENTICITE</p>
+            <p className={styles.p_subtitle}>Vérifie par nos équipe</p>
+          </div>
+          <img
+            src="/icons/airplane1.svg"
+            alt="airplane pictures"
+            className={styles.img_airplane}
+          />
+          <div className={styles.container_p_authenticity}>
+            <p className={styles.p_title}>RETOUR GRATUIT</p>
+            <p className={styles.p_subtitle}>Sous 30 jours</p>
+          </div>
+          <img
+            src="/icons/card1.svg"
+            alt="portefeuille"
+            className={styles.img_portefeuille}
+          />
+          <div className={styles.container_p_authenticity}>
+            <p className={styles.p_title}>PRIX ABORDABLE</p>
+            <p className={styles.p_subtitle}>20% moins chère</p>
+          </div>
         </div>
-        <img src="/icons/airplane1.svg" alt="airplane pictures" className={styles.img_airplane} />
-        <div className={styles.container_p_authenticity}>
-          <p className={styles.p_title}>RETOUR GRATUIT</p>
-          <p className={styles.p_subtitle}>Sous 30 jours</p>
-        </div>
-        <img src="/icons/card1.svg" alt="portefeuille" className={styles.img_portefeuille} />
-        <div className={styles.container_p_authenticity}>
-          <p className={styles.p_title}>PRIX ABORDABLE</p>
-          <p className={styles.p_subtitle}>20% moins chère</p>
-        </div>
-      </div>
-      <Footer />
-      <div className={styles.container_header}>
+        <div className={styles.container_header}>
           <div className={styles.article_container}>
             <h1>Nouveautés</h1>
             {categorie ? (
               categorie.map((cate: ProduitType) => {
                 return (
-                  <div key={cate.productUID} className={styles.container}>
-                    
-                  </div>
+                  <div key={cate.productUID} className={styles.container}></div>
                 );
               })
             ) : (
@@ -139,7 +146,7 @@ export default function Home({ params }: { params: { user: userType } }) {
             )}
           </div>
         </div>
+      </Layout>
     </CheckAccountLayout>
-
   );
 }
