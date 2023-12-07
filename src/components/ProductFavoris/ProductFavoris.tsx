@@ -1,9 +1,9 @@
 import React from "react";
-import styles from "./ProductRecherche.module.css";
+import styles from "./ProductFavoris.module.css";
 import { ProduitType } from "../../../types/home/Produit";
 import Link from "next/link";
 
-const ProductRecherche = ({
+const ProductFavoris = ({
   allProducts,
   name,
 }: {
@@ -14,7 +14,7 @@ const ProductRecherche = ({
   return (
     <div className={styles.container}>
       <div className={styles.top}>
-        <h2>"{name}"</h2>
+        <h3>{name}</h3>
       </div>
       <div className={styles.products_container}>
         {
@@ -40,4 +40,4 @@ const ProductRecherche = ({
   );
 };
 
-export default ProductRecherche;
+export default ProductFavoris;

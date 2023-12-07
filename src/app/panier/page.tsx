@@ -3,10 +3,12 @@ import React, { useEffect, useState } from 'react';
 import { userType } from '../../../types/global/UserType';
 import axios from 'axios';
 import { ProduitType } from '../../../types/home/Produit';
+import { useSearchParams } from "next/dist/client/components/navigation";
+import ProductRecherche from '@/components/ProductRecherche/ProductRecherche';
+import Loading from '@/components/Loading/Loading';
 import CheckAccountLayout from '@/components/checkAccountLayout/CheckAccountLayout';
 import ProductCategories from '@/components/ProductCategories/ProductCategories';
-import ProductFavoris from '@/components/ProductFavoris/ProductFavoris';
-import styles from "./page.module.css"
+import { FullProductType } from '../../../types/product/Product';
 
 
 export default function Recherche({ params }: { params: { user: userType } }) {
@@ -14,7 +16,7 @@ export default function Recherche({ params }: { params: { user: userType } }) {
     const [recom, setRecom] = useState<ProduitType[]>([]);
 
     useEffect(() => {
-        if (favoris.length === 0) {
+        if(favoris.length === 0) {
             axios
                 .get(`/api/favoris?userID=${params.user.user_id}`)
                 .then((response) => {
@@ -28,7 +30,7 @@ export default function Recherche({ params }: { params: { user: userType } }) {
     }, [favoris])
 
     useEffect(() => {
-        if (recom.length > 0) {
+        if(recom.length > 0) {
             axios
                 .get(`/api/recommandations-favoris?userID=${params.user.user_id}`)
                 .then((response) => {
@@ -44,12 +46,10 @@ export default function Recherche({ params }: { params: { user: userType } }) {
 
 
 
-    return (
-        <CheckAccountLayout user={params.user}>
-            <div className={styles.container}>
-                <ProductFavoris allProducts={favoris} name="Favoris" />
-                <ProductCategories allProducts={recom} name="Découverte" />
-            </div>
-        </CheckAccountLayout>
-    );
-}   
+  return (
+    <CheckAccountLayout user={params.user}>
+        <ProductCategories allProducts={favoris} name="Favoris" />
+        <ProductCategories allProducts={recom} name="Découverte" />
+    </CheckAccountLayout>
+  );
+}
