@@ -7,6 +7,7 @@ import CheckAccountLayout from '@/components/checkAccountLayout/CheckAccountLayo
 import ProductCategories from '@/components/ProductCategories/ProductCategories';
 import ProductFavoris from '@/components/ProductFavoris/ProductFavoris';
 import styles from "./page.module.css"
+import Loading from '@/components/Loading/Loading';
 
 
 export default function Recherche({ params }: { params: { user: userType } }) {
@@ -47,7 +48,11 @@ export default function Recherche({ params }: { params: { user: userType } }) {
     return (
         <CheckAccountLayout user={params.user}>
             <div className={styles.container}>
-                <ProductFavoris allProducts={favoris} name="Favoris" />
+                {favoris.length > 0 ? (
+                    <ProductFavoris allProducts={favoris} name="Favoris" />
+                ) : (
+                    <Loading />
+                )};
                 <ProductCategories allProducts={recom} name="Découverte" />
             </div>
         </CheckAccountLayout>

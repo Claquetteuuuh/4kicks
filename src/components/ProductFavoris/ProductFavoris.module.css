@@ -91,3 +91,10 @@
     opacity: .7;
     font-weight: 400;
 }
+
+.container_favIcons {
+    width: 20%;
+    height: 20%;
+    transform: translateY(-480%) translateX(390%);
+    position: relative;
+}
