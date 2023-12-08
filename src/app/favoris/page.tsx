@@ -49,7 +49,7 @@ export default function Recherche({ params }: { params: { user: userType } }) {
         <CheckAccountLayout user={params.user}>
             <div className={styles.container}>
                 {favoris.length > 0 ? (
-                    <ProductFavoris allProducts={favoris} name="Favoris" />
+                            <ProductFavoris allProducts={favoris} name="Favoris" />
                 ) : (
                     <Loading />
                 )};
