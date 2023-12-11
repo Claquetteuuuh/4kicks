@@ -75,7 +75,9 @@ async function recuperation_filtre(userUID: string) {
     return favorisAcount;
 }
 
-async function filtreCategorie()
+async function filtreCategorie(){
+    
+}
 
 
 type filtre = {

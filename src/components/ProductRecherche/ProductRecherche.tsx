@@ -14,7 +14,7 @@ const ProductRecherche = ({
   return (
     <div className={styles.container}>
       <div className={styles.top}>
-        <h2>"{name}"</h2>
+        <h2>&quot;{name}&quot;</h2>
       </div>
       <div className={styles.products_container}>
         {
