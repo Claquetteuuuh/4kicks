@@ -16,7 +16,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     if (req.method === "GET") {
 
         const userUID: string = req.query.userID as string;
-        const favorisAcount: ProduitType[] = [];
 
         const temp = await parcourProduct(userUID)
 
@@ -29,6 +28,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
 }
+
 async function parcourProduct(userUID: string) {
     const prisma: PrismaClient = new PrismaClient();
     const favorisAcount: ProduitType[] = [];
