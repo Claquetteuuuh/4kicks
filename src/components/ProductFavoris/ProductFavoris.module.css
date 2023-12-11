@@ -119,11 +119,6 @@
     display: none;
 }
 
-.favicon:hover {
-    
-}
-
-/* Ajoutez ces keyframes à votre fichier CSS */
 
 @keyframes fadeOut {
     from {
@@ -144,7 +139,6 @@
   }
 
   
-  /* Modifiez la classe .img_container dans votre fichier CSS */
 
 .img_container {
     width: 100%;

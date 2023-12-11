@@ -3,7 +3,6 @@ import styles from "./ProductFavoris.module.css";
 import { ProduitType } from "../../../types/home/Produit";
 import Link from "next/link";
 import classNames from 'classnames';
-import FavButton from "../FavButton/FavButton";
 
 const ProductFavoris = ({
     allProducts,
@@ -24,7 +23,6 @@ const ProductFavoris = ({
 
     return (
         <>
-            <FavButton />
             <div className={styles.container}>
                 <div className={styles.top}>
                     <h3>{name}</h3>
@@ -40,9 +38,9 @@ const ProductFavoris = ({
                         });
 
                         return (
-                            <div className={styles.product_item}>
+                            <div className={styles.product_item} key={product.productUID}>
                                 <div className={styles.img_container}>
-                                    <Link href={`/product/${product.productUID as string}`} key={product.productUID}>
+                                    <Link href={`/product/${product.productUID as string}`}>
                                         <img src={product.imageLien[0]} alt={`image of ${product.nameProduct}`} />
                                     </Link>
                                     <div className={styles.container_favIcons}>
@@ -52,7 +50,7 @@ const ProductFavoris = ({
                                         </button>
                                     </div>
                                 </div>
-                                <Link href={`/product/${product.productUID as string}`} key={product.productUID}>
+                                <Link href={`/product/${product.productUID as string}`}>
                                     <div className={styles.info}>
                                         <div className={styles.info_top}>
                                             <p>{product.nameProduct}</p>
