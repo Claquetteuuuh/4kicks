@@ -31,7 +31,7 @@ export default function Recherche({ params }: { params: { user: userType } }) {
     useEffect(() => {
         if (recom.length > 0) {
             axios
-                .get(`/api/recommandations-favoris?userID=${params.user.user_id}`)
+                .get(`/api/recommandations-favoris?userID=${params.user?.user_id}`)
                 .then((response) => {
                     console.log(response)
                     setRecom(response.data)
@@ -49,7 +49,7 @@ export default function Recherche({ params }: { params: { user: userType } }) {
         <CheckAccountLayout user={params.user}>
             <div className={styles.container}>
                 {favoris.length > 0 ? (
-                    <ProductFavoris allProducts={favoris} name="Favoris" />
+                        <ProductFavoris allProducts={favoris} name="Favoris" />
                 ) : (
                     <Loading />
                 )};
