@@ -27,12 +27,14 @@ export async function getCurrentUser(){
                 profile_image: {select: {name: true}},
                 connection_type: true,
                 permission: true,
+                account_uid: true
             }
         })
         if(!currentUser){
             return null
         }
         return {
+            user_id: currentUser.account_uid,
             first_name: currentUser.first_name,
             last_name: currentUser.last_name,
             username: currentUser.username,

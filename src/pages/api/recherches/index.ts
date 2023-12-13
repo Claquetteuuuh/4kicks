@@ -1,10 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
-import { ArticlesType } from "../../../../types/home/Article";
 import stringSimilarity from "string-similarity";
-
-
-
+import { ProduitType } from "../../../../types/home/Produit";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 
@@ -16,8 +13,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     if (req.method == "GET") {
-
-
 
         const prisma: PrismaClient = new PrismaClient();
 
@@ -81,15 +76,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const recherches = search(rechercheTexte, articlesListe);
 
 
-        const rechercheReturnes: ArticlesType[] = [];
+        const rechercheReturnes: ProduitType[] = [];
 
         recherches.forEach(thisRecherche => {
 
-            const recherche: ArticlesType = {
+            const recherche: ProduitType = {
                 productUID: thisRecherche.product_uid,
                 nameProduct: thisRecherche.name,
                 price: thisRecherche.price,
-                imageLien: thisRecherche.imageName
+                imageLien: thisRecherche.imageName,
+                description: thisRecherche.description
             }
             rechercheReturnes.push(recherche);
         })

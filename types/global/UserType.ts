@@ -8,4 +8,5 @@ export type userType = {
   connection_type: string;
   image: string | undefined;
   permission: string;
+  user_id: string;
 };

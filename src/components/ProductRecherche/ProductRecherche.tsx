@@ -3,7 +3,7 @@ import styles from "./ProductRecherche.module.css";
 import { ProduitType } from "../../../types/home/Produit";
 import Link from "next/link";
 
-const ProductCategories = ({
+const ProductRecherche = ({
   allProducts,
   name,
 }: {
@@ -14,7 +14,7 @@ const ProductCategories = ({
   return (
     <div className={styles.container}>
       <div className={styles.top}>
-        <h2>"{name}"</h2>
+        <h2>&quot;{name}&quot;</h2>
       </div>
       <div className={styles.products_container}>
         {
@@ -40,4 +40,4 @@ const ProductCategories = ({
   );
 };
 
-export default ProductCategories;
+export default ProductRecherche;

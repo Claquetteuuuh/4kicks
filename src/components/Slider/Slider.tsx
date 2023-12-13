@@ -5,7 +5,6 @@ import { Carousel } from "react-responsive-carousel";
 import styles from "./Slider.module.css";
 import axios from "axios";
 import { AfficheType } from "../../../types/home/Affiche";
-import { ArticlesType } from "../../../types/home/Article";
 import Loading from "../Loading/Loading";
 import PlainButton from "../plainButton/plainButton";
 import { useRouter } from "next/navigation";
