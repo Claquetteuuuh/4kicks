@@ -70,10 +70,11 @@ const Page = ({ params }: { params: { user: userType } }) => {
       router.push("/login")
     }else{
       axios.post(`/api/user/${session.data.user.email}/panier`, {
-        id: param?.id
+        id: param?.id,
+        taille: selectedSize
       })
         .then(e => {
-          console.log(e.data)
+          router.push("/panier");
         })
         .catch(err => {
           console.error(err)
