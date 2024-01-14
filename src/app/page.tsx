@@ -16,8 +16,7 @@ export default function Home({ params }: { params: { user: userType } }) {
   const [categorieF, setCategorieF] = useState<ProduitType[]>([]);
   const [categorieH, setCategorieH] = useState<ProduitType[]>([]);
 
-  const parametre = useSearchParams();
-
+  
 
   useEffect(() => {
     if (affiches.length === 0) {

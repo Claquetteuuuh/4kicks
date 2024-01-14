@@ -17,25 +17,25 @@ const Footer = () => {
                     </thead>
                     <tbody>
                         <tr>
-                            <td className={styles.td}><Link href={"/presentation"}>A propos de 4Kicks</Link></td>
-                            <td className={styles.td}><Link href={"/apagnan"}>apagnan quoicoukwak</Link></td>
-                            <td className={styles.td}><Link href={"/contact"}>Nous contacter</Link></td>
-                            <td className={styles.td}><Link href={"/marketplace"}>Marketplace</Link></td>
+                            <td className={styles.td}><a href={"/presentation"}>A propos de 4Kicks</a></td>
+                            <td className={styles.td}><a href={"/apagnan"}>apagnan quoicoukwak</a></td>
+                            <td className={styles.td}><a href={"/contact"}>Nous contacter</a></td>
+                            <td className={styles.td}><a href={"/marketplace"}>Marketplace</a></td>
                         </tr>
                         <tr>
-                            <td className={styles.td}><Link href={"/histoire"}>Notre histoire </Link></td>
-                            <td className={styles.td}><Link href={"/apagnan"}>apagnan quoicoukwak</Link></td>
-                            <td className={styles.td}><Link href={"/achat"}>Achat</Link></td>
-                            <td className={styles.td}><Link href={"/forum"}>Forum</Link></td>
+                            <td className={styles.td}><a href={"/histoire"}>Notre histoire </a></td>
+                            <td className={styles.td}><a href={"/apagnan"}>apagnan quoicoukwak</a></td>
+                            <td className={styles.td}><a href={"/achat"}>Achat</a></td>
+                            <td className={styles.td}><a href={"/forum"}>Forum</a></td>
                         </tr>
                         <tr>
-                            <td className={styles.td}><Link href={"/apagnan"}>apagnan quoicoukwak</Link></td>
+                            <td className={styles.td}><a href={"/apagnan"}>apagnan quoicoukwak</a></td>
                             <td className={styles.td}></td>
-                            <td className={styles.td}><Link href={"/securite"}>Sécurité</Link></td>
+                            <td className={styles.td}><a href={"/securite"}>Sécurité</a></td>
                             <td className={styles.td}></td>
                         </tr>
                         <tr>
-                            <td className={styles.td}><Link href={"/apagnan"}>apagnan quoicoukwak</Link></td>
+                            <td className={styles.td}><a href={"/apagnan"}>apagnan quoicoukwak</a></td>
                             <td className={styles.td}></td>
                             <td className={styles.td}></td>
                             <td className={styles.td}></td>
@@ -47,15 +47,15 @@ const Footer = () => {
                 <div className={styles.separator}></div>
             </div>
             <div className={styles.container_image}>
-                <Link href={"https://www.instagram.com/kicks4lyon/"}>
+                <a href={"https://www.instagram.com/kicks4lyon/"}>
                     <img src="/icons/logo-instagram 1.svg" alt="logo instagram" className={styles.img} />
-                </Link>
-                <Link href={"https://twitter.com/?lang=fr"}>
+                </a>
+                <a href={"https://twitter.com/?lang=fr"}>
                     <img src="/icons/logo-twitter 1.svg" alt="logo twitter" className={styles.img} />
-                </Link>
-                <Link href={"https://discord.com/"}>
+                </a>
+                <a href={"https://discord.com/"}>
                     <img src="/icons/logo-discord 1.svg" alt="logo discord" className={styles.img} />
-                </Link>
+                </a>
             </div>
         </footer>
     );

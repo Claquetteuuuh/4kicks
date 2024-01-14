@@ -14,70 +14,17 @@ import ProductCategories from "@/components/ProductCategories/ProductCategories"
 import { ProduitType } from "../../../../types/home/Produit";
 import Footer from "@/components/footer/Footer";
 import Loading from "@/components/Loading/Loading";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 type paramType = {
   id?: string;
 };
 
-const testDataList: ProduitType[] = [
-  {
-    productUID: "abcdef",
-    nameProduct: "Apagnan kick",
-    price: 140.0,
-    description: "Chaussure pour pagnan timide",
-    imageLien: [
-      "https://candyworld.fr/cdn/shop/products/image_61afe124-51f0-45b7-9af4-75fab94adf8a.png?v=1676967847&width=800",
-      "https://candyworld.fr/cdn/shop/products/image_8af1dcdf-501f-4b88-86a8-014366ce3f57.png?v=1676967767&width=800",
-      "https://candyworld.fr/cdn/shop/products/image_1b6c8a23-5747-402d-818e-c9d28729972d.png?v=1676967731&width=800",
-    ],
-  },
-  {
-    productUID: "abcdef",
-    nameProduct: "Apagnan kick",
-    price: 140.0,
-    description: "Chaussure pour pagnan timide",
-    imageLien: [
-      "https://candyworld.fr/cdn/shop/products/image_61afe124-51f0-45b7-9af4-75fab94adf8a.png?v=1676967847&width=800",
-      "https://candyworld.fr/cdn/shop/products/image_8af1dcdf-501f-4b88-86a8-014366ce3f57.png?v=1676967767&width=800",
-      "https://candyworld.fr/cdn/shop/products/image_1b6c8a23-5747-402d-818e-c9d28729972d.png?v=1676967731&width=800",
-    ],
-  },
-  {
-    productUID: "abcdef",
-    nameProduct: "Apagnan kick",
-    price: 140.0,
-    description: "Chaussure pour pagnan timide",
-    imageLien: [
-      "https://candyworld.fr/cdn/shop/products/image_61afe124-51f0-45b7-9af4-75fab94adf8a.png?v=1676967847&width=800",
-      "https://candyworld.fr/cdn/shop/products/image_8af1dcdf-501f-4b88-86a8-014366ce3f57.png?v=1676967767&width=800",
-      "https://candyworld.fr/cdn/shop/products/image_1b6c8a23-5747-402d-818e-c9d28729972d.png?v=1676967731&width=800",
-    ],
-  },
-  {
-    productUID: "abcdef",
-    nameProduct: "Apagnan kick",
-    price: 140.0,
-    description: "Chaussure pour pagnan timide",
-    imageLien: [
-      "https://candyworld.fr/cdn/shop/products/image_61afe124-51f0-45b7-9af4-75fab94adf8a.png?v=1676967847&width=800",
-      "https://candyworld.fr/cdn/shop/products/image_8af1dcdf-501f-4b88-86a8-014366ce3f57.png?v=1676967767&width=800",
-      "https://candyworld.fr/cdn/shop/products/image_1b6c8a23-5747-402d-818e-c9d28729972d.png?v=1676967731&width=800",
-    ],
-  },
-  {
-    productUID: "abcdef",
-    nameProduct: "Apagnan kick",
-    price: 140.0,
-    description: "Chaussure pour pagnan timide",
-    imageLien: [
-      "https://candyworld.fr/cdn/shop/products/image_61afe124-51f0-45b7-9af4-75fab94adf8a.png?v=1676967847&width=800",
-      "https://candyworld.fr/cdn/shop/products/image_8af1dcdf-501f-4b88-86a8-014366ce3f57.png?v=1676967767&width=800",
-      "https://candyworld.fr/cdn/shop/products/image_1b6c8a23-5747-402d-818e-c9d28729972d.png?v=1676967731&width=800",
-    ],
-  },
-];
 
 const Page = ({ params }: { params: { user: userType } }) => {
+  const session = useSession();
+  const router = useRouter();
   const categorie = "Femme"
   const stars = [1, 2, 3, 4, 5];
   const param: paramType | null = useParams();
@@ -117,6 +64,22 @@ const Page = ({ params }: { params: { user: userType } }) => {
         console.error(err);
       } )
   })
+
+  const addPanier = () => {
+    if(!session.data?.user){
+      router.push("/login")
+    }else{
+      axios.post(`/api/user/${session.data.user.email}/panier`, {
+        id: param?.id
+      })
+        .then(e => {
+          console.log(e.data)
+        })
+        .catch(err => {
+          console.error(err)
+        })
+    }
+  }
 
   return (
     <CheckAccountLayout user={params.user}>
@@ -191,6 +154,7 @@ const Page = ({ params }: { params: { user: userType } }) => {
                 </div>
                 <div className={styles.add_panier}>
                   <PlainButton
+                    onClick={addPanier}
                     className={styles.add_btn}
                     text="Ajouter au panier"
                   />
