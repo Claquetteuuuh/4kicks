@@ -67,3 +67,16 @@
     padding: 2%;
     width: 120px;
 }
+
+.add_button{
+    height: 20px;
+    width: 20px;
+}
+
+.add_button a svg{
+    transition: all .3s;
+    width: 100%;
+}
+.add_button a svg:hover{
+    color: var(--third-color-100);
+}
