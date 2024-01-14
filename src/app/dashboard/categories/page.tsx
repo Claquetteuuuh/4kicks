@@ -8,10 +8,12 @@ import CategorieTable from "@/components/CategorieTable/CategorieTable";
 import { useToast } from "@/components/ui/use-toast";
 import { ToastAction } from "@radix-ui/react-toast";
 import styles from "./categories.module.css";
+import { usePathname, useRouter } from "next/navigation";
 
 const Page = ({ params }: { params: { user: userType } }) => {
   const [categories, setCategories] = useState<CategorieType[]>([]);
   const { toast } = useToast()
+  const router = useRouter();
  
   const confirmDelete = (id: string) => {
     axios.delete("/api/dashboard/categories", {
@@ -20,7 +22,15 @@ const Page = ({ params }: { params: { user: userType } }) => {
       }
     })
       .then(e => {
-        console.log(e.data)
+        router.refresh();
+        axios
+          .get("/api/dashboard/categories")
+          .then((e) => {
+            setCategories(e.data);
+          })
+          .catch((err) => {
+            console.error(err);
+          });
       })
       .catch(err => {
         console.error(err)

@@ -27,6 +27,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
     else if (req.method === "DELETE") {
         const id = req.headers["categorie_uid"] as string
+
+        if (!id) {
+            res.status(400).json({ error: "categorie uid not specified ! P-001" })
+            return;
+        }
+
         const categorie = await prisma.categorie.delete({
             where: {
                 categorie_uid: id
