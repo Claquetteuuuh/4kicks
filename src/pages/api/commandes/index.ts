@@ -58,7 +58,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             thisCommande.product_in_achat.forEach(thisProduct => {
                 let image: string;
                 try {
-                     image = thisProduct.product.product_images[0].image.name
+                    image = thisProduct.product.product_images[0].image.name
                 }
                 catch {
                     image = "default";
@@ -86,9 +86,48 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         })
         res.status(200).json(commandeReturned);
     }
-    
+    else if (req.method === "POST") {
+
+        interface MyRequestBody {
+            adress_uid: string;
+            account_uid: string;
+            product_commande: {
+                product_uid: string;
+            }[];
+        }
+        const {
+            adress_uid,
+            account_uid,
+            product_commande
+        }: MyRequestBody = req.body
+
+
+
+        const commande = await prisma?.achat.create({
+            data: {
+                account_uid: account_uid,
+                address_uid: adress_uid,
+            }
+        })
+
+        if (commande) {
+            product_commande.forEach(async thisProduct => {
+                await prisma?.productInAchat.create({
+                    data: {
+                        product_uid: thisProduct.product_uid,
+                        achat_uid: commande.achat_uid
+                    }
+                })
+            })
+
+            res.status(200).json(commande.achat_uid);
+        }
+        else {
+            res.status(400).json({ message: "erreur lors de la creation d'un Achat" })
+        }
+    }
 
     else {
-        res.status(400).json({ message: "This route only accepts GET requests !" })
+        res.status(400).json({ message: "This route only accepts GET and POST requests !" })
     }
 }
