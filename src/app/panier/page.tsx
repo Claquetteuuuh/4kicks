@@ -10,6 +10,7 @@ import CheckAccountLayout from "@/components/checkAccountLayout/CheckAccountLayo
 import ProductCategories from "@/components/ProductCategories/ProductCategories";
 import styles from "./panier.module.css";
 import { PanierProductType } from "../../../types/product/Product";
+import PlainButton from "@/components/plainButton/plainButton";
 
 const dataTest: PanierProductType[] = [
   {
@@ -43,19 +44,19 @@ export default function Recherche({ params }: { params: { user: userType } }) {
   const [recom, setRecom] = useState<ProduitType[]>([]);
   const [panier, setPanier] = useState<PanierProductType[]>();
 
-  useEffect(() => {
-    if (favoris.length === 0) {
-      axios
-        .get(`/api/favoris?userID=${params.user.user_id}`)
-        .then((response) => {
-          console.log(response);
-          setFavoris(response.data);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    }
-  }, [favoris]);
+  // useEffect(() => {
+  //   if (favoris.length === 0) {
+  //     axios
+  //       .get(`/api/favoris?userID=${params.user.user_id}`)
+  //       .then((response) => {
+  //         console.log(response);
+  //         setFavoris(response.data);
+  //       })
+  //       .catch((error) => {
+  //         console.error(error);
+  //       });
+  //   }
+  // }, [favoris]);
 
   useEffect(() => {
     if (recom.length > 0) {
@@ -75,9 +76,17 @@ export default function Recherche({ params }: { params: { user: userType } }) {
     setPanier(dataTest);
   });
 
+  const calculTotal = () => {
+    let total = 0;
+    panier?.forEach((prod) => {
+      total += prod.price;
+    });
+    return total;
+  };
+
   return (
     <CheckAccountLayout user={params.user}>
-      <div>
+      <div className={styles.panier}>
         <h1>Panier</h1>
         <div className={styles.content}>
           <div>
@@ -97,21 +106,43 @@ export default function Recherche({ params }: { params: { user: userType } }) {
                       <span>Couleur: </span>
                       {product.color}
                     </p>
-                    <p className={styles.taille}><span>Taille / Pointure: </span>{product.size}</p>
+                    <p className={styles.taille}>
+                      <span>Taille / Pointure: </span>
+                      {product.size}
+                    </p>
                     <div className={styles.icons}>
                       <img src="/icons/save-outline.svg" alt="favorite icon" />
                       <img src="/icons/trash-outline.svg" alt="trash icon" />
                     </div>
                   </div>
-                  <div>
-                    <p>{product.price}</p>
-                    
-                  </div>
                 </div>
               );
             })}
           </div>
-          <div className={styles.command}></div>
+          <div className={styles.command}>
+            <div>
+              <p>J&apos;ai un code promo</p>
+              <div className={styles.add}>
+                <div></div>
+                <div></div>
+              </div>
+            </div>
+            <div className={styles.detail}>
+              <div>
+                <p>Sous-total</p>
+                <p>{calculTotal()}€</p>
+              </div>
+              <div>
+                <p>Total des frais estimés</p>
+                <p>{(calculTotal()*0.10).toFixed(2)}€</p>
+              </div>
+            </div>
+            <div>
+              <p>Total</p>
+              <p>{(calculTotal()*1.10).toFixed(2)}</p>
+            </div>
+            <PlainButton text="Paiement" />
+          </div>
         </div>
       </div>
       <ProductCategories allProducts={favoris} name="Favoris" />
