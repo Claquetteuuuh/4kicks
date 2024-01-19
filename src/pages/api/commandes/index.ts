@@ -15,7 +15,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     if (req.method === "GET") {
         const prisma: PrismaClient = new PrismaClient();
 
-        const account_uid: string = req.query.account_uid as string;
+        const account_uid: string = req.headers.account_uid as string;
 
         const commandes = await prisma.achat.findMany({
             select: {
@@ -38,7 +38,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                                     }
                                 }
                             }
-
+                        },
+                        quantity: true,
+                        color: {
+                            select: {
+                                value: true
+                            }
+                        },
+                        taille: {
+                            select: {
+                                value: true
+                            }
                         }
                     }
                 }
@@ -67,9 +77,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     name_product: thisProduct.product.name,
                     description_product: thisProduct.product.description,
                     price_product: thisProduct.product.price,
-                    name_image: image
+                    name_image: image,
+                    quantite_product: thisProduct.quantity,
+                    color_product: thisProduct.color?.value,
+                    taille_product: thisProduct.taille?.value
                 }
-                total += product.price_product;
+                total += product.price_product * product.quantite_product;
                 products.push(product);
             })
 
@@ -93,6 +106,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             account_uid: string;
             product_commande: {
                 product_uid: string;
+                color_uid?: string;
+                quantite: number;
+                taille_uid?: string;
             }[];
         }
         const {
@@ -115,7 +131,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 await prisma?.productInAchat.create({
                     data: {
                         product_uid: thisProduct.product_uid,
-                        achat_uid: commande.achat_uid
+                        achat_uid: commande.achat_uid,
+                        quantity: thisProduct.quantite,
+                        taille_uid: thisProduct.taille_uid,
+                        color_uid: thisProduct.color_uid
+
                     }
                 })
             })
