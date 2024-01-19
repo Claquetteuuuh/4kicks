@@ -90,6 +90,7 @@ model Taille {
 
   productInPanier ProductInPanier[]
   product_taille  ProductTaille[]
+  ProductInAchat  ProductInAchat[]
 }
 
 model ProductTaille {
@@ -106,7 +107,8 @@ model Color {
   color_uid String @id @default(uuid())
   value     String
 
-  product_color ProductColors[]
+  product_color  ProductColors[]
+  ProductInAchat ProductInAchat[]
 }
 
 model ProductColors {
@@ -199,10 +201,12 @@ model Achat {
 model ProductInAchat {
   product_uid String
   achat_uid   String
-  quantity    Int @default(1)
+  quantity    Int     @default(1)
   color_uid   String?
   taille_uid  String?
 
+  color   Color?  @relation(fields: [color_uid], references: [color_uid])
+  taille  Taille? @relation(fields: [taille_uid], references: [taille_uid])
   product Product @relation(fields: [product_uid], references: [product_uid])
   achat   Achat   @relation(fields: [achat_uid], references: [achat_uid])
 
