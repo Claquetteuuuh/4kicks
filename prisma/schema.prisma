@@ -199,7 +199,7 @@ model Achat {
 model ProductInAchat {
   product_uid String
   achat_uid   String
-  quantity    Int
+  quantity    Int @default(1)
   color_uid   String?
   taille_uid  String?
 
