@@ -23,6 +23,32 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             res.status(200).json(temp);
         }
     }
+    else if(req.method === "POST"){
+        
+        interface MyRequestBody{
+            product_uid: string;
+            account_uid: string;
+        }
+        const {
+            product_uid,
+            account_uid
+        }: MyRequestBody = req.body;
+
+        const favori = await prisma?.favorite.create({
+            data:{
+                account_uid: account_uid,
+                product_uid: product_uid
+            }
+        });
+
+        if(favori){
+            res.status(200).json("favorite created");
+        }
+        else{
+            res.status(400).json({message : "erreur lors de la crétion du favoris"})
+        }
+
+    }
     else {
         res.status(400).json({ message: "This route only accepts GET requests !" })
     }

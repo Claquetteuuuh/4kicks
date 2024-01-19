@@ -13,6 +13,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     if (req.method === "GET") {
+        // headers account_uid string
         const prisma: PrismaClient = new PrismaClient();
 
         const account_uid: string = req.headers.account_uid as string;
