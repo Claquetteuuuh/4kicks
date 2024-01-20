@@ -15,13 +15,13 @@ const ProductCategories = ({
     <div className={styles.container}>
       <div className={styles.top}>
         <h3>{name}</h3>
-        <Link href={`/categories?name=${name}`}>voir plus</Link>
+        <a href={`/categories?name=${name}`}>voir plus</a>
       </div>
       <div className={styles.products_container}>
         {
             allProducts.slice(0, 4).map(product => {
                 return(
-                    <Link href={`/product/${product.productUID as string}`} key={product.productUID} className={styles.product_item}>
+                    <a href={`/product/${product.productUID as string}`} key={product.productUID} className={styles.product_item}>
                         <div className={styles.img_container}>
                             <img src={product.imageLien[0]} alt={`image of ${product.nameProduct}`} />
                         </div>
@@ -32,7 +32,7 @@ const ProductCategories = ({
                             </div>
                             <p className={styles.description}>{product.description}</p>
                         </div>
-                    </Link>
+                    </a>
                 )
             })
         }

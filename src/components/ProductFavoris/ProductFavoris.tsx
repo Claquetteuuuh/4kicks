@@ -40,9 +40,9 @@ const ProductFavoris = ({
                         return (
                             <div className={styles.product_item} key={product.productUID}>
                                 <div className={styles.img_container}>
-                                    <Link href={`/product/${product.productUID as string}`}>
+                                    <a href={`/product/${product.productUID as string}`}>
                                         <img src={product.imageLien[0]} alt={`image of ${product.nameProduct}`} />
-                                    </Link>
+                                    </a>
                                     <div className={styles.container_favIcons}>
                                         <button onClick={() => handleClick(index)}>
                                             <img src="/icons/fav_bubble.svg" alt="icone favoris" className={buttonClass}/>
@@ -50,7 +50,7 @@ const ProductFavoris = ({
                                         </button>
                                     </div>
                                 </div>
-                                <Link href={`/product/${product.productUID as string}`}>
+                                <a href={`/product/${product.productUID as string}`}>
                                     <div className={styles.info}>
                                         <div className={styles.info_top}>
                                             <p>{product.nameProduct}</p>
@@ -58,7 +58,7 @@ const ProductFavoris = ({
                                         </div>
                                         <p className={styles.description}>{product.description}</p>
                                     </div>
-                                </Link>
+                                </a>
                             </div>
                         );
                     })}

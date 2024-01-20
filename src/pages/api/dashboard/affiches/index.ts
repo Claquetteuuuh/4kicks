@@ -52,6 +52,7 @@ export default async function handler(
     } else {
       res.status(400).json({ error: "Error during deleting. A-002" });
     }
+    
 
 
   } else if (req.method === "POST") {
