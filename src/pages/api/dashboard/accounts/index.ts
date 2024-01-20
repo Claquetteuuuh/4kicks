@@ -48,21 +48,23 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         console.log("test 3")
         interface MyRequestBody{
             new_email: string;
-            new_pseudo: string;
+            new_userName: string;
             new_firstName: string;
             new_lastName: string;
             new_preference: Preference;
             new_password: string;
             new_permission: Permission;
+            new_newsletter: boolean;
         }
         const{
             new_email,
-            new_pseudo,
+            new_userName,
             new_firstName,
             new_lastName,
             new_preference,
             new_password,
-            new_permission
+            new_permission,
+            new_newsletter
         }: MyRequestBody = req.body
 
         if(new_email == undefined){
@@ -72,18 +74,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const account = await prisma.account.create({
             data:{
                 email : new_email,
-                username: new_pseudo,
+                username: new_userName,
                 first_name : new_firstName,
                 last_name : new_lastName,
                 preference: new_preference,
                 password : new_password,
-                permission: new_permission
-                
+                permission: new_permission,
+                completed: true,
+                newsletter: new_newsletter
             }
         })
 
         if (account) {
-            console.log("create")
+            
             res.status(200).json({ message: "the account has been created" });
           } else {
             res.status(400).json({ error: "Error during creation. P-002" })
