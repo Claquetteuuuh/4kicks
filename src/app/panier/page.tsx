@@ -11,37 +11,14 @@ import ProductCategories from "@/components/ProductCategories/ProductCategories"
 import styles from "./panier.module.css";
 import { PanierProductType } from "../../../types/product/Product";
 import PlainButton from "@/components/plainButton/plainButton";
-const dataTest: PanierProductType[] = [
-  {
-    product_uid: "123",
-    product_name: "Mehdi12",
-    description: "Chaussure pour pagnan",
-    price: 12,
-    marque: "Nik",
-    color: "nwar",
-    size: "12.2",
-    quantite: 1,
-    image_url:
-      "https://m.media-amazon.com/images/I/91jqdV15g9S._AC_UF1000,1000_QL80_.jpg",
-  },
-  {
-    product_uid: "123",
-    description: "Chaussure pour pagnan",
-    product_name: "Mehdi12",
-    price: 12,
-    marque: "Nik",
-    color: "nwar",
-    size: "12.2",
-    quantite: 1,
-    image_url:
-      "https://m.media-amazon.com/images/I/91jqdV15g9S._AC_UF1000,1000_QL80_.jpg",
-  },
-];
+import {PayPalButton} from "react-paypal-button-v2";
 
 export default function Panier({ params }: { params: { user: userType } }) {
   const [favoris, setFavoris] = useState<ProduitType[]>([]);
   const [recom, setRecom] = useState<ProduitType[]>([]);
   const [panier, setPanier] = useState<PanierProductType[]>();
+
+  const [scriptLoaded, setScriptLoaded] = useState(false);
 
   useEffect(() => {
     if (favoris.length === 0) {
@@ -80,6 +57,28 @@ export default function Panier({ params }: { params: { user: userType } }) {
       console.error(err)
     })
   });
+
+  const addPaypalScript = () => {
+    if(window.paypal){
+      setScriptLoaded(true);
+      return;
+    }
+    const script = document.createElement('script');
+    script.src = `https://www.paypal.com/sdk/js?client-id=${process.env.paypal_client_id}`;
+
+    script.type = "text/javascript";
+    script.async = true;
+    script.onload = () => setScriptLoaded(true);
+    document.body.appendChild(script);
+  }
+
+  useEffect(() => {
+    addPaypalScript();
+  }, [])
+
+  const paiement = () => {
+
+  }
 
   const calculTotal = () => {
     let total = 0;
@@ -149,7 +148,17 @@ export default function Panier({ params }: { params: { user: userType } }) {
               <p>Total</p>
               <p>{(calculTotal()*1.10).toFixed(2)}€</p>
             </div>
-            <PlainButton text="Paiement" />
+            
+            {(scriptLoaded)?
+            
+            <PayPalButton
+              amount={(calculTotal()*1.10).toFixed(2)}
+              onSuccess={(details, data) => {
+                console.log(details);
+              }}
+            />
+          
+          : <PlainButton text="Loading ..." />}
           </div>
         </div>
       </div>
