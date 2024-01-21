@@ -72,7 +72,13 @@ export default function Panier({ params }: { params: { user: userType } }) {
   // });
 
   useEffect(() => {
-    setPanier(dataTest);
+    axios.get(`/api/user/${params.user.email}/panier`)
+    .then(e => {
+      setPanier(e.data)
+    })
+    .catch(err => {
+      console.error(err)
+    })
   });
 
   const calculTotal = () => {
