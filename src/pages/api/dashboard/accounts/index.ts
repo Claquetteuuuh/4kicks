@@ -2,51 +2,46 @@ import { NextApiRequest, NextApiResponse } from "next";
 import prisma from "@/lib/prisma";
 import axios from "axios";
 import { Permission, Preference, Prisma } from "@prisma/client";
+import suppressionImages from "../commun/suppressionImages";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method === "GET") {
         const comptes = await prisma.account.findMany();
-        if(!comptes){
-            res.status(400).json({error: "Error getting accounts, A-001"})
+        if (!comptes) {
+            res.status(400).json({ error: "Error getting accounts, A-001" })
         }
         res.status(200).json(comptes)
+
     } else if (req.method === "DELETE") {
-        
+
         const { account_uid } = req.headers;
         if (!account_uid) {
             res.status(400).json({ error: "account uid not specified ! A-001" })
             return;
         }
-        console.log(account_uid)
-        const avis = await prisma.avis.findMany({
-            select: {
-                avis_uid: true
-            },
-            where: {
-                account_uid: account_uid as string
+        if (await suppression(account_uid as string)) {
+            const deletedAccount = await prisma.account.delete({
+                where: {
+                    account_uid: account_uid as string
+                }
+            })
+    
+            if (deletedAccount) {
+                res.status(200).json({ message: "the account has been deleted" });
+            } else {
+                res.status(400).json({ error: "Error during deleting. A-003" })
             }
-        })
-        avis.forEach(thisAvis => {
-            console.log("avis : " +thisAvis.avis_uid)
-            supressionAvis(thisAvis.avis_uid)
-            
-           
-        })
-        const deletedAccount = await prisma.account.delete({
-            where: {
-                account_uid: account_uid as string
-            }
-        })
-
-        if (deletedAccount) {
-            res.status(200).json({ message: "the account has been deleted" });
-        } else {
+        }
+        else {
             res.status(400).json({ error: "Error during deleting. A-002" })
         }
+
+        
     }
-    else if(req.method === "POST"){
-        console.log("test 3")
-        interface MyRequestBody{
+
+    else if (req.method === "POST") {
+
+        interface MyRequestBody {
             new_email: string;
             new_userName: string;
             new_firstName: string;
@@ -56,7 +51,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             new_permission: Permission;
             new_newsletter: boolean;
         }
-        const{
+        const {
             new_email,
             new_userName,
             new_firstName,
@@ -67,18 +62,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             new_newsletter
         }: MyRequestBody = req.body
 
-        if(new_email == undefined){
+        if (new_email == undefined) {
             console.log("email undefine")
         }
 
         const account = await prisma.account.create({
-            data:{
-                email : new_email,
+            data: {
+                email: new_email,
                 username: new_userName,
-                first_name : new_firstName,
-                last_name : new_lastName,
+                first_name: new_firstName,
+                last_name: new_lastName,
                 preference: new_preference,
-                password : new_password,
+                password: new_password,
                 permission: new_permission,
                 completed: true,
                 newsletter: new_newsletter
@@ -86,19 +81,106 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         })
 
         if (account) {
-            
+
             res.status(200).json({ message: "the account has been created" });
-          } else {
+        } else {
             res.status(400).json({ error: "Error during creation. P-002" })
-          }
-    }
-    
-}
-async function supressionAvis(avisUID : string){
-    const deleteAvis = await prisma.avis.delete({
-        where: {
-            avis_uid: avisUID as string
         }
-        
+    }
+
+}
+async function suppression(account_uid: string) {
+
+    //suppression image
+    const image = await prisma.image.findMany({
+        select: {
+            image_uid: true,
+            name: true
+        },
+        where:{
+            account:{
+                some:{
+                    account_uid: account_uid
+                }
+            }
+        }
+    })
+
+    suppressionImages(image);
+
+    //suppression message
+    const deleteMessage = await prisma.message.deleteMany({
+        where: {
+            account_uid: account_uid
+        }
+    })
+
+    //suppression ticket
+    const deleteTicketUser = await prisma.ticket.deleteMany({
+        where: {
+            user_uid: account_uid
+        }
+
     });
+
+    const deleteTicketAdmin = await prisma.ticket.deleteMany({
+        where: {
+            admin_uid: account_uid
+        }
+
+    });
+
+    //suppression avis
+    const deleteAvis = await prisma.avis.deleteMany({
+        where: {
+            account_uid: account_uid
+        }
+
+    });
+
+    //suppression favoris
+    const deleteFavoris = await prisma.favorite.deleteMany({
+        where: {
+            account_uid: account_uid
+        }
+    });
+
+    //suppression product_in_panier
+    const deleteProductPanier = await prisma.productInPanier.deleteMany({
+        where: {
+            account_uid: account_uid
+        }
+    });
+
+    //suppression product_in_achat
+    const deleteProductAchat = await prisma.productInAchat.deleteMany({
+        where:{
+            achat:{
+                account_uid: account_uid
+            }
+        }
+    })
+
+    //suppression achat
+    const deleteAchat = await prisma.achat.deleteMany({
+        where: {
+            account_uid: account_uid
+        }
+    })
+
+    //suppression shipAdress
+    const deleteAdress = await prisma.shipAddress.deleteMany({
+        where: {
+            account_uid: account_uid
+        }
+    })
+
+    
+
+    if (deleteMessage && deleteTicketUser && deleteTicketAdmin && deleteAvis && deleteFavoris && deleteProductPanier && deleteAdress && deleteAchat && deleteProductAchat){
+        return true
+    }
+    else{
+        return false
+    }
 }
