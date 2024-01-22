@@ -30,6 +30,7 @@ export default async function handler(
     } else {
       res.status(400).json({ error: "Error during deleting. A-002" });
     }
+    
   } else if (req.method === "POST") {
     const contentType = req.headers["Content-Type"] as string;
     const bucketName = process.env.BUCKET_NAME;

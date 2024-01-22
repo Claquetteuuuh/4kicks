@@ -20,7 +20,7 @@ const ProductRecherche = ({
         {
             allProducts.map(product => {
                 return(
-                    <Link href={`/product/${product.productUID as string}`} key={product.productUID} className={styles.product_item}>
+                    <a href={`/product/${product.productUID as string}`} key={product.productUID} className={styles.product_item}>
                         <div className={styles.img_container}>
                             <img src={product.imageLien[0]} alt={`image of ${product.nameProduct}`} />
                         </div>
@@ -31,7 +31,7 @@ const ProductRecherche = ({
                             </div>
                             <p className={styles.description}>{product.description}</p>
                         </div>
-                    </Link>
+                    </a>
                 )
             })
         }

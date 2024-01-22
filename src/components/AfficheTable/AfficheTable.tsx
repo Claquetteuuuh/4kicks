@@ -156,7 +156,7 @@ export default function AfficheTable({
       header: () => {
         return (
           <div className={styles.add_button}>
-            <Link
+            <a
               href={"/dashboard/affiches/new"}
               className={styles.add_button}
             >
@@ -181,7 +181,7 @@ export default function AfficheTable({
                   d="M256 176v160M336 256H176"
                 />
               </svg>
-            </Link>
+            </a>
           </div>
         );
       },

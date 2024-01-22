@@ -149,7 +149,7 @@ export default function ProductTable({
       header: () => {
         return (
           <div className={styles.add_button}>
-            <Link
+            <a
               href={"/dashboard/products/new"}
               className={styles.add_button}
             >
@@ -174,7 +174,7 @@ export default function ProductTable({
                   d="M256 176v160M336 256H176"
                 />
               </svg>
-            </Link>
+            </a>
           </div>
         );
       },

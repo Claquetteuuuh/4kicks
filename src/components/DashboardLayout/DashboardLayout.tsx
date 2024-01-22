@@ -45,7 +45,7 @@ const DashboardLayout = ({
       <div className={styles.dashboard}>
         <div className={styles.nav}>
           <ul>
-            <Link href={"/dashboard"}>
+            <a href={"/dashboard"}>
               <li className={route == undefined ? styles.selected : undefined}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -83,8 +83,8 @@ const DashboardLayout = ({
                 </svg>
                 Stats
               </li>
-            </Link>
-            <Link href={"/dashboard/categories"}>
+            </a>
+            <a href={"/dashboard/categories"}>
               <li
                 className={route == "categories" ? styles.selected : undefined}
               >
@@ -134,8 +134,8 @@ const DashboardLayout = ({
                 </svg>
                 Categories
               </li>
-            </Link>
-            <Link href="/dashboard/products">
+            </a>
+            <a href="/dashboard/products">
               <li className={route == "products" ? styles.selected : undefined}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -159,8 +159,8 @@ const DashboardLayout = ({
                 </svg>
                 Products
               </li>
-            </Link>
-            <Link href={"/dashboard/accounts"}>
+            </a>
+            <a href={"/dashboard/accounts"}>
               <li className={route == "accounts" ? styles.selected : undefined}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -201,8 +201,8 @@ const DashboardLayout = ({
                 </svg>
                 Comptes
               </li>
-            </Link>
-            <Link href={"/dashboard/affiches"}>
+            </a>
+            <a href={"/dashboard/affiches"}>
               <li className={route == "affiches" ? styles.selected : undefined}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -235,8 +235,8 @@ const DashboardLayout = ({
                 </svg>
                 Affiches
               </li>
-            </Link>
-            <Link href={"/dashboard/avis"}>
+            </a>
+            <a href={"/dashboard/avis"}>
               <li className={route == "avis" ? styles.selected : undefined}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -253,8 +253,8 @@ const DashboardLayout = ({
                 </svg>
                 Avis
               </li>
-            </Link>
-            <Link href={"/dashboard/promotions"}>
+            </a>
+            <a href={"/dashboard/promotions"}>
               <li
                 className={route == "promotions" ? styles.selected : undefined}
               >
@@ -275,7 +275,7 @@ const DashboardLayout = ({
                 </svg>
                 Code Promo
               </li>
-            </Link>
+            </a>
           </ul>
         </div>
         <div className={styles.content}>{children}</div>

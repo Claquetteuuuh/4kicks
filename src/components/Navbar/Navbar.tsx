@@ -36,9 +36,9 @@ export default function Navbar({ user }: { user: userType }) {
   return (
     <header>
       <div className={styles.container}>
-        <Link href="/">
+        <a href="/">
           <img src="/imgs/logo.png" alt="logo" className={styles.logo} />
-        </Link>
+        </a>
         <div className={styles.search}>
           <form onSubmit={handleForm}>
             <TextInput
@@ -51,15 +51,15 @@ export default function Navbar({ user }: { user: userType }) {
 
         <div className={styles.actions}>
           {user ? (
-            <Link href={"/profile"} className={styles.profile_picture}>
+            <a href={"/profile"} className={styles.profile_picture}>
               <img
                 src={user.image ? user.image : "/imgs/default_user.png"}
                 alt={`picture of ${user.username}`}
               />
               <p>{user.first_name}</p>
-            </Link>
+            </a>
           ) : (
-            <Link className={styles.button_connecter} href="/login">
+            <a className={styles.button_connecter} href="/login">
               <svg
                 width="26"
                 height="27"
@@ -73,9 +73,9 @@ export default function Navbar({ user }: { user: userType }) {
                 />
               </svg>
               Se connecter
-            </Link>
+            </a>
           )}
-          <Link className={styles.button_market} href={"/marketplace"}>
+          <a className={styles.button_market} href={"/marketplace"}>
             <svg
               width="30"
               height="25"
@@ -90,21 +90,21 @@ export default function Navbar({ user }: { user: userType }) {
               />
             </svg>
             Marketplace
-          </Link>
-          <Link href={"/panier"}>
+          </a>
+          <a href={"/panier"}>
             <img
               className={styles.images}
               src="/icons/panier_button.svg"
               alt="panier"
             />
-          </Link>
-          <Link href="/favoris">
+          </a>
+          <a href="/favoris">
             <img
               src="/icons/favoris_icon.svg"
               alt="panier"
               className={styles.images}
             />
-          </Link>
+          </a>
           <SelectLang className={styles.selectLang} />
         </div>
       </div>
@@ -129,36 +129,36 @@ export default function Navbar({ user }: { user: userType }) {
                         </NavigationMenuLink>
                       </li>
                     </ul>
-                    <Link href="/jordan4">
+                    <a href="/jordan4">
                       <NavigationMenuLink className={styles.navigation_link}>
                         Nike Dunk Low
                       </NavigationMenuLink>
-                    </Link>
-                    <Link href="/jordan4">
+                    </a>
+                    <a href="/jordan4">
                       <NavigationMenuLink className={styles.navigation_link}>
                         Nike Dunk High
                       </NavigationMenuLink>
-                    </Link>
-                    <Link href="/jordan4">
+                    </a>
+                    <a href="/jordan4">
                       <NavigationMenuLink className={styles.navigation_link}>
                         Nike Air Force 1
                       </NavigationMenuLink>
-                    </Link>
-                    <Link href="/jordan4">
+                    </a>
+                    <a href="/jordan4">
                       <NavigationMenuLink className={styles.navigation_link}>
                         Air Max
                       </NavigationMenuLink>
-                    </Link>
-                    <Link href="/jordan4">
+                    </a>
+                    <a href="/jordan4">
                       <NavigationMenuLink className={styles.navigation_link}>
                         Nike Air Max 1
                       </NavigationMenuLink>
-                    </Link>
-                    <Link href="/jordan4">
+                    </a>
+                    <a href="/jordan4">
                       <NavigationMenuLink className={styles.navigation_link}>
                         Nike x Travis Scott
                       </NavigationMenuLink>
-                    </Link>
+                    </a>
                   </div>
                   <div>
                     <ul>
@@ -168,36 +168,36 @@ export default function Navbar({ user }: { user: userType }) {
                         </NavigationMenuLink>
                       </li>
                     </ul>
-                    <Link href="/jordan4">
+                    <a href="/jordan4">
                       <NavigationMenuLink className={styles.navigation_link}>
                         Air Jordan 1
                       </NavigationMenuLink>
-                    </Link>
-                    <Link href="/jordan4">
+                    </a>
+                    <a href="/jordan4">
                       <NavigationMenuLink className={styles.navigation_link}>
                         Air Jordan 1 Low
                       </NavigationMenuLink>
-                    </Link>
-                    <Link href="/jordan4">
+                    </a>
+                    <a href="/jordan4">
                       <NavigationMenuLink className={styles.navigation_link}>
                         Air Jordan 1 Mid
                       </NavigationMenuLink>
-                    </Link>
-                    <Link href="/jordan4">
+                    </a>
+                    <a href="/jordan4">
                       <NavigationMenuLink className={styles.navigation_link}>
                         Air Jordan 1 High
                       </NavigationMenuLink>
-                    </Link>
-                    <Link href="/jordan4">
+                    </a>
+                    <a href="/jordan4">
                       <NavigationMenuLink className={styles.navigation_link}>
                         Air Jordan 3
                       </NavigationMenuLink>
-                    </Link>
-                    <Link href="/jordan4">
+                    </a>
+                    <a href="/jordan4">
                       <NavigationMenuLink className={styles.navigation_link}>
                         Air Jordan 4
                       </NavigationMenuLink>
-                    </Link>
+                    </a>
                   </div>
                   <div>
                     <ul>
@@ -207,21 +207,21 @@ export default function Navbar({ user }: { user: userType }) {
                         </NavigationMenuLink>
                       </li>
                     </ul>
-                    <Link href="/jordan4">
+                    <a href="/jordan4">
                       <NavigationMenuLink className={styles.navigation_link}>
                         Adidas Campus
                       </NavigationMenuLink>
-                    </Link>
-                    <Link href="/jordan4">
+                    </a>
+                    <a href="/jordan4">
                       <NavigationMenuLink className={styles.navigation_link}>
                         Adidas Handball Spezial
                       </NavigationMenuLink>
-                    </Link>
-                    <Link href="/jordan4">
+                    </a>
+                    <a href="/jordan4">
                       <NavigationMenuLink className={styles.navigation_link}>
                         Adidas Samba
                       </NavigationMenuLink>
-                    </Link>
+                    </a>
                   </div>
                   <div>
                     <ul>
@@ -231,21 +231,21 @@ export default function Navbar({ user }: { user: userType }) {
                         </NavigationMenuLink>
                       </li>
                     </ul>
-                    <Link href="/jordan4">
+                    <a href="/jordan4">
                       <NavigationMenuLink className={styles.navigation_link}>
                         New Balance 1906r
                       </NavigationMenuLink>
-                    </Link>
-                    <Link href="/jordan4">
+                    </a>
+                    <a href="/jordan4">
                       <NavigationMenuLink className={styles.navigation_link}>
                         New Balance 2002r
                       </NavigationMenuLink>
-                    </Link>
-                    <Link href="/jordan4">
+                    </a>
+                    <a href="/jordan4">
                       <NavigationMenuLink className={styles.navigation_link}>
                         New Balance 9060
                       </NavigationMenuLink>
-                    </Link>
+                    </a>
                   </div>
                 </div>
               </NavigationMenuContent>
@@ -262,36 +262,36 @@ export default function Navbar({ user }: { user: userType }) {
                         </NavigationMenuLink>
                       </li>
                     </ul>
-                    <Link href="/jordan4">
+                    <a href="/jordan4">
                       <NavigationMenuLink className={styles.navigation_link}>
                         Nike Dunk Low
                       </NavigationMenuLink>
-                    </Link>
-                    <Link href="/jordan4">
+                    </a>
+                    <a href="/jordan4">
                       <NavigationMenuLink className={styles.navigation_link}>
                         Nike Dunk High
                       </NavigationMenuLink>
-                    </Link>
-                    <Link href="/jordan4">
+                    </a>
+                    <a href="/jordan4">
                       <NavigationMenuLink className={styles.navigation_link}>
                         Nike Air Force 1
                       </NavigationMenuLink>
-                    </Link>
-                    <Link href="/jordan4">
+                    </a>
+                    <a href="/jordan4">
                       <NavigationMenuLink className={styles.navigation_link}>
                         Air Max
                       </NavigationMenuLink>
-                    </Link>
-                    <Link href="/jordan4">
+                    </a>
+                    <a href="/jordan4">
                       <NavigationMenuLink className={styles.navigation_link}>
                         Nike Air Max 1
                       </NavigationMenuLink>
-                    </Link>
-                    <Link href="/jordan4">
+                    </a>
+                    <a href="/jordan4">
                       <NavigationMenuLink className={styles.navigation_link}>
                         Nike x Travis Scott
                       </NavigationMenuLink>
-                    </Link>
+                    </a>
                   </div>
                   <div>
                     <ul>
@@ -301,36 +301,36 @@ export default function Navbar({ user }: { user: userType }) {
                         </NavigationMenuLink>
                       </li>
                     </ul>
-                    <Link href="/jordan4">
+                    <a href="/jordan4">
                       <NavigationMenuLink className={styles.navigation_link}>
                         Air Jordan 1
                       </NavigationMenuLink>
-                    </Link>
-                    <Link href="/jordan4">
+                    </a>
+                    <a href="/jordan4">
                       <NavigationMenuLink className={styles.navigation_link}>
                         Air Jordan 1 Low
                       </NavigationMenuLink>
-                    </Link>
-                    <Link href="/jordan4">
+                    </a>
+                    <a href="/jordan4">
                       <NavigationMenuLink className={styles.navigation_link}>
                         Air Jordan 1 Mid
                       </NavigationMenuLink>
-                    </Link>
-                    <Link href="/jordan4">
+                    </a>
+                    <a href="/jordan4">
                       <NavigationMenuLink className={styles.navigation_link}>
                         Air Jordan 1 High
                       </NavigationMenuLink>
-                    </Link>
-                    <Link href="/jordan4">
+                    </a>
+                    <a href="/jordan4">
                       <NavigationMenuLink className={styles.navigation_link}>
                         Air Jordan 3
                       </NavigationMenuLink>
-                    </Link>
-                    <Link href="/jordan4">
+                    </a>
+                    <a href="/jordan4">
                       <NavigationMenuLink className={styles.navigation_link}>
                         Air Jordan 4
                       </NavigationMenuLink>
-                    </Link>
+                    </a>
                   </div>
                   <div>
                     <ul>
@@ -340,21 +340,21 @@ export default function Navbar({ user }: { user: userType }) {
                         </NavigationMenuLink>
                       </li>
                     </ul>
-                    <Link href="/jordan4">
+                    <a href="/jordan4">
                       <NavigationMenuLink className={styles.navigation_link}>
                         Adidas Campus
                       </NavigationMenuLink>
-                    </Link>
-                    <Link href="/jordan4">
+                    </a>
+                    <a href="/jordan4">
                       <NavigationMenuLink className={styles.navigation_link}>
                         Adidas Handball Spezial
                       </NavigationMenuLink>
-                    </Link>
-                    <Link href="/jordan4">
+                    </a>
+                    <a href="/jordan4">
                       <NavigationMenuLink className={styles.navigation_link}>
                         Adidas Samba
                       </NavigationMenuLink>
-                    </Link>
+                    </a>
                   </div>
                   <div>
                     <ul>
@@ -364,21 +364,21 @@ export default function Navbar({ user }: { user: userType }) {
                         </NavigationMenuLink>
                       </li>
                     </ul>
-                    <Link href="/jordan4">
+                    <a href="/jordan4">
                       <NavigationMenuLink className={styles.navigation_link}>
                         New Balance 1906r
                       </NavigationMenuLink>
-                    </Link>
-                    <Link href="/jordan4">
+                    </a>
+                    <a href="/jordan4">
                       <NavigationMenuLink className={styles.navigation_link}>
                         New Balance 2002r
                       </NavigationMenuLink>
-                    </Link>
-                    <Link href="/jordan4">
+                    </a>
+                    <a href="/jordan4">
                       <NavigationMenuLink className={styles.navigation_link}>
                         New Balance 9060
                       </NavigationMenuLink>
-                    </Link>
+                    </a>
                   </div>
                 </div>
               </NavigationMenuContent>
