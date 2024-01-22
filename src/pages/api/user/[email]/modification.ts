@@ -3,6 +3,8 @@ import { Preference, Prisma } from "@prisma/client";
 import { uploadFile } from "@/lib/bucket";
 import { v4 as uuidv4 } from "uuid";
 
+
+
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     const host = req.headers.host;
     if (process.env.NODE_ENV === "production" && host != process.env.HOST) {
@@ -11,6 +13,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     if (req.method === "PUT") {
+
+        console.log("test")
         const { email } = req.query;
         const contentType = req.headers.contentType ?? "image/png"
         const bucketName = process.env.BUCKET_NAME;
@@ -34,10 +38,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             file
         }: MyRequestBody = req.body
 
+
+
         if (file) {
             const bytes = await file.arrayBuffer();
             const fileContent = Buffer.from(bytes);
-            
+
             if (bucketName) {
                 await uploadFile(
                     bucketName,
@@ -46,8 +52,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     contentType as string
                 );
                 image = await prisma?.image.create({
-                    data:{
-                        name:fileName
+                    data: {
+                        name: fileName
                     }
                 })
             }
@@ -59,15 +65,21 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 first_name: new_firstName,
                 username: new_userName,
                 preference: new_preference,
-                image_uid: image?.image_uid 
+                image_uid: image?.image_uid
             },
             where: {
                 email: email as string
             }
         })
-    }
 
-    function uuidv4() {
-        throw new Error("Function not implemented.");
+        if (user) {
+            res.status(200).json({ message: "Modification account" });
+        }
+        else {
+            res.status(400).json({ error: "Error during the account modification" })
+        }
     }
+    else {
+        res.status(400).json({ error: "this route is only PUT" })
     }
+}

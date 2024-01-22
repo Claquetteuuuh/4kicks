@@ -9,6 +9,7 @@ import TextInput from "@/components/TextInput/TextInput";
 import SelectInput from "@/components/selectInput/SelectInput";
 import PlainButton from "@/components/plainButton/plainButton";
 import Loading from "@/components/Loading/Loading";
+import axios from "axios";
 
 const Page = ({ params }: { params: { user: userType } }) => {
   const router = useRouter();
@@ -20,6 +21,25 @@ const Page = ({ params }: { params: { user: userType } }) => {
   const [lastName, setLastName] = useState("");
   const [gender, setGender] = useState(preferences[0]);
   const [email, setEmail] = useState("");
+
+  const save = () => {
+
+    console.log("test 18")
+    axios.put('/api/user/' + params.user.email + "/modification", {
+      new_userName: username,
+      new_firstName: firstName,
+      new_lastName: lastName,
+      new_gender: gender,
+      new_email: email,
+      new_file: null
+    })
+      .then(e => {
+        console.log(e)
+      })
+      .catch(err => {
+        console.error(err)
+      })
+  }
 
   useEffect(() => {
     if (params.user === null) {
@@ -112,6 +132,7 @@ const Page = ({ params }: { params: { user: userType } }) => {
                 <PlainButton
                   className={`${styles.save} ${styles.button}`}
                   text="Sauvegarder"
+                  onClick={save }
                 />
               </div>
             </div>
