@@ -18,6 +18,7 @@
 .profile_picture img{
     width: 100%;
     border-radius: 50%;
+    margin-top: 10%;
 }
 .profile_picture button{
     font-weight: 400;
@@ -77,4 +78,73 @@
     background: var(--third-color-100);
     color: var(--first-color-100);
     border-radius: 10px;
+}
+.menu {
+    height: 1px;
+    width: 222rem;
+    border-bottom: 2px solid var(--second-color-100);
+}
+
+.menu_button {
+    font-size: 220%;
+    padding-right: 3rem;
+    padding-left: 3px;
+}
+
+.menu_container {
+    display: flex;
+}
+
+.button1 {
+    display: flex;
+    padding-bottom: 5px;
+    margin-right: 5px;
+    cursor: pointer;
+    position: relative;
+    transition: border-bottom 0.3s ease, background-position 0.3s ease;
+}
+.button1::before {
+    content: ''; 
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0; 
+    height: 3px;
+    background-image: linear-gradient(to right, var(--third-color-100), var(--third-color-100));
+    transition: width 0.3s ease;
+}
+.button1:hover::before {
+    width: 100%; 
+}
+
+.button2 {
+    display: flex;
+    padding-bottom: 10.5px;
+    margin-left: 5px;
+    cursor: pointer;
+    position: relative;
+    transition: border-bottom 0.3s ease, background-position 0.3s ease;
+}
+.button2::before {
+    content: ''; 
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0; 
+    height: 3.2px;
+    background-image: linear-gradient(to right, var(--third-color-100), var(--third-color-100));
+    transition: width 0.3s ease;
+    border-bottom: none;
+}
+.button2:hover::before {
+    width: 100%; 
+    border-bottom: none;
+}
+.buttonPlain{ 
+    border-bottom: 3.5px solid var(--third-color-100); 
+    display: flex;
+    padding-bottom: 5px;
+    margin-right: 5px;
+    cursor: pointer;
+    width: 100%;
 }
