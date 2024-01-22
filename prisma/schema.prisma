@@ -186,9 +186,11 @@ model ShipAddress {
 model Achat {
   achat_uid     String   @id @default(uuid())
   account_uid   String
+  order_id String @default("")
   creation_date DateTime @default(now())
   address_uid   String
   promo_uid     String?
+  status String @default("PENDING")
 
   promo        PromotionCode? @relation(fields: [promo_uid], references: [promo_uid])
   ship_address ShipAddress    @relation(fields: [address_uid], references: [address_uid])
