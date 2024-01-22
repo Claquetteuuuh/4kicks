@@ -189,7 +189,7 @@ model Achat {
   creation_date DateTime @default(now())
   address_uid   String
   promo_uid     String?
-  status String
+  status String @default("PENDING")
 
   promo        PromotionCode? @relation(fields: [promo_uid], references: [promo_uid])
   ship_address ShipAddress    @relation(fields: [address_uid], references: [address_uid])
