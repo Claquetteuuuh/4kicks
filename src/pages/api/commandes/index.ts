@@ -16,7 +16,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         // headers account_uid string
         const prisma: PrismaClient = new PrismaClient();
 
-        const account_uid: string = req.headers.account_uid as string;
+        const account_uid: string = req.query.account_uid as string
 
         const commandes = await prisma.achat.findMany({
             select: {
