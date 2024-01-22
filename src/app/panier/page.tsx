@@ -96,13 +96,33 @@ export default function Panier({ params }: { params: { user: userType } }) {
   const createPayPalOrder = async (): Promise<string> => {
     const response = await axios.post("/api/paypal/create_order", {
       account_uid: params.user.user_id,
-    })
+    });
     return response.data.orderID;
   };
 
-  const onApprove = async (data: any): Promise<void> => {
-    console.log(data)
-    await axios.post("/api/paypal/capture_order", {orderID: data.orderID})
+  const onApprove = async (data: any, actions: any): Promise<void> => {
+    console.log(data);
+    actions.order.capture().then(async (details: any) => {
+      console.log(details);
+      console.log(details.purchase_units[0].shipping.address);
+      const {
+        address_line_1,
+        address_line_2,
+        admin_area_2,
+        country_code,
+        postal_code,
+      } = details.purchase_units[0].shipping.address;
+      const { full_name } = details.purchase_units[0].shipping.name;
+      await axios.post("/api/paypal/capture_order", {
+        orderID: data.orderID,
+        name: full_name,
+        postal_code: postal_code,
+        address: address_line_1,
+        cmp_address: address_line_2,
+        city: admin_area_2,
+        country: country_code,
+      });
+    });
   };
   const calculTotal = () => {
     let total = 0;
@@ -172,23 +192,23 @@ export default function Panier({ params }: { params: { user: userType } }) {
               <p>{(calculTotal() * 1.1).toFixed(2)}€</p>
             </div>
             <PayPalScriptProvider
-            options={{
-              clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID as string,
-              currency: 'EUR',
-              intent: 'capture'
-            }}
-          >
-            <PayPalButtons
-              style={{
-                color: 'blue',
-                shape: 'rect',
-                label: 'pay',
-                height: 50
+              options={{
+                clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID as string,
+                currency: "EUR",
+                intent: "capture",
               }}
-              createOrder={createPayPalOrder}
-              onApprove={onApprove}
-            />
-          </PayPalScriptProvider>
+            >
+              <PayPalButtons
+                style={{
+                  color: "blue",
+                  shape: "rect",
+                  label: "pay",
+                  height: 50,
+                }}
+                createOrder={createPayPalOrder}
+                onApprove={onApprove}
+              />
+            </PayPalScriptProvider>
             {/* <PlainButton text="Loading ..." /> */}
           </div>
         </div>
