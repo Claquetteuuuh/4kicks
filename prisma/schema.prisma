@@ -166,7 +166,7 @@ model PromotionCode {
 
 model ShipAddress {
   address_uid   String  @id @default(uuid())
-  postal_code   Int
+  postal_code   String
   address       String
   cmp_address   String?
   city          String

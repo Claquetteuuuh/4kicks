@@ -9,6 +9,31 @@ export default async function handler(
 ) {
   if (req.method === "POST") {
     const { account_uid } = req.body;
+    const user = await prisma.account.findUnique({
+      where: {
+        account_uid: account_uid,
+      },
+      select: {
+        product_in_panier: {
+          select:{
+            product: {
+              select: {
+                price: true
+              }
+            }
+          }
+        }
+      }
+    })
+    if(!user){
+      res.status(400).json({error: "cant find user"})
+      return;
+    }
+    let price = 0;
+    for (let i = 0; i < user.product_in_panier.length; i++) {
+      const product = user.product_in_panier[i];
+      price += product.product.price;
+    }
     const PaypalClient = client();
     const request = new paypal.orders.OrdersCreateRequest();
     request.headers["Prefer"] = "return=representation";
@@ -18,7 +43,7 @@ export default async function handler(
         {
           amount: {
             currency_code: "EUR",
-            value: "0.05",
+            value: (price*1.1).toFixed(2),
           },
         },
       ],
@@ -33,10 +58,11 @@ export default async function handler(
       data: {
         order_id: response.result.id,
         account_uid: account_uid,
-        address_uid: "6a18df4a-ba3f-4bbd-9ece-61b0ce21ad29",
         status: "PENDING",
       },
     });
+
     res.json({ orderID: response.result.id });
   }
+
 }
