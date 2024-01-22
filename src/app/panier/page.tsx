@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { userType } from "../../../types/global/UserType";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { ProduitType } from "../../../types/home/Produit";
 import { useSearchParams } from "next/dist/client/components/navigation";
 import ProductRecherche from "@/components/ProductRecherche/ProductRecherche";
@@ -11,12 +11,18 @@ import ProductCategories from "@/components/ProductCategories/ProductCategories"
 import styles from "./panier.module.css";
 import { PanierProductType } from "../../../types/product/Product";
 import PlainButton from "@/components/plainButton/plainButton";
-import {PayPalButton} from "react-paypal-button-v2";
+import {
+  PayPalScriptProvider,
+  PayPalButtons,
+  FUNDING,
+} from "@paypal/react-paypal-js";
+import { useMutation } from "react-query";
 
 export default function Panier({ params }: { params: { user: userType } }) {
   const [favoris, setFavoris] = useState<ProduitType[]>([]);
   const [recom, setRecom] = useState<ProduitType[]>([]);
   const [panier, setPanier] = useState<PanierProductType[]>();
+  const [total, setTotal] = useState(0);
 
   const [scriptLoaded, setScriptLoaded] = useState(false);
 
@@ -34,6 +40,10 @@ export default function Panier({ params }: { params: { user: userType } }) {
     }
   }, [favoris]);
 
+  useEffect(() => {
+    setTotal(calculTotal() * 1.1);
+  }, [panier]);
+
   // useEffect(() => {
   //   if (recom.length > 0) {
   //     axios
@@ -49,37 +59,51 @@ export default function Panier({ params }: { params: { user: userType } }) {
   // });
 
   useEffect(() => {
-    axios.get(`/api/user/${params.user.email}/panier`)
-    .then(e => {
-      setPanier(e.data)
-    })
-    .catch(err => {
-      console.error(err)
-    })
+    axios
+      .get(`/api/user/${params.user.email}/panier`)
+      .then((e) => {
+        setPanier(e.data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   });
 
-  const addPaypalScript = () => {
-    if(window.paypal){
-      setScriptLoaded(true);
-      return;
-    }
-    const script = document.createElement('script');
-    script.src = `https://www.paypal.com/sdk/js?client-id=${process.env.paypal_client_id}`;
-
-    script.type = "text/javascript";
-    script.async = true;
-    script.onload = () => setScriptLoaded(true);
-    document.body.appendChild(script);
-  }
-
   useEffect(() => {
-    addPaypalScript();
-  }, [])
+    console.log(process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID);
+  }, []);
 
-  const paiement = () => {
+  // const addPaypalScript = () => {
+  //   if (window.paypal) {
+  //     setScriptLoaded(true);
+  //     return;
+  //   }
+  //   const script = document.createElement("script");
+  //   script.src = `https://www.paypal.com/sdk/js?client-id=${process.env.paypal_client_id}`;
 
-  }
+  //   script.type = "text/javascript";
+  //   script.async = true;
+  //   script.onload = () => setScriptLoaded(true);
+  //   document.body.appendChild(script);
+  // };
 
+  // useEffect(() => {
+  //   addPaypalScript();
+  // }, []);
+
+  const paiement = () => {};
+
+  const createPayPalOrder = async (): Promise<string> => {
+    const response = await axios.post("/api/paypal/create_order", {
+      account_uid: params.user.user_id,
+    })
+    return response.data.orderID;
+  };
+
+  const onApprove = async (data: any): Promise<void> => {
+    console.log(data)
+    await axios.post("/api/paypal/capture_order", {orderID: data.orderID})
+  };
   const calculTotal = () => {
     let total = 0;
     panier?.forEach((prod) => {
@@ -87,7 +111,6 @@ export default function Panier({ params }: { params: { user: userType } }) {
     });
     return total;
   };
-
   return (
     <CheckAccountLayout user={params.user}>
       <div className={styles.panier}>
@@ -141,24 +164,32 @@ export default function Panier({ params }: { params: { user: userType } }) {
               </div>
               <div>
                 <p>Total des frais estimés</p>
-                <p>{(calculTotal()*0.10).toFixed(2)}€</p>
+                <p>{(calculTotal() * 0.1).toFixed(2)}€</p>
               </div>
             </div>
             <div className={styles.total}>
               <p>Total</p>
-              <p>{(calculTotal()*1.10).toFixed(2)}€</p>
+              <p>{(calculTotal() * 1.1).toFixed(2)}€</p>
             </div>
-            
-            {(scriptLoaded)?
-            
-            <PayPalButton
-              amount={(calculTotal()*1.10).toFixed(2)}
-              onSuccess={(details, data) => {
-                console.log(details);
+            <PayPalScriptProvider
+            options={{
+              clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID as string,
+              currency: 'EUR',
+              intent: 'capture'
+            }}
+          >
+            <PayPalButtons
+              style={{
+                color: 'blue',
+                shape: 'rect',
+                label: 'pay',
+                height: 50
               }}
+              createOrder={createPayPalOrder}
+              onApprove={onApprove}
             />
-          
-          : <PlainButton text="Loading ..." />}
+          </PayPalScriptProvider>
+            {/* <PlainButton text="Loading ..." /> */}
           </div>
         </div>
       </div>
