@@ -12,7 +12,7 @@ export type Product_commande = {
 
 export type Commande = {
     achat_uid: string,
-    creation_date: Date,
+    creation_date: string,
     price_commande: number
     product_commande: Product_commande[]
 } 

@@ -88,10 +88,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             })
 
 
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            const formattedDate = thisCommande.creation_date.toLocaleDateString('fr-FR');
 
             const commande: Commande = {
                 achat_uid: thisCommande.achat_uid,
-                creation_date: thisCommande.creation_date,
+                creation_date: formattedDate,
                 price_commande: total,
                 product_commande: products
             }

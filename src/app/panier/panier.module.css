@@ -17,7 +17,6 @@
     margin-top: 15px;
     display: flex;
     flex-direction: column;
-    align-items: center;
     width: 50%;
 }
 
@@ -76,6 +75,7 @@
     align-items: center;
 }
 .icons img{
+    cursor: pointer;
     height: 30px;
 }
 
@@ -171,3 +171,19 @@
 .total p:nth-child(1){
     opacity: .7;
 }
+
+.panier_vide{
+    position: relative;
+    left: 50%;
+    transform: translate(-50%, 0);
+    width: 40%;
+    min-width: 250px;
+}
+
+.panier_vide p.vide {
+    text-align: center;
+    font-size: var(--title-font-size-xxl);
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+ 

@@ -1,7 +1,7 @@
 import { Template } from "@aws-sdk/client-ses";
 
-export const accountCreationTemplate: Template = {
-  TemplateName: "Account_creation",
+export const accountActivationTemplate: Template = {
+  TemplateName: "Account_activation",
   HtmlPart: `
   <style>
   .container {
@@ -76,16 +76,18 @@ export const accountCreationTemplate: Template = {
   <img src="https://4kicks.store/imgs/logo.png" alt="Logo 4kicks" />
 
   <div class="activate">
-    <h1>Your account has been created !</h1>
+    <h1>Activate your account !</h1>
     <p>
-      {{name}}, votre compte a été créé, bravo ! Maintenant vous pouvez dépenser votre argent à l'infini !
+      {{name}}, on a juste besoin de valider votre adresse email pour activer
+      votre compte 4kicks
     </p>
     <p>
-      Si vous pensez qu'on s'est trompé cliquez sur le lien suivant
+      Si vous êtes à l'origine de cette tentative, cliquez sur le bouton
+      suivant !
     </p>
   </div>
 
-  <a class="button" href="{{url}}">Je suis pas la cible</a>
+  <a class="button" href="{{url}}">Valider mon compte</a>
 
   <div class="link">
     <p>
@@ -95,5 +97,5 @@ export const accountCreationTemplate: Template = {
   </div>
 </div>
     `,
-  SubjectPart: "Création de compte 4kicks",
+  SubjectPart: "Activation de compte 4kicks",
 };

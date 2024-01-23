@@ -15,53 +15,46 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         const categoryName: string | string[] = req.query.category as string;
 
-        const categories = await prisma.categorie.findMany({
-            select: {
-                product_categorie: {
-                    select: {
-                        product_uid: true,
-                        product: {
-                            select: {
-                                name: true,
-                                price: true,
-                                product_images: {
-                                    select: {
-                                        image: {
-                                            select: {
-                                                name: true
-                                            }
-                                        }
-                                    }
-                                },
-                                complete_description: true
-                            }
+        const products = await prisma.product.findMany({
+            select:{
+                price: true,
+                name: true,
+                product_uid: true,
+                description: true,
+                product_images:{
+                    select:{
+                        image: true
+                    }
+                }
+            },
+            where:{
+                product_categorie:{
+                    some:{
+                        categorie:{
+                            name: categoryName
                         }
                     }
-                },
-
-            },
-            where: {
-                name: categoryName.toLocaleLowerCase()
+                }
             }
         });
 
         const categorieReturned: ProduitType[] = [];
 
-        categories.forEach(thisCategorie => {
+        products.forEach(thisProducts => {
             const image: string[] = []
 
-            thisCategorie.product_categorie[0].product.product_images.forEach(thisImage => {
+            thisProducts.product_images.forEach(thisImage => {
                 const imageProv: string = `${process.env.PUBLIC_DOMAINE_BUCKET_URL}${thisImage.image.name}`
                 image.push(imageProv)
             })
 
 
             const categorie: ProduitType = {
-                productUID: thisCategorie.product_categorie[0].product_uid,
-                nameProduct: thisCategorie.product_categorie[0].product.name,
-                price: thisCategorie.product_categorie[0].product.price,
+                productUID: thisProducts.product_uid,
+                nameProduct: thisProducts.name,
+                price: thisProducts.price,
                 imageLien: image,
-                description: thisCategorie.product_categorie[0].product.complete_description
+                description: thisProducts.description
                 
             }
             categorieReturned.push(categorie)

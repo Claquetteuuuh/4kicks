@@ -166,12 +166,12 @@ model PromotionCode {
 
 model ShipAddress {
   address_uid   String  @id @default(uuid())
-  postal_code   Int
+  postal_code   String
   address       String
   cmp_address   String?
   city          String
   country       String
-  phone_number  String
+  phone_number  String?
   account_uid   String
   more_info     String?
   first_name    String
@@ -188,12 +188,12 @@ model Achat {
   account_uid   String
   order_id String @default("")
   creation_date DateTime @default(now())
-  address_uid   String
+  address_uid   String?
   promo_uid     String?
   status String @default("PENDING")
 
   promo        PromotionCode? @relation(fields: [promo_uid], references: [promo_uid])
-  ship_address ShipAddress    @relation(fields: [address_uid], references: [address_uid])
+  ship_address ShipAddress?    @relation(fields: [address_uid], references: [address_uid])
   account      Account        @relation(fields: [account_uid], references: [account_uid])
 
   product_in_achat ProductInAchat[]

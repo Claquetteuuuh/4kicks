@@ -8,7 +8,9 @@ import { Toaster } from "@/components/ui/toaster";
 import Navbar from "@/components/Navbar/Navbar";
 import Footer from "@/components/footer/Footer";
 
+
 const inter = Inter({ subsets: ["latin"] });
+
 
 export const metadata: Metadata = {
   title: "4kicks store",
@@ -33,12 +35,12 @@ export default async function RootLayout({
   return (
     <html lang="fr">
       <body suppressHydrationWarning={true} className={inter.className}>
-        <SessionProvider>
-          <Navbar user={params.user} />
-          {children}
-          <Footer />
-        </SessionProvider>
-        <Toaster />
+          <SessionProvider>
+            <Navbar user={params.user} />
+            {children}
+            <Footer />
+          </SessionProvider>
+          <Toaster />
       </body>
     </html>
   );
