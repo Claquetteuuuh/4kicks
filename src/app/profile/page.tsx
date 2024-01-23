@@ -10,7 +10,7 @@ import SelectInput from "@/components/selectInput/SelectInput";
 import PlainButton from "@/components/plainButton/plainButton";
 import Loading from "@/components/Loading/Loading";
 import { Button } from "@/components/ui/button";
-import { Commande, Product_commande } from "../../../types/home/Commande";
+import { Commande } from "../../../types/home/Commande";
 import axios from "axios";
 import { comma } from "postcss/lib/list";
 
@@ -25,8 +25,7 @@ const Page = ({ params }: { params: { user: userType } }) => {
   const [gender, setGender] = useState(preferences[0]);
   const [email, setEmail] = useState("");
   const [commande, setCommande] = useState<Commande[]>([]);
-  const product1: Product_commande[] = [];
-  const [product, setProduct] = useState<Product_commande[]> ([])
+  const [product, setProduct] = useState<Commande[]>([])
   let index = 0
 
 
@@ -60,14 +59,12 @@ const Page = ({ params }: { params: { user: userType } }) => {
       {
         console.log("commande : " + commande)
         commande.map(c => {
-          return(
-            c.product_commande.map(p =>{
-              product.push(p)
-            })
+          return (
+            product.push(c)
           )
         })
       }
-      console.log(product)  
+      console.log(product)
     }
   }, [commande])
 
@@ -267,7 +264,7 @@ const Page = ({ params }: { params: { user: userType } }) => {
             {product.map(p => {
 
               return (
-                <div key={p.product_uid} className={styles.container_historique}>
+                <div key={p.id} className={styles.container_historique}>
                   <div className={styles.container_row}>
                     <div className={styles.container_iTd}>
                       <img src={p.name_image} alt="image de chaussure" className={styles.image} />
