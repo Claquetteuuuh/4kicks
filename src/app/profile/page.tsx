@@ -261,20 +261,20 @@ const Page = ({ params }: { params: { user: userType } }) => {
                   <div className={styles.container_row}>
                     <div className={styles.container_iTd}>
                       <img src={p.name_image} alt="image de chaussure" className={styles.image} />
-                      <div className={styles.colonne1}>
-                        <div className={styles.container_td}>
-                          <h2 className={styles.titre}>{p.name_product}</h2>
-                          <p className={styles.description}>{p.description_product}</p>
+                    </div>
+                    <div className={styles.colonne1}>
+                      <div className={styles.container_td}>
+                        <h2 className={styles.titre}>{p.name_product}</h2>
+                        <p className={styles.description}>{p.description_product}</p>
+                      </div>
+                      <div className={styles.container_ct}>
+                        <div className={styles.container_couleur}>
+                          <p className={styles.couleurA}>Couleur: </p>
+                          <p className={styles.couleurB}> {p.color_product}</p>
                         </div>
-                        <div className={styles.container_ct}>
-                          <div className={styles.container_couleur}>
-                            <p className={styles.couleurA}>Couleur: </p>
-                            <p className={styles.couleurB}> {p.color_product}</p>
-                          </div>
-                          <div className={styles.container_taille}>
-                            <p className={styles.tailleA}>Taille:</p>
-                            <p className={styles.tailleB}> {p.taille_product}</p>
-                          </div>
+                        <div className={styles.container_taille}>
+                          <p className={styles.tailleA}>Taille:</p>
+                          <p className={styles.tailleB}> {p.taille_product}</p>
                         </div>
                       </div>
                     </div>
@@ -296,7 +296,9 @@ const Page = ({ params }: { params: { user: userType } }) => {
                     </div>
 
                     <div className={styles.container_buttonAvis}>
-                      <PlainButton className={styles.buttonAvis} text="Donnez un avis" />
+                      <a className={styles.button_market}>
+                        Donner mon avis
+                      </a>
                     </div>
                   </div>
                 </div>
