@@ -267,7 +267,7 @@ const Page = ({ params }: { params: { user: userType } }) => {
             {product.map(p => {
 
               return (
-                <div key={p.} className={styles.container_historique}>
+                <div key={p.product_uid} className={styles.container_historique}>
                   <div className={styles.container_row}>
                     <div className={styles.container_iTd}>
                       <img src={p.name_image} alt="image de chaussure" className={styles.image} />
