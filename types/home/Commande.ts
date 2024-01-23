@@ -1,6 +1,7 @@
 import { Color } from "@prisma/client"
 
 export type Product_commande = {
+    product_uid : string,
     name_product: string,
     description_product: string,
     price_product: number,

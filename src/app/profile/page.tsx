@@ -85,6 +85,25 @@ const Page = ({ params }: { params: { user: userType } }) => {
     }
   }, [params]);
 
+  const save = () => {
+
+    axios.put('/api/user/' + params.user.email + "/modification", {
+      new_userName: username,
+      new_firstName: firstName,
+      new_lastName: lastName,
+      new_gender: gender,
+      new_email: email,
+      new_file: null
+    })
+      .then(e => {
+        console.log(e)
+      })
+      .catch(err => {
+        console.error(err)
+      })
+  }
+
+
   return (
     <>
 
@@ -213,6 +232,7 @@ const Page = ({ params }: { params: { user: userType } }) => {
                 <PlainButton
                   className={`${styles.save} ${styles.button}`}
                   text="Sauvegarder"
+                  onClick={save}
                 />
               </div>
             </div>
