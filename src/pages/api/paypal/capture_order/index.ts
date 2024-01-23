@@ -71,9 +71,37 @@ export default async function handle(
     res.status(400).json({error: "error in creation of achat"});
     return;
   }
+  const thisAchat = await prisma.achat.findMany({
+  where: {
+    order_id: orderID
+  }
+})
+
+if (!thisAchat || thisAchat.length === 0) {
+  res.status(400).json({ error: "This order doesn't exist!" })
+  return
+}
+
+const achatUid = order[0].achat_uid;
   const panier = user.product_in_panier;
   console.log(panier);
-  // mettre tout dans product_in_achat
-  // supprimer tout dans le panier
-
+  for (let i = 0; i < panier.length; i++) {
+    const product = panier[i];
+    // produit dans achat
+    await prisma.productInAchat.create({
+      data: {
+        product_uid: product.product_uid,
+        achat_uid: achatUid,
+        quantity: product.quantite,
+        taille_uid: product.product_taille_uid
+      }
+    })
+    await prisma.productInPanier.deleteMany({
+      where: {
+        product_uid: product.product_uid,
+        account_uid: product.account_uid
+      }
+    })
+  }
+  res.status(201).json({message: "ACHAT SUCCESS"});
 }

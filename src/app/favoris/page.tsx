@@ -13,6 +13,7 @@ import Loading from '@/components/Loading/Loading';
 export default function Recherche({ params }: { params: { user: userType } }) {
     const [favoris, setFavoris] = useState<ProduitType[]>([]);
     const [recom, setRecom] = useState<ProduitType[]>([]);
+    
 
     useEffect(() => {
         if (favoris.length === 0) {
