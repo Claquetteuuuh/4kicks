@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import prisma from "@/lib/prisma";
-import { PanierProductType } from "../../../../../types/product/Product";
+import { PanierProductType } from "../../../../../../types/product/Product";
 
 export default async function handler(
   req: NextApiRequest,
@@ -125,5 +125,5 @@ export default async function handler(
         })
     }
     res.status(200).json(renderedPanier);
-  } 
+  }
 }

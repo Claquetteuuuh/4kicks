@@ -43,7 +43,7 @@ export default async function handler(
         {
           amount: {
             currency_code: "EUR",
-            value: (price*1.1).toFixed(2),
+            value: (price*1.12).toFixed(2),
           },
         },
       ],
