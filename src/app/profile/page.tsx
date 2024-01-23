@@ -25,7 +25,8 @@ const Page = ({ params }: { params: { user: userType } }) => {
   const [gender, setGender] = useState(preferences[0]);
   const [email, setEmail] = useState("");
   const [commande, setCommande] = useState<Commande[]>([]);
-  const [product, setProduct] = useState<Product_commande[]>([]);
+  const product1: Product_commande[] = [];
+  const [product, setProduct] = useState<Product_commande[]> ([])
   let index = 0
 
 
@@ -57,13 +58,16 @@ const Page = ({ params }: { params: { user: userType } }) => {
   useEffect(() => {
     if (commande.length != 0) {
       {
+        console.log("commande : " + commande)
         commande.map(c => {
-          return (
-            setProduct(c.product_commande)
+          return(
+            c.product_commande.map(p =>{
+              product.push(p)
+            })
           )
         })
       }
-      console.log(product)
+      console.log(product)  
     }
   }, [commande])
 
@@ -243,7 +247,7 @@ const Page = ({ params }: { params: { user: userType } }) => {
             {product.map(p => {
 
               return (
-                <div key={p.name_product} className={styles.container_historique}>
+                <div key={p.} className={styles.container_historique}>
                   <div className={styles.container_row}>
                     <div className={styles.container_iTd}>
                       <img src={p.name_image} alt="image de chaussure" className={styles.image} />
@@ -277,7 +281,7 @@ const Page = ({ params }: { params: { user: userType } }) => {
                       </div>
                       <div className={styles.container_date}>
                         <p className={styles.dateA}>Date d'achat: </p>
-                        <p className={styles.dateB}>{(new Date(commande[1].creation_date).getUTCDay()) + '/'+(new Date(commande[1].creation_date).getUTCMonth())+ '/' + (new Date(commande[1].creation_date).getUTCFullYear() + '  ' + commande[1].creation_date)}</p>
+                        <p className={styles.dateB}>{commande[1].creation_date}</p>
                       </div>
                     </div>
 
