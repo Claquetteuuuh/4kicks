@@ -86,12 +86,17 @@
 .info .top svg{
     cursor: pointer;
     transition: all .3s;
-    fill: white;
     opacity: .8;
     stroke: black;
 }
 .info .top svg:hover{
     fill: black;
+}
+.clickSVG{
+    fill: black;
+}
+.noClickSVG{
+    fill: none;
 }
 .info .price{
     font-size: var(--text-font-size-xl);
