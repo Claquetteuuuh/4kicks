@@ -81,6 +81,25 @@ const Page = ({ params }: { params: { user: userType } }) => {
     }
   }, [params]);
 
+  const save = () => {
+
+    axios.put('/api/user/' + params.user.email + "/modification", {
+      new_userName: username,
+      new_firstName: firstName,
+      new_lastName: lastName,
+      new_gender: gender,
+      new_email: email,
+      new_file: null
+    })
+      .then(e => {
+        console.log(e)
+      })
+      .catch(err => {
+        console.error(err)
+      })
+  }
+
+
   return (
     <>
 
@@ -209,6 +228,7 @@ const Page = ({ params }: { params: { user: userType } }) => {
                 <PlainButton
                   className={`${styles.save} ${styles.button}`}
                   text="Sauvegarder"
+                  onClick={save}
                 />
               </div>
             </div>
@@ -277,7 +297,7 @@ const Page = ({ params }: { params: { user: userType } }) => {
                       </div>
                       <div className={styles.container_date}>
                         <p className={styles.dateA}>Date d'achat: </p>
-                        <p className={styles.dateB}>{(new Date(commande[1].creation_date).getUTCDay()) + '/'+(new Date(commande[1].creation_date).getUTCMonth())+ '/' + (new Date(commande[1].creation_date).getUTCFullYear() + '  ' + commande[1].creation_date)}</p>
+                        <p className={styles.dateB}>{(new Date(commande[1].creation_date).getUTCDay()) + '/' + (new Date(commande[1].creation_date).getUTCMonth()) + '/' + (new Date(commande[1].creation_date).getUTCFullYear() + '  ' + commande[1].creation_date)}</p>
                       </div>
                     </div>
 
