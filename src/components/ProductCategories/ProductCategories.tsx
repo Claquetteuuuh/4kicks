@@ -20,6 +20,7 @@ const ProductCategories = ({
       <div className={styles.products_container}>
         {
             allProducts.slice(0, 4).map(product => {
+              console.log(product.imageLien[0])
                 return(
                     <a href={`/product/${product.productUID as string}`} key={product.productUID} className={styles.product_item}>
                         <div className={styles.img_container}>

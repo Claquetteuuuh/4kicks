@@ -82,6 +82,8 @@ const Page = ({ params }: { params: { user: userType } }) => {
     }
   }
 
+  
+
   return (
     <CheckAccountLayout user={params.user}>
       <div className={styles.product_uid}>
