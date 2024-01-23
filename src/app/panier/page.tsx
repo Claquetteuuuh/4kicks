@@ -24,7 +24,6 @@ export default function Panier({ params }: { params: { user: userType } }) {
   const [recom, setRecom] = useState<ProduitType[]>([]);
   const [panier, setPanier] = useState<PanierProductType[]>();
   const [total, setTotal] = useState(0);
-  const [loading, setLoading] = useState(true);
 
   const router = useRouter();
 
@@ -46,15 +45,6 @@ export default function Panier({ params }: { params: { user: userType } }) {
     setTotal(calculTotal() * 1.12);
   }, [panier]);
 
-
-  useEffect(() => {
-    if(params.user){
-      if(params.user.email){
-       setLoading(false); 
-      }
-    }
-
-  }, [params])
 
   useEffect(() => {
     axios
@@ -79,7 +69,6 @@ export default function Panier({ params }: { params: { user: userType } }) {
   };
 
   const onApprove = async (data: any, actions: any): Promise<void> => {
-    setLoading(true)
     console.log(data);
     actions.order.capture().then(async (details: any) => {
       console.log(details);
@@ -92,26 +81,18 @@ export default function Panier({ params }: { params: { user: userType } }) {
         postal_code,
       } = details.purchase_units[0].shipping.address;
       const { full_name } = details.purchase_units[0].shipping.name;
-      await axios
-        .post("/api/paypal/capture_order", {
-          orderID: data.orderID,
-          name: full_name,
-          postal_code: postal_code,
-          address: address_line_1,
-          cmp_address: address_line_2,
-          city: admin_area_2,
-          country: country_code,
-        })
-        .then((e) => {
-          console.log(e.data);
-          setLoading(false);
+      await axios.post("/api/paypal/capture_order", {
+        orderID: data.orderID,
+        name: full_name,
+        postal_code: postal_code,
+        address: address_line_1,
+        cmp_address: address_line_2,
+        city: admin_area_2,
+        country: country_code,
+      })
+        .then(e => {
+          console.log(e.data)
           router.refresh();
-
-        })
-        .catch(err => {
-          // gerer erreur,
-          console.error(err)
-          setLoading(false)
         })
     });
   };
@@ -122,129 +103,97 @@ export default function Panier({ params }: { params: { user: userType } }) {
     });
     return total;
   };
-
-  const removePanier = async (product_uid: string) => {
-    axios.delete(`/api/user/${params.user.email}/panier/${product_uid}`)
-    .then(e => {
-      router.refresh();
-    })
-    .catch(err => {
-      console.error(err)
-    })
-  }
   return (
     <CheckAccountLayout user={params.user}>
-      {!loading ? (
-        <>
-          <div className={styles.panier}>
-            <h1>Panier</h1>
-            {panier?.length != 0 ? (
-              <div className={styles.content}>
-                <div>
-                  {panier?.map((product) => {
-                    return (
-                      <div
-                        className={styles.product_item}
-                        key={product.product_uid}
-                      >
-                        <div className={styles.img_container}>
-                          <img
-                            src={product.image_url}
-                            alt={`picture of ${product.product_name}`}
-                          />
-                        </div>
-                        <div className={styles.info}>
-                          <p className={styles.name}>{product.product_name}</p>
-                          <p className={styles.description}>
-                            {product.description}
-                          </p>
-                          <p className={styles.color}>
-                            <span>Couleur: </span>
-                            {product.color}
-                          </p>
-                          <p className={styles.taille}>
-                            <span>Taille / Pointure: </span>
-                            {product.size}
-                          </p>
-                          <div className={styles.icons}>
-                            <img
-                              src="/icons/save-outline.svg"
-                              alt="favorite icon"
-                            />
-                            <img
-                              src="/icons/trash-outline.svg"
-                              alt="trash icon"
-                              onClick={() => removePanier(product.product_uid)}
-                            />
-                          </div>
-                        </div>
-                        <div className={styles.price}>
-                          <p>{product.price.toFixed(2)}€</p>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-                <div className={styles.command}>
-                  <div className={styles.promo}>
-                    <p>J&apos;ai un code promo</p>
-                    <div className={styles.add}>
-                      <div></div>
-                      <div></div>
-                    </div>
-                  </div>
-                  <div className={styles.detail}>
-                    <div>
-                      <p>Sous-total</p>
-                      <p>{calculTotal().toFixed(2)}€</p>
-                    </div>
-                    <div>
-                      <p>Total des frais estimés</p>
-                      <p>{(calculTotal() * 0.12).toFixed(2)}€</p>
-                    </div>
-                  </div>
-                  <div className={styles.total}>
-                    <p>Total</p>
-                    <p>{(calculTotal() * 1.12).toFixed(2)}€</p>
-                  </div>
-                  <PayPalScriptProvider
-                    options={{
-                      clientId: process.env
-                        .NEXT_PUBLIC_PAYPAL_CLIENT_ID as string,
-                      currency: "EUR",
-                      intent: "capture",
-                    }}
-                  >
-                    <PayPalButtons
-                      style={{
-                        color: "blue",
-                        shape: "rect",
-                        label: "pay",
-                        height: 50,
-                      }}
-                      createOrder={createPayPalOrder}
-                      onApprove={onApprove}
+      <div className={styles.panier}>
+        <h1>Panier</h1>
+        {
+          (panier?.length != 0)?
+          <div className={styles.content}>
+          <div>
+            {panier?.map((product) => {
+              return (
+                <div className={styles.product_item} key={product.product_uid}>
+                  <div className={styles.img_container}>
+                    <img
+                      src={product.image_url}
+                      alt={`picture of ${product.product_name}`}
                     />
-                  </PayPalScriptProvider>
-                  {/* <PlainButton text="Loading ..." /> */}
+                  </div>
+                  <div className={styles.info}>
+                    <p className={styles.name}>{product.product_name}</p>
+                    <p className={styles.description}>{product.description}</p>
+                    <p className={styles.color}>
+                      <span>Couleur: </span>
+                      {product.color}
+                    </p>
+                    <p className={styles.taille}>
+                      <span>Taille / Pointure: </span>
+                      {product.size}
+                    </p>
+                    <div className={styles.icons}>
+                      <img src="/icons/save-outline.svg" alt="favorite icon" />
+                      <img src="/icons/trash-outline.svg" alt="trash icon" />
+                    </div>
+                  </div>
+                  <div className={styles.price}>
+                    <p>{product.price.toFixed(2)}€</p>
+                  </div>
                 </div>
-              </div>
-            ) : (
-              <div className={styles.panier_vide}>
-                <p className={styles.vide}>Votre panier est vide</p>
-                <PlainButton
-                  text="Je veux dépenser"
-                  onClick={() => (window.location.href = "/")}
-                />
-              </div>
-            )}
+              );
+            })}
           </div>
-          <ProductCategories allProducts={favoris} name="Favoris" />
-          <ProductCategories allProducts={recom} name="Découverte" />
-        </>
-      ) : (
-        <Loading />
-      )}
+          <div className={styles.command}>
+            <div className={styles.promo}>
+              <p>J&apos;ai un code promo</p>
+              <div className={styles.add}>
+                <div></div>
+                <div></div>
+              </div>
+            </div>
+            <div className={styles.detail}>
+              <div>
+                <p>Sous-total</p>
+                <p>{calculTotal().toFixed(2)}€</p>
+              </div>
+              <div>
+                <p>Total des frais estimés</p>
+                <p>{(calculTotal() * 0.1).toFixed(2)}€</p>
+              </div>
+            </div>
+            <div className={styles.total}>
+              <p>Total</p>
+              <p>{(calculTotal() * 1.12).toFixed(2)}€</p>
+            </div>
+            <PayPalScriptProvider
+              options={{
+                clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID as string,
+                currency: "EUR",
+                intent: "capture",
+              }}
+            >
+              <PayPalButtons
+                style={{
+                  color: "blue",
+                  shape: "rect",
+                  label: "pay",
+                  height: 50,
+                }}
+                createOrder={createPayPalOrder}
+                onApprove={onApprove}
+              />
+            </PayPalScriptProvider>
+            {/* <PlainButton text="Loading ..." /> */}
+          </div>
+        </div>:
+        <div className={styles.panier_vide}>
+          <p className={styles.vide}>Votre panier est vide</p>
+          <PlainButton text="Je veux dépenser" onClick={() => window.location.href = "/"}/>
+        </div>
+        }
+      </div>
+      <ProductCategories allProducts={favoris} name="Favoris" />
+      <ProductCategories allProducts={recom} name="Découverte" />
     </CheckAccountLayout>
   );
 }

@@ -1,7 +1,7 @@
 import { Template } from "@aws-sdk/client-ses";
 
-export const accountCreationTemplate: Template = {
-  TemplateName: "Account_creation",
+export const successOrderTemplate: Template = {
+  TemplateName: "order_success",
   HtmlPart: `
   <style>
   .container {
@@ -76,16 +76,16 @@ export const accountCreationTemplate: Template = {
   <img src="https://4kicks.store/imgs/logo.png" alt="Logo 4kicks" />
 
   <div class="activate">
-    <h1>Your account has been created !</h1>
+    <h1>Votre achat s'est bien passé</h1>
     <p>
-      {{name}}, votre compte a été créé, bravo ! Maintenant vous pouvez dépenser votre argent à l'infini !
+      {{name}}, votre achat s'est bien passé, vous allez recevoir votre colis à l'adresse: {{address}} !
     </p>
     <p>
-      Si vous pensez qu'on s'est trompé cliquez sur le lien suivant
+    Consultez votre historique pour avoir plus d'information sur le produit !
     </p>
   </div>
 
-  <a class="button" href="{{url}}">Je suis pas la cible</a>
+  <a class="button" href="{{url}}">Acceder à mon historique</a>
 
   <div class="link">
     <p>
@@ -95,5 +95,5 @@ export const accountCreationTemplate: Template = {
   </div>
 </div>
     `,
-  SubjectPart: "Création de compte 4kicks",
+  SubjectPart: "Succès d'achat 4kicks",
 };
