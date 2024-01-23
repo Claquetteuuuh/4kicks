@@ -11,13 +11,20 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     if (req.method === "GET") {
 
+        console.log("test")
         const userUID: string = req.query.userID as string;
         //liste produits favoris
         const finalList: filtreCat[] = await recuperation_filtre(userUID);
         //liste des uid des categories
         const quatreClesMax: string[] = await filtreCategorie(finalList);
         //liste des produits qui possede une des 4 catégories
-        const produitTrieCat: filtreMarque[] = await trieproduitCategorie(quatreClesMax);
+        const produitTrieCat: produit[] = await trieproduitCategorie(quatreClesMax);
+        //liste de 4 produits 
+        const listeProduits: produit[] = await produits4(produitTrieCat);
+        res.status(200).json(listeProduits);
+    }
+    else{
+        res.status(400).json({message: "this route is only GET"})
     }
 }
 
@@ -123,8 +130,9 @@ async function trieproduitCategorie(listeCategories: string[]) {
     const listeProduct = await prisma?.product.findMany({
         select: {
             product_uid: true,
-            marque: true,
             name: true,
+            description: true,
+            price: true
 
         },
         where: {
@@ -137,22 +145,45 @@ async function trieproduitCategorie(listeCategories: string[]) {
             }
         }
     });
-
-    let produits: filtreMarque[] = [];
-    listeProduct.forEach(thoisProduct => {
-        const produit: filtreMarque = {
-            product_uid: thoisProduct.product_uid,
-            marque: thoisProduct.marque,
-            name: thoisProduct.name
-        };
-
-        produits.push(produit);
-    });
-
-    return produits;
+    
+    return listeProduct;
 }
 
 
+async function produits4 (produitTrieCat: produit[]) {
+    const listeid: string[] = [];
+    const listeProduct: produit[] = [];
+
+    produitTrieCat.forEach(thisProduct=>{
+        if(!listeid.includes(thisProduct.product_uid) && listeid.length <= 4){
+            listeid.push(thisProduct.product_uid);
+            listeProduct.push(thisProduct)
+        }
+    })
+
+    if(listeProduct.length <4){
+        const selectProduit = await prisma.product.findMany({
+            select:{
+                product_uid: true,
+                name: true,
+                description: true,
+                price: true
+            },
+            where: {
+                product_uid :{
+                    notIn: listeid
+                }
+            },
+            take: 4 - listeProduct.length
+        }) 
+
+        selectProduit.forEach(thisNewProduits =>{
+            listeProduct.push(thisNewProduits);
+        })
+    }
+
+    return listeProduct;
+}
 
 
 type filtreCat = {
@@ -163,9 +194,11 @@ type categorie = {
     categorie_id: string,
     name: string
 }
-type filtreMarque = {
+type produit = {
     product_uid: string,
-    marque: string,
-    name: string
+    name: string,
+    description: string,
+    price: number
 }
+
 
