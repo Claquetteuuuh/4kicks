@@ -137,7 +137,7 @@ async function parcourProduct(userUID: string) {
                 product_uid: true,
                 name: true,
                 price: true,
-                complete_description: true,
+                description: true,
                 product_images: {
                     select: {
                         image: {
@@ -164,7 +164,7 @@ async function parcourProduct(userUID: string) {
                 productUID: thisProduit.product_uid,
                 nameProduct: thisProduit.name,
                 price: thisProduit.price,
-                description: thisProduit.complete_description,
+                description: thisProduit.description,
                 imageLien: image
             };
             favorisAcount.push(product);
