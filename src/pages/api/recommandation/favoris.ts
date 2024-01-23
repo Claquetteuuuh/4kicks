@@ -11,7 +11,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     if (req.method === "GET") {
 
-        console.log("test")
         const userUID: string = req.query.userID as string;
         //liste produits favoris
         const finalList: filtreCat[] = await recuperation_filtre(userUID);
