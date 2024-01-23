@@ -8,12 +8,13 @@ import ProductCategories from '@/components/ProductCategories/ProductCategories'
 import ProductFavoris from '@/components/ProductFavoris/ProductFavoris';
 import styles from "./page.module.css"
 import Loading from '@/components/Loading/Loading';
+import PlainButton from '@/components/plainButton/plainButton';
 
 
 export default function Recherche({ params }: { params: { user: userType } }) {
     const [favoris, setFavoris] = useState<ProduitType[]>([]);
     const [recom, setRecom] = useState<ProduitType[]>([]);
-    
+
 
     useEffect(() => {
         if (favoris.length === 0) {
@@ -49,13 +50,20 @@ export default function Recherche({ params }: { params: { user: userType } }) {
     return (
         <CheckAccountLayout user={params.user}>
             <div className={styles.container}>
-                {favoris.length > 0 ? (
+                {
+                    favoris.length > 0 ? (
                         <ProductFavoris allProducts={favoris} name="Favoris" />
-                ) : (
-                    <Loading />
-                )};
+                    ) :
+                        (
+                            <div className={styles.panier_vide}>
+                                <p className={styles.vide}>Vos favoris sont vide</p>
+                                <PlainButton text="Je veux dépenser" onClick={() => window.location.href = "/"} />
+                            </div>
+                        )
+                };
                 <ProductCategories allProducts={recom} name="Découverte" />
-            </div>
+            </div>:
+
         </CheckAccountLayout>
     );
 }   

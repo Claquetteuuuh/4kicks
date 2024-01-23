@@ -2,3 +2,18 @@
     padding-left: 5%;
     padding-right: 5%;
 }
+
+.panier_vide {
+    position: relative;
+    left: 50%;
+    transform: translate(-50%, 0);
+    width: 40%;
+    min-width: 250px;
+}
+
+.panier_vide p.vide {
+    text-align: center;
+    font-size: var(--title-font-size-xxl);
+    margin-bottom: 20px;
+    font-weight: 500;
+}
