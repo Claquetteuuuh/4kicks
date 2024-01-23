@@ -1,19 +1,52 @@
 import { PrismaClient } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
-import axios from "axios";
-import { FullProductType } from "../../../../types/product/Product";
 import { ProduitType } from "../../../../types/home/Produit";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 
     const host = req.headers.host;
+    const account_email = req.query.userEmail as string | undefined;
+    const product_uid = req.query.productUID as string | undefined;
+
 
     if (process.env.NODE_ENV === "production" && host != process.env.HOST) {
         res.status(401).json({ message: "your're not authorize to access this route !" })
         return;
     }
+    if (req.method === "GET" && account_email !== undefined && product_uid !== undefined) {
+        const account_email = req.query.userEmail as string;
+        const product_uid = req.query.productUID as string;
+        const account_uid = await emailToId(account_email);
+        if (account_uid) {
+            const testfav = await prisma?.favorite.findMany({
+                select: {
+                    account_uid: true
+                },
+                where: {
+                    AND: [
+                        {
+                            account_uid: account_uid
+                        },
+                        {
+                            product_uid: product_uid
+                        }
+                    ]
+                }
+            })
 
-    if (req.method === "GET") {
+            if (testfav?.length != 0) {
+                res.status(200).json(true);
+            }
+            else {
+                res.status(200).json(false);
+            }
+        }
+        else {
+            res.status(400).json({ error: "email not found" })
+        }
+    }
+
+    else if (req.method === "GET") {
 
         const userUID: string = req.query.userID as string;
 
@@ -34,70 +67,53 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             account_email
         }: MyRequestBody = req.body;
 
-        const account_uid = await prisma?.account.findUnique({
-            select: {
-                account_uid: true
-            },
-            where: {
-                email: account_email
-            }
-        })
+        const account_uid = await emailToId(account_email)
         if (account_uid) {
-            const testfav = await prisma?.favorite.findMany({
-                select: {
-                    account_uid: true
-                },
-                where: {
-                    AND: [
-                        {
-                            account_uid: account_uid.account_uid
-                        },
-                        {
-                            product_uid: product_uid
-                        }
-                    ]
+            const favori = await prisma?.favorite.create({
+                data: {
+                    account_uid: account_uid,
+                    product_uid: product_uid
                 }
-            })
-            console.log(testfav)
-            if (testfav?.length == 0) {
-                console.log('test')
-                const favori = await prisma?.favorite.create({
-                    data: {
-                        account_uid: account_uid.account_uid,
-                        product_uid: product_uid
-                    } 
-                });
-                if (favori) {
-                    res.status(200).json("favorite created");
-                }
-                else {
-                    res.status(400).json({ message: "erreur lors de la crétion du favoris" })
-                }
+            });
+            if (favori) {
+                res.status(200).json("favorite created");
             }
             else {
-                const favori = await prisma?.favorite.delete({
-                    where: {
-                        account_uid_product_uid: {
-                            account_uid: account_uid.account_uid,
-                            product_uid: product_uid
-                        }
-                    }
-                });
-                if (favori) {
-                    res.status(200).json("favorite deleted");
-                }
-                else {
-                    res.status(400).json({ message: "erreur lors de la suppression du favoris" })
-                }
+                res.status(400).json({ erreur: "erreur lors de la crétion du favoris" })
             }
         }
         else {
-            res.status(400).json({ message: "erreur lors de la crétion du favoris" })
+            res.status(400).json({ erreur: "email not found" })
         }
 
     }
+
+    else if (req.method === "DELETE") {
+        const account_uid = await emailToId(account_email as string)
+
+
+        if (account_uid) {
+            const favori = await prisma?.favorite.delete({
+                where: {
+                    account_uid_product_uid: {
+                        account_uid: account_uid,
+                        product_uid: product_uid as string
+                    }
+                }
+            });
+            if (favori) {
+                res.status(200).json({ message: "favorite deleted" });
+            }
+            else {
+                res.status(400).json({ error: "erreur lors de la suppression du favoris" })
+            }
+        }
+        else {
+            res.status(400).json({ error: "email not found" })
+        }
+    }
     else {
-        res.status(400).json({ message: "This route only accepts GET requests !" })
+        res.status(400).json({ error: "This route only accepts GET requests !" })
     }
 
 }
@@ -159,4 +175,17 @@ async function parcourProduct(userUID: string) {
     await prisma.$disconnect();
 
     return favorisAcount;
+}
+
+async function emailToId(email: string) {
+    const account_uid = await prisma?.account.findUnique({
+        select: {
+            account_uid: true
+        },
+        where: {
+            email: email
+        }
+    })
+
+    return account_uid?.account_uid
 }

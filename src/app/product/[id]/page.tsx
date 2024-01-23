@@ -82,24 +82,49 @@ const Page = ({ params }: { params: { user: userType } }) => {
     }
   }
 
-  const addFavorite = () => {
+  const addFavorite = async () => {
 
     if (!session.data?.user) {
       router.push("/login")
     } else {
-      axios.post(`/api/favoris`, {
-        product_uid: param?.id,
-        account_email: session.data.user.email
-      })
+
+      let verif: boolean = false;
+       await axios.get('/api/favoris?userEmail=' + session.data.user.email + '&productUID=' + param?.id)
         .then(e => {
-          console.log(e) 
+          console.log(e.data)
+          verif = e.data
         })
         .catch(err => {
           console.error(err)
         })
+        console.log("1 " + verif)
+      if (!verif) {
+        console.log("2 " + verif)
+        axios.post(`/api/favoris`, {
+          product_uid: param?.id,
+          account_email: session.data.user.email
+        })
+          .then(e => {
+            console.log(e)
+          })
+          .catch(err => {
+            console.error(err)
+          })
+      }
+      else {
+        axios.delete('/api/favoris?userEmail=' + session.data.user.email + '&productUID=' + param?.id)
+          .then(e => {
+            console.log(e)
+          })
+          .catch(err => {
+            console.error(err)
+          })
+      }
     }
 
   }
+
+
 
   return (
     <CheckAccountLayout user={params.user}>
