@@ -64,7 +64,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         let total: number = 0;
         commandes.forEach(thisCommande => {
 
-            
+
 
             const formattedDate = thisCommande.creation_date.toLocaleDateString('fr-FR');
 
@@ -72,7 +72,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 total += 1;
                 let image: string;
                 try {
-                    image = thisProduct.product.product_images[0].image.name
+                    image = `${process.env.PUBLIC_DOMAINE_BUCKET_URL}${thisProduct.product.product_images[0].image.name}`
                 }
                 catch {
                     image = "default";

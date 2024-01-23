@@ -62,13 +62,13 @@ const Page = ({ params }: { params: { user: userType } }) => {
       })
       .catch(err => {
         console.error(err);
-      } )
+      })
   })
 
   const addPanier = () => {
-    if(!session.data?.user){
+    if (!session.data?.user) {
       router.push("/login")
-    }else{
+    } else {
       axios.post(`/api/user/${session.data.user.email}/panier`, {
         id: param?.id,
         taille: selectedSize
@@ -80,6 +80,25 @@ const Page = ({ params }: { params: { user: userType } }) => {
           console.error(err)
         })
     }
+  }
+
+  const addFavorite = () => {
+
+    if (!session.data?.user) {
+      router.push("/login")
+    } else {
+      axios.post(`/api/favoris`, {
+        product_uid: param?.id,
+        account_email: session.data.user.email
+      })
+        .then(e => {
+          console.log(e) 
+        })
+        .catch(err => {
+          console.error(err)
+        })
+    }
+
   }
 
   return (
@@ -124,6 +143,7 @@ const Page = ({ params }: { params: { user: userType } }) => {
                     viewBox="0 0 50 50"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
+                    onClick={addFavorite}
                   >
                     <path
                       d="M34.375 4.6875H15.625C14.3818 4.6875 13.1895 5.18136 12.3104 6.06044C11.4314 6.93951 10.9375 8.1318 10.9375 9.375V45.3125L25 32.8125L39.0625 45.3125V9.375C39.0625 8.1318 38.5686 6.93951 37.6896 6.06044C36.8105 5.18136 35.6182 4.6875 34.375 4.6875Z"

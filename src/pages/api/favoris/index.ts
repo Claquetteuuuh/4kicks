@@ -23,29 +23,76 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             res.status(200).json(temp);
         }
     }
-    else if(req.method === "POST"){
-        
-        interface MyRequestBody{
+    else if (req.method === "POST") {
+
+        interface MyRequestBody {
             product_uid: string;
-            account_uid: string;
+            account_email: string;
         }
         const {
             product_uid,
-            account_uid
+            account_email
         }: MyRequestBody = req.body;
 
-        const favori = await prisma?.favorite.create({
-            data:{
-                account_uid: account_uid,
-                product_uid: product_uid
+        const account_uid = await prisma?.account.findUnique({
+            select: {
+                account_uid: true
+            },
+            where: {
+                email: account_email
             }
-        });
-
-        if(favori){
-            res.status(200).json("favorite created");
+        })
+        if (account_uid) {
+            const testfav = await prisma?.favorite.findMany({
+                select: {
+                    account_uid: true
+                },
+                where: {
+                    AND: [
+                        {
+                            account_uid: account_uid.account_uid
+                        },
+                        {
+                            product_uid: product_uid
+                        }
+                    ]
+                }
+            })
+            console.log(testfav)
+            if (testfav?.length == 0) {
+                console.log('test')
+                const favori = await prisma?.favorite.create({
+                    data: {
+                        account_uid: account_uid.account_uid,
+                        product_uid: product_uid
+                    } 
+                });
+                if (favori) {
+                    res.status(200).json("favorite created");
+                }
+                else {
+                    res.status(400).json({ message: "erreur lors de la crétion du favoris" })
+                }
+            }
+            else {
+                const favori = await prisma?.favorite.delete({
+                    where: {
+                        account_uid_product_uid: {
+                            account_uid: account_uid.account_uid,
+                            product_uid: product_uid
+                        }
+                    }
+                });
+                if (favori) {
+                    res.status(200).json("favorite deleted");
+                }
+                else {
+                    res.status(400).json({ message: "erreur lors de la suppression du favoris" })
+                }
+            }
         }
-        else{
-            res.status(400).json({message : "erreur lors de la crétion du favoris"})
+        else {
+            res.status(400).json({ message: "erreur lors de la crétion du favoris" })
         }
 
     }

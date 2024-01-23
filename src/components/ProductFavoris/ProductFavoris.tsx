@@ -21,6 +21,10 @@ const ProductFavoris = ({
         setButtonStates(updatedStates);
     };
 
+    const supprimeFav =() =>{
+        
+    } 
+
     return (
         <>
             <div className={styles.container}>
