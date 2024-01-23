@@ -148,3 +148,67 @@
     cursor: pointer;
     width: 100%;
 }
+.container_historique {
+    display: flex;
+    justify-content:center;
+    flex-direction: row; 
+}
+.container_row{
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+    border-bottom: 2px solid var(--third-color-100);
+    
+}
+.titre {
+    font-size: 300%;
+    font-weight: 600;
+    margin: 0;
+    padding: 0;
+}
+.description {
+    font-size: 250%;
+    font-weight: 100;
+    margin: 0;
+    padding: 0;
+}
+.tailleB, .couleurB, .quantiteB, .referenceB, .dateB {
+    font-size: 220%;
+    font-weight: 300;
+}
+.couleurA, .tailleA, .referenceA, .quantiteA, .dateA {
+    padding-right: 2%;
+    font-size: 220%;
+    font-weight:600;
+}
+.container_couleur, .container_taille, .container_quantite, .container_reference, .container_date {
+    display: flex;
+    flex-direction: row;
+}
+.container_td {
+    padding-bottom: 10%;
+}
+.colonne1 {
+    display: flex;
+    flex-direction: column;
+}
+.container_buttonAvis {
+    border-bottom: 0,5px solid var(--third-color-100);
+}
+.container_iTd {
+    display: flex;
+    flex-direction: row;
+    width: 25%;
+}
+.image{
+    padding-right: 40%;
+}
+.container_buttonAvis {
+    width: 20%;
+    display: flex;
+    justify-content: center;
+}
+
+.buttonAvis {
+    width: 90%;
+}
