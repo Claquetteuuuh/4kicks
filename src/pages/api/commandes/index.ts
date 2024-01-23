@@ -65,12 +65,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         commandes.forEach(thisCommande => {
 
             let total: number = 0;
-            const commandeReturned: Commande[] = [];
-            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+
             const formattedDate = thisCommande.creation_date.toLocaleDateString('fr-FR');
 
             thisCommande.product_in_achat.forEach(thisProduct => {
-                total +=1;
+                total += 1;
                 let image: string;
                 try {
                     image = thisProduct.product.product_images[0].image.name
@@ -78,6 +77,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 catch {
                     image = "default";
                 }
+
                 const commande: Commande = {
                     achat_uid: thisCommande.achat_uid,
                     creation_date: formattedDate,
