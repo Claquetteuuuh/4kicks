@@ -3,6 +3,9 @@ import styles from "./ProductFavoris.module.css";
 import { ProduitType } from "../../../types/home/Produit";
 import Link from "next/link";
 import classNames from 'classnames';
+import axios from "axios";
+import { useSession } from "next-auth/react";
+import router from "next/router";
 
 const ProductFavoris = ({
     allProducts,
@@ -14,16 +17,25 @@ const ProductFavoris = ({
     setChange?: ProduitType[];
 }) => {
     const [buttonStates, setButtonStates] = useState<boolean[]>(new Array(allProducts.length).fill(false));
-
+    const session = useSession();
     const handleClick = (index: number) => {
         const updatedStates = [...buttonStates];
         updatedStates[index] = !updatedStates[index];
         setButtonStates(updatedStates);
+        if (!session.data?.user) {
+            router.push("/login")
+        } else {
+            axios.delete('/api/favoris?userEmail=' + session.data.user.email + '&productUID=' + allProducts[index].productUID)
+                .then(e => {
+                    console.log(e)
+                    window.location.reload();
+                })
+                .catch(err => {
+                    console.error(err)
+                })
+        }
     };
 
-    const supprimeFav =() =>{
-        
-    } 
 
     return (
         <>
@@ -49,7 +61,7 @@ const ProductFavoris = ({
                                     </a>
                                     <div className={styles.container_favIcons}>
                                         <button onClick={() => handleClick(index)}>
-                                            <img src="/icons/fav_bubble.svg" alt="icone favoris" className={buttonClass}/>
+                                            <img src="/icons/fav_bubble.svg" alt="icone favoris" className={buttonClass} />
                                             <img src="/icons/fav_bubble_vide.svg" alt="icon favoris vide" className={buttonClass2} />
                                         </button>
                                     </div>
