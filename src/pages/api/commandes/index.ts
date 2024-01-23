@@ -61,10 +61,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         });
 
         const commandeReturned: Commande[] = [];
-
+        let total: number = 0;
         commandes.forEach(thisCommande => {
 
-            let total: number = 0;
+            
 
             const formattedDate = thisCommande.creation_date.toLocaleDateString('fr-FR');
 
