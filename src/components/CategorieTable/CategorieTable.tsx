@@ -41,6 +41,7 @@ import { CategorieType } from "../../../types/dashboard/CategorieType";
 import styles from "./categorie_table.module.css";
 import axios from "axios";
 import { AccountType } from "../../../types/dashboard/AccountType";
+import Link from "next/link";
 
 export default function CategorieTable({ data, handleDelete }: { data: CategorieType[], handleDelete: (id: string) => void }) {
 
@@ -115,6 +116,38 @@ export default function CategorieTable({ data, handleDelete }: { data: Categorie
     {
       id: "actions",
       enableHiding: false,
+      header: () => {
+        return (
+          <div className={styles.add_button}>
+            <Link
+              href={"/dashboard/categories/new"}
+              className={styles.add_button}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="ionicon"
+                viewBox="0 0 512 512"
+              >
+                <path
+                  d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192 192-86 192-192z"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeMiterlimit="10"
+                  strokeWidth="32"
+                />
+                <path
+                  fill="none"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="32"
+                  d="M256 176v160M336 256H176"
+                />
+              </svg>
+            </Link>
+          </div>
+        );
+      },
       cell: ({ row }) => {
         return (
           <DropdownMenu>

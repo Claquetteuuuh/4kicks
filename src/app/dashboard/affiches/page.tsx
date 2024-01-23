@@ -8,10 +8,12 @@ import { ToastAction } from "@radix-ui/react-toast";
 import styles from "./affiches.module.css";
 import AfficheTable from "@/components/AfficheTable/AfficheTable";
 import { AfficheType } from "../../../../types/dashboard/AfficheType";
+import {useRouter} from "next/navigation"
 
 const Page = ({ params }: { params: { user: userType } }) => {
     const [affiches, setaffiches] = useState<AfficheType[]>([]);
-    const { toast } = useToast()
+    const { toast } = useToast();
+    const router = useRouter();
 
     const confirmDelete = (id: string) => {
         axios.delete("/api/dashboard/affiches", {
@@ -20,8 +22,16 @@ const Page = ({ params }: { params: { user: userType } }) => {
             }
         })
             .then(e => {
-                console.log(e.data)
-            })
+                router.refresh();
+        axios
+          .get("/api/dashboard/affiches")
+          .then((e) => {
+            setaffiches(e.data);
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+      })
             .catch(err => {
                 console.error(err)
             })

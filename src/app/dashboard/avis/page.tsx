@@ -8,10 +8,12 @@ import { ToastAction } from "@radix-ui/react-toast";
 import styles from "./avis.module.css";
 import { AvisType } from "../../../../types/dashboard/AvisType";
 import AvisTable from "@/components/AvisTable/AvisTable";
+import { useRouter } from "next/navigation";
 
 const Page = ({ params }: { params: { user: userType } }) => {
     const [avis, setavis] = useState<AvisType[]>([]);
-    const { toast } = useToast()
+    const { toast } = useToast();
+    const router = useRouter();
 
     const confirmDelete = (id: string) => {
         axios.delete("/api/dashboard/avis", {
@@ -20,7 +22,15 @@ const Page = ({ params }: { params: { user: userType } }) => {
             }
         })
             .then(e => {
-                console.log(e.data)
+                router.refresh();
+                axios
+                    .get("/api/dashboard/products")
+                    .then((e) => {
+                        setavis(e.data);
+                    })
+                    .catch((err) => {
+                        console.error(err);
+                    });
             })
             .catch(err => {
                 console.error(err)
@@ -50,7 +60,7 @@ const Page = ({ params }: { params: { user: userType } }) => {
     }, []);
     return (
         <DashboardLayout params={params}>
-            <AvisTable data={avis} handleDelete={handleDelete}/>
+            <AvisTable data={avis} handleDelete={handleDelete} />
         </DashboardLayout>
     );
 };

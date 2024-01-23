@@ -8,13 +8,12 @@ import { ToastAction } from "@radix-ui/react-toast";
 import styles from "./products.module.css";
 import { ProductType } from "../../../../types/dashboard/ProductType";
 import ProductTable from "@/components/ProductTable/ProductTable";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 const Page = ({ params }: { params: { user: userType } }) => {
   const [products, setProducts] = useState<ProductType[]>([]);
   const { toast } = useToast();
   const router = useRouter();
-  const pathname = usePathname();
 
   const confirmDelete = (id: string) => {
     axios
