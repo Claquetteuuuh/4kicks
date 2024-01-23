@@ -26,7 +26,6 @@ export default async function handle(
     res.status(400).json({error: "This order doesn't exists !"})
     return;
   }
-  console.log("QUOICOUBEHHH");
   
   const user = await prisma.account.findUnique({
     where: {
@@ -43,7 +42,6 @@ export default async function handle(
     res.status(400).json({error: "This account doesn't exists !"})
     return;
   }
-  console.log("QUOICOUBEHHHazdzadadadaz");
   const shipAddress = await prisma.shipAddress.create({
     data: {
       postal_code: postal_code,
@@ -61,7 +59,6 @@ export default async function handle(
     res.status(400).json({error: "Error when creating shipAddress"})
     return;
   }
-  console.log("quoicou2");
   // Update payment to PAID status once completed
   const achat = await prisma.achat.updateMany({
     where: {
@@ -77,7 +74,6 @@ export default async function handle(
     res.status(400).json({error: "error in creation of achat"});
     return;
   }
-  console.log("quoicou33333");
   const thisAchat = await prisma.achat.findMany({
     where: {
       order_id: orderID
@@ -88,7 +84,6 @@ export default async function handle(
     res.status(400).json({ error: "This order doesn't exist!" })
     return
   }
-  console.log("quoicou34444");
   
   const achatUid = order[0].achat_uid;
   const panier = user.product_in_panier;
@@ -110,11 +105,8 @@ export default async function handle(
         account_uid: product.account_uid
       }
     })
-    console.log("APAGNAN");
   }
-  console.log("QUOICOUFINALITE");
-  
-  sendCommandSuccess(user.email, user.first_name, `https://${process.env.HOST}/profile`)
-  console.log("QUOICOUMAIL");
+  const stringAddress = `${shipAddress.address}, ${shipAddress.city}, ${shipAddress.postal_code}`;
+  sendCommandSuccess(user.email, user.first_name, stringAddress, `https://${process.env.HOST}/profile`)
   res.status(201).json({message: "ACHAT SUCCESS"});
 }

@@ -35,7 +35,7 @@ export const sendAccountCreation = async (email: string, name: string, url: stri
         
 }
 
-export const sendCommandSuccess = async (email: string, name: string, url: string) => {
+export const sendCommandSuccess = async (email: string, name: string, address: string, url: string) => {
     if(!process.env.AWS_SES_SENDER){
         return;
     }
@@ -49,17 +49,16 @@ export const sendCommandSuccess = async (email: string, name: string, url: strin
         Template: successOrderTemplate.TemplateName,
         TemplateData: JSON.stringify({
             name: name,
-            url: url
+            url: url,
+            address: address
         })
     })
 
     try{
         const sended = await sesClient.send(sendTemplatedEmailCommand) 
         if(sended){
-            console.log("SENDED SUCCESSFULLY")
             return true;
         }else{
-            console.log(" PAS SENDED DUTOUT")
             return false;
         }
     }catch(err) {

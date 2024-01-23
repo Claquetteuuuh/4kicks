@@ -28,10 +28,10 @@ export const createAllTemplates = async () => {
     });
     await sesClient.send(createSuccessOrder)
     .then(e => {
-        console.log(`${accountCreationTemplate.TemplateName} created successfully`)
+        console.log(`${successOrderTemplate.TemplateName} created successfully`)
     })
     .catch(err => {
-        console.error(`An error occured while creating ${accountCreationTemplate.TemplateName}: \n ${err}` )
+        console.error(`An error occured while creating ${successOrderTemplate.TemplateName}: \n ${err}` )
     })
 
     const createAccountActivation = new CreateTemplateCommand({
@@ -39,10 +39,10 @@ export const createAllTemplates = async () => {
     });
     await sesClient.send(createAccountActivation)
     .then(e => {
-        console.log(`${accountCreationTemplate.TemplateName} created successfully`)
+        console.log(`${accountActivationTemplate.TemplateName} created successfully`)
     })
     .catch(err => {
-        console.error(`An error occured while creating ${accountCreationTemplate.TemplateName}: \n ${err}` )
+        console.error(`An error occured while creating ${accountActivationTemplate.TemplateName}: \n ${err}` )
     })
     
 }

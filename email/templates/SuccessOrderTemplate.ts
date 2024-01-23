@@ -78,7 +78,10 @@ export const successOrderTemplate: Template = {
   <div class="activate">
     <h1>Votre achat s'est bien passé</h1>
     <p>
-      {{name}}, votre achat s'est bien passé, consultez votre historique pour avoir plus d'information sur le produit !
+      {{name}}, votre achat s'est bien passé, vous allez recevoir votre colis à l'adresse: {{address}} !
+    </p>
+    <p>
+    Consultez votre historique pour avoir plus d'information sur le produit !
     </p>
   </div>
 
