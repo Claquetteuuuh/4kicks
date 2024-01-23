@@ -26,6 +26,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     select: {
                         product: {
                             select: {
+                                product_uid: true,
                                 name: true,
                                 description: true,
                                 price: true,
@@ -75,6 +76,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     image = "default";
                 }
                 const product: Product_commande = {
+                    product_uid: thisProduct.product.product_uid,
                     name_product: thisProduct.product.name,
                     description_product: thisProduct.product.description,
                     price_product: thisProduct.product.price,
