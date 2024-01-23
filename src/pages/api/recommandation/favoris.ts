@@ -12,33 +12,45 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     if (req.method === "GET") {
 
         const userUID: string = req.query.userID as string;
-        //liste produits favoris
-        const finalList: filtreCat[] = await recuperation_filtre(userUID);
-        //liste des uid des categories
-        const quatreClesMax: string[] = await filtreCategorie(finalList);
-        //liste des produits qui possede une des 4 catégories
-        const produitTrieCat: produit[] = await trieproduitCategorie(quatreClesMax);
-        //liste de 4 produits 
-        const listeProduits: produit[] = await produits4(produitTrieCat);
-        res.status(200).json(listeProduits);
+
+        if (userUID) {
+
+            const favoris = await prisma.favorite.findMany({
+                select: {
+                    product_uid: true
+                },
+                where: {
+                    account_uid: userUID
+                }
+            });
+
+            const listeFavoris: string[] = [];
+
+            favoris.forEach(thisFav => {
+                listeFavoris.push(thisFav.product_uid)
+            })
+
+            //liste produits favoris
+            const finalList: filtreCat[] = await recuperation_filtre(favoris);
+            //liste des uid des categories
+            const quatreClesMax: string[] = await filtreCategorie(finalList);
+            //liste des produits qui possede une des 4 catégories
+            const produitTrieCat: produit[] = await trieproduitCategorie(quatreClesMax, listeFavoris);
+            //liste de 4 produits 
+            const listeProduits: produit[] = await produits4(produitTrieCat,listeFavoris);
+            res.status(200).json(listeProduits);
+        }
+
     }
-    else{
-        res.status(400).json({message: "this route is only GET"})
+    else {
+        res.status(400).json({ message: "this route is only GET" })
     }
 }
 
 //recupere les categorie de tout les produits en favoris
-async function recuperation_filtre(userUID: string) {
-    const favorisAcount: filtreCat[] = [];
-    const favoris = await prisma.favorite.findMany({
-        select: {
-            product_uid: true
-        },
-        where: {
-            account_uid: userUID
-        }
-    });
+async function recuperation_filtre(favoris: { product_uid: string }[]) {
 
+    const favorisAcount: filtreCat[] = [];
 
     await Promise.all(favoris.map(async (favori) => {
         const produit = await prisma.product.findMany({
@@ -125,7 +137,7 @@ async function categoriesMap() {
 }
 
 // retourne une liste de produits correspondant au categories
-async function trieproduitCategorie(listeCategories: string[]) {
+async function trieproduitCategorie(listeCategories: string[], listeFavoris : string[]) {
     const listeProduct = await prisma?.product.findMany({
         select: {
             product_uid: true,
@@ -135,48 +147,62 @@ async function trieproduitCategorie(listeCategories: string[]) {
 
         },
         where: {
-            product_categorie: {
-                some: {
-                    categorie_uid: {
-                        in: listeCategories
+            OR: [
+                {
+                    product_categorie: {
+                        some: {
+                            categorie_uid: {
+                                in: listeCategories
+                            }
+                        }
                     }
                 }
-            }
+            ],
+            NOT:[
+                {
+                   product_uid:{
+                    in: listeFavoris
+                   }
+                }
+            ]
+
         }
     });
-    
+
     return listeProduct;
 }
 
 
-async function produits4 (produitTrieCat: produit[]) {
-    const listeid: string[] = [];
-    const listeProduct: produit[] = [];
+async function produits4(produitTrieCat: produit[], listeid: string[]) {
 
-    produitTrieCat.forEach(thisProduct=>{
-        if(!listeid.includes(thisProduct.product_uid) && listeid.length <= 4){
+    const listeProduct: produit[] = [];
+    let nb = 0;
+
+    produitTrieCat.forEach(thisProduct => {
+        if (!listeid.includes(thisProduct.product_uid) && nb <= 4) {
             listeid.push(thisProduct.product_uid);
             listeProduct.push(thisProduct)
+            nb = nb+1;
         }
     })
 
-    if(listeProduct.length <4){
+    if (listeProduct.length < 4) {
         const selectProduit = await prisma.product.findMany({
-            select:{
+            select: {
                 product_uid: true,
                 name: true,
                 description: true,
                 price: true
             },
             where: {
-                product_uid :{
+                product_uid: {
                     notIn: listeid
                 }
             },
             take: 4 - listeProduct.length
-        }) 
+        })
 
-        selectProduit.forEach(thisNewProduits =>{
+        selectProduit.forEach(thisNewProduits => {
             listeProduct.push(thisNewProduits);
         })
     }
