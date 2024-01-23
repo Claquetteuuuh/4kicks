@@ -24,7 +24,7 @@ export default function Panier({ params }: { params: { user: userType } }) {
   const [recom, setRecom] = useState<ProduitType[]>([]);
   const [panier, setPanier] = useState<PanierProductType[]>();
   const [total, setTotal] = useState(0);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const router = useRouter();
 
@@ -45,16 +45,6 @@ export default function Panier({ params }: { params: { user: userType } }) {
   useEffect(() => {
     setTotal(calculTotal() * 1.12);
   }, [panier]);
-
-
-  useEffect(() => {
-    if(params.user){
-      if(params.user.email){
-       setLoading(false); 
-      }
-    }
-
-  }, [params])
 
   useEffect(() => {
     axios
@@ -104,14 +94,11 @@ export default function Panier({ params }: { params: { user: userType } }) {
         })
         .then((e) => {
           console.log(e.data);
-          setLoading(false);
           router.refresh();
-
         })
         .catch(err => {
           // gerer erreur,
           console.error(err)
-          setLoading(false)
         })
     });
   };
@@ -122,16 +109,6 @@ export default function Panier({ params }: { params: { user: userType } }) {
     });
     return total;
   };
-
-  const removePanier = async (product_uid: string) => {
-    axios.delete(`/api/user/${params.user.email}/panier/${product_uid}`)
-    .then(e => {
-      router.refresh();
-    })
-    .catch(err => {
-      console.error(err)
-    })
-  }
   return (
     <CheckAccountLayout user={params.user}>
       {!loading ? (
@@ -174,7 +151,6 @@ export default function Panier({ params }: { params: { user: userType } }) {
                             <img
                               src="/icons/trash-outline.svg"
                               alt="trash icon"
-                              onClick={() => removePanier(product.product_uid)}
                             />
                           </div>
                         </div>
@@ -243,7 +219,7 @@ export default function Panier({ params }: { params: { user: userType } }) {
           <ProductCategories allProducts={recom} name="Découverte" />
         </>
       ) : (
-        <Loading />
+        false
       )}
     </CheckAccountLayout>
   );
