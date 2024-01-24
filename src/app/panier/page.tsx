@@ -200,7 +200,7 @@ export default function Panier({ params }: { params: { user: userType } }) {
                           src="/icons/save-outline.svg"
                           alt="favorite icon"
                         />
-                        <img src="/icons/trash-outline.svg" alt="trash icon" />
+                        <img src="/icons/trash-outline.svg" alt="trash icon" onClick={(e) => suppression(product.product_uid)} />
                       </div>
                     </div>
                     <div className={styles.price}>

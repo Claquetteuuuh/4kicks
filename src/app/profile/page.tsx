@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Commande } from "../../../types/home/Commande";
 import axios from "axios";
 import { comma } from "postcss/lib/list";
+import { toast } from "@/components/ui/use-toast";
 
 const Page = ({ params }: { params: { user: userType } }) => {
   const router = useRouter();
@@ -67,6 +68,20 @@ const Page = ({ params }: { params: { user: userType } }) => {
     }
   }, [params]);
 
+  const createToast = (type: "Error" | "info" | "Success", description: string) => {
+    let style = styles.toast_info;
+    if(type === "Error"){
+      style = styles.error;
+    }else if(type === "Success"){
+      style = styles.good;
+    }
+    toast({
+      className: `${styles.toast} ${style}`,
+      title: type,
+      description: description,
+    })
+  };
+
   const save = () => {
 
     axios.put('/api/user/' + params.user.email + "/modification", {
@@ -78,7 +93,8 @@ const Page = ({ params }: { params: { user: userType } }) => {
       new_file: null
     })
       .then(e => {
-        console.log(e)
+        createToast("Success", "La modification a été effectué avec succès !")
+        // console.log(e) 
       })
       .catch(err => {
         console.error(err)
