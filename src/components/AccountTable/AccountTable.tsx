@@ -45,6 +45,11 @@ export default function AccountTable({
   data: AccountType[];
   handleDelete: (id: string, email: string) => void;
 }) {
+
+  const redirect = (account_uid: string) => {
+    window.location.href = '/dashboard/accounts/information?accountUID=' + account_uid
+  }
+
   const columns: ColumnDef<AccountType>[] = [
     {
       id: "select",
@@ -260,7 +265,7 @@ export default function AccountTable({
                 Delete
               </DropdownMenuItem>
               <DropdownMenuItem
-                className={`${styles.dropdown_item} ${styles.info_button}`}
+                className={`${styles.dropdown_item} ${styles.info_button}`} onClick={() => redirect(row.original.account_uid)}
               >
                 Informations
               </DropdownMenuItem>

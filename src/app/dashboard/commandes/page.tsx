@@ -10,6 +10,7 @@ import { ToastAction } from "@radix-ui/react-toast";
 import styles from "./information.module.css";
 import { usePathname, useRouter } from "next/navigation";
 import StatsTable from "@/components/commandesTable/CommandesTable";
+import CommandesTable from "@/components/commandesTable/CommandesTable";
 
 const Page = ({ params }: { params: { user: userType } }) => {
   const [achats, setAchats] = useState<AchatsType[]>([]);
@@ -62,7 +63,7 @@ const Page = ({ params }: { params: { user: userType } }) => {
 
   return (
     <DashboardLayout params={params}>
-      <StatsTable data={achats} />
+      <CommandesTable data={achats} />
     </DashboardLayout>
   );
 };
