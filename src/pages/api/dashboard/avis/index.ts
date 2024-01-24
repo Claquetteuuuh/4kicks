@@ -1,9 +1,32 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import prisma from "@/lib/prisma";
+import { AvisType } from "../../../../../types/dashboard/AvisType";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method === "GET") {
-        const avis = await prisma.avis.findMany();
+        const data = await prisma.avis.findMany({
+            select:{
+                avis_uid: true,
+                notation: true,
+                content: true,
+                creation_date: true,
+
+                account: {
+                    select:{
+                        username: true
+                    }
+                }
+            }
+        });
+
+        const avis: AvisType[] = data.map(av => ({
+            avis_uid: av.avis_uid,
+            notation: av.notation,
+            content: av.content,
+            creation_date: av.creation_date,
+            user_name: av.account.username,
+        }));
+
         if (!avis) {
             res.status(400).json({ error: "Error getting avis, D-001" })
         }

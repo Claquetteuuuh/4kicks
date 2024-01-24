@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import prisma from "@/lib/prisma";
+import { ProduitType } from "../../../../types/home/Produit";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     const host = req.headers.host;
@@ -35,9 +36,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             //liste des uid des categories
             const quatreClesMax: string[] = await filtreCategorie(finalList);
             //liste des produits qui possede une des 4 catégories
-            const produitTrieCat: produit[] = await trieproduitCategorie(quatreClesMax, listeFavoris);
+            const produitTrieCat: ProduitType[] = await trieproduitCategorie(quatreClesMax, listeFavoris);
             //liste de 4 produits 
-            const listeProduits: produit[] = await produits4(produitTrieCat,listeFavoris);
+            const listeProduits: ProduitType[] = await produits4(produitTrieCat, listeFavoris);
             res.status(200).json(listeProduits);
         }
 
@@ -137,13 +138,19 @@ async function categoriesMap() {
 }
 
 // retourne une liste de produits correspondant au categories
-async function trieproduitCategorie(listeCategories: string[], listeFavoris : string[]) {
-    const listeProduct = await prisma?.product.findMany({
+async function trieproduitCategorie(listeCategories: string[], listeFavoris: string[]) {
+    const listeProduct: ProduitType[] = [];
+    const liste = await prisma?.product.findMany({
         select: {
             product_uid: true,
             name: true,
             description: true,
-            price: true
+            price: true,
+            product_images: {
+                select: {
+                    image: true
+                }
+            }
 
         },
         where: {
@@ -158,31 +165,47 @@ async function trieproduitCategorie(listeCategories: string[], listeFavoris : st
                     }
                 }
             ],
-            NOT:[
+            NOT: [
                 {
-                   product_uid:{
-                    in: listeFavoris
-                   }
+                    product_uid: {
+                        in: listeFavoris
+                    }
                 }
             ]
 
         }
     });
 
+    liste.forEach(thisProduct => {
+        const listeImage: string[] = [];
+        thisProduct.product_images.forEach(thisImage => {
+            const image: string = `${process.env.PUBLIC_DOMAINE_BUCKET_URL}${thisImage.image.name}`
+            listeImage.push(image)
+        })
+        const product: ProduitType = {
+            productUID: thisProduct.product_uid,
+            nameProduct: thisProduct.name,
+            price: thisProduct.price,
+            description: thisProduct.description,
+            imageLien: listeImage
+        }
+        listeProduct.push(product)
+    })
+
     return listeProduct;
 }
 
 
-async function produits4(produitTrieCat: produit[], listeid: string[]) {
+async function produits4(produitTrieCat: ProduitType[], listeid: string[]) {
 
-    const listeProduct: produit[] = [];
+    const listeProduct: ProduitType[] = [];
     let nb = 0;
 
     produitTrieCat.forEach(thisProduct => {
-        if (!listeid.includes(thisProduct.product_uid) && nb <= 4) {
-            listeid.push(thisProduct.product_uid);
+        if (!listeid.includes(thisProduct.productUID) && nb <= 4) {
+            listeid.push(thisProduct.productUID);
             listeProduct.push(thisProduct)
-            nb = nb+1;
+            nb = nb + 1;
         }
     })
 
@@ -192,7 +215,12 @@ async function produits4(produitTrieCat: produit[], listeid: string[]) {
                 product_uid: true,
                 name: true,
                 description: true,
-                price: true
+                price: true,
+                product_images: {
+                    select: {
+                        image: true
+                    }
+                }
             },
             where: {
                 product_uid: {
@@ -202,8 +230,20 @@ async function produits4(produitTrieCat: produit[], listeid: string[]) {
             take: 4 - listeProduct.length
         })
 
-        selectProduit.forEach(thisNewProduits => {
-            listeProduct.push(thisNewProduits);
+        selectProduit.forEach(thisProduct => {
+            const listeImage: string[] = [];
+            thisProduct.product_images.forEach(thisImage => {
+                const image: string = `${process.env.PUBLIC_DOMAINE_BUCKET_URL}${thisImage.image.name}`
+                listeImage.push(image)
+            })
+            const product: ProduitType = {
+                productUID: thisProduct.product_uid,
+                nameProduct: thisProduct.name,
+                price: thisProduct.price,
+                description: thisProduct.description,
+                imageLien: listeImage
+            }
+            listeProduct.push(product)
         })
     }
 
@@ -219,11 +259,6 @@ type categorie = {
     categorie_id: string,
     name: string
 }
-type produit = {
-    product_uid: string,
-    name: string,
-    description: string,
-    price: number
-}
+
 
 

@@ -36,6 +36,26 @@ const Page = ({ params }: { params: { user: userType } }) => {
   const [selectedSize, setSelectedSize] = useState(produit?.sizes[0]);
 
   const [sameThemeProducts, setSameThemeProducts] = useState<ProduitType[]>([]);
+  const [favoris, setFavoris] = useState<Boolean>();
+
+  useEffect(() => {
+    if (!session.data?.user) {
+
+    } else {
+      if (favoris == undefined) {
+        axios
+          .get('/api/favoris?userEmail=' + session.data.user.email + '&productUID=' + param?.id)
+          .then((e) => {
+            setFavoris(e.data);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+
+    }
+
+  })
 
   useEffect(() => {
     setDisplayedImage(produit?.images_url[0]);
@@ -57,13 +77,13 @@ const Page = ({ params }: { params: { user: userType } }) => {
 
   // categorie
   useEffect(() => {
-    axios.get(`/api/categories?category=${categorie}`)
+    axios.get(`/api/recommandation/product?productID=${produit?.product_uid}`)
       .then(e => {
         setSameThemeProducts(e.data);
       })
       .catch(err => {
         console.error(err);
-      } )
+      })
   })
 
   const createToast = (type: "error" | "info", description: string) => {
@@ -75,9 +95,9 @@ const Page = ({ params }: { params: { user: userType } }) => {
   };
 
   const addPanier = () => {
-    if(!session.data?.user){
+    if (!session.data?.user) {
       router.push("/login")
-    }else{
+    } else {
       axios.post(`/api/user/${session.data.user.email}/panier`, {
         id: param?.id,
         taille: selectedSize
@@ -92,10 +112,64 @@ const Page = ({ params }: { params: { user: userType } }) => {
     }
   }
 
+  const addFavorite = async () => {
+
+    if (!session.data?.user) {
+      router.push("/login")
+    } else {
+
+      let verif: boolean = false;
+      await axios.get('/api/favoris?userEmail=' + session.data.user.email + '&productUID=' + param?.id)
+        .then(e => {
+          console.log(e.data)
+          verif = e.data
+        })
+        .catch(err => {
+          console.error(err)
+        })
+      console.log("1 " + verif)
+      if (!verif) {
+        console.log("2 " + verif)
+        axios.post(`/api/favoris`, {
+          product_uid: param?.id,
+          account_email: session.data.user.email
+        })
+          .then(e => {
+            console.log(e)
+          })
+          .catch(err => {
+            console.error(err)
+          })
+      }
+      else {
+        axios.delete('/api/favoris?userEmail=' + session.data.user.email + '&productUID=' + param?.id)
+          .then(e => {
+            console.log(e)
+          })
+          .catch(err => {
+            console.error(err)
+          })
+      }
+    }
+
+  }
+
+  const handleClick = () => {
+    if (favoris == false) {
+      setFavoris(true)
+    }
+    else {
+      setFavoris(false)
+    }
+  };
+
+
+
   return (
     <CheckAccountLayout user={params.user}>
       <div className={styles.product_uid}>
         {produit ? (
+
           <>
             <div className={styles.product_info}>
               <div className={styles.product_images}>
@@ -134,6 +208,11 @@ const Page = ({ params }: { params: { user: userType } }) => {
                     viewBox="0 0 50 50"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
+                    onClick={() => { addFavorite(); handleClick(); }}
+                    className={classNames({
+                      [styles.clickSVG]: favoris,
+                      [styles.noClickSVG]: !favoris
+                    })}
                   >
                     <path
                       d="M34.375 4.6875H15.625C14.3818 4.6875 13.1895 5.18136 12.3104 6.06044C11.4314 6.93951 10.9375 8.1318 10.9375 9.375V45.3125L25 32.8125L39.0625 45.3125V9.375C39.0625 8.1318 38.5686 6.93951 37.6896 6.06044C36.8105 5.18136 35.6182 4.6875 34.375 4.6875Z"
@@ -212,7 +291,7 @@ const Page = ({ params }: { params: { user: userType } }) => {
               {sameThemeProducts ? (
                 <ProductCategories
                   allProducts={sameThemeProducts}
-                  name={categorie}
+                  name="Recommandation"
                 />
               ) : (
                 <Loading />

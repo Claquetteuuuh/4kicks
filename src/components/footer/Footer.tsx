@@ -18,24 +18,24 @@ const Footer = () => {
                     <tbody>
                         <tr>
                             <td className={styles.td}><a href={"/presentation"}>A propos de 4Kicks</a></td>
-                            <td className={styles.td}><a href={"/apagnan"}>apagnan quoicoukwak</a></td>
+                            <td className={styles.td}><a href={"/apagnan"}>SNKRS</a></td>
                             <td className={styles.td}><a href={"/contact"}>Nous contacter</a></td>
                             <td className={styles.td}><a href={"/marketplace"}>Marketplace</a></td>
                         </tr>
                         <tr>
                             <td className={styles.td}><a href={"/histoire"}>Notre histoire </a></td>
-                            <td className={styles.td}><a href={"/apagnan"}>apagnan quoicoukwak</a></td>
+                            <td className={styles.td}><a href={"/apagnan"}>LaPoste</a></td>
                             <td className={styles.td}><a href={"/achat"}>Achat</a></td>
                             <td className={styles.td}><a href={"/forum"}>Forum</a></td>
                         </tr>
                         <tr>
-                            <td className={styles.td}><a href={"/apagnan"}>apagnan quoicoukwak</a></td>
+                            <td className={styles.td}><a href={"/apagnan"}></a></td>
                             <td className={styles.td}></td>
                             <td className={styles.td}><a href={"/securite"}>Sécurité</a></td>
                             <td className={styles.td}></td>
                         </tr>
                         <tr>
-                            <td className={styles.td}><a href={"/apagnan"}>apagnan quoicoukwak</a></td>
+                            <td className={styles.td}><a href={"/apagnan"}></a></td>
                             <td className={styles.td}></td>
                             <td className={styles.td}></td>
                             <td className={styles.td}></td>
