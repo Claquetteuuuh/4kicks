@@ -1,7 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import { METHODS } from "http";
 import { NextApiRequest, NextApiResponse } from "next";
-import { Commande, Product_commande } from "../../../../types/home/Commande";
+import { Commande } from "../../../../types/home/Commande";
 
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -26,6 +26,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     select: {
                         product: {
                             select: {
+                                product_uid: true,
                                 name: true,
                                 description: true,
                                 price: true,
@@ -60,21 +61,27 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         });
 
         const commandeReturned: Commande[] = [];
-
+        let total: number = 0;
         commandes.forEach(thisCommande => {
 
-            let total: number = 0;
-            const products: Product_commande[] = [];
+
+
+            const formattedDate = thisCommande.creation_date.toLocaleDateString('fr-FR');
 
             thisCommande.product_in_achat.forEach(thisProduct => {
+                total += 1;
                 let image: string;
                 try {
-                    image = thisProduct.product.product_images[0].image.name
+                    image = `${process.env.PUBLIC_DOMAINE_BUCKET_URL}${thisProduct.product.product_images[0].image.name}`
                 }
                 catch {
                     image = "default";
                 }
-                const product: Product_commande = {
+
+                const commande: Commande = {
+                    achat_uid: thisCommande.achat_uid,
+                    creation_date: formattedDate,
+                    id: total,
                     name_product: thisProduct.product.name,
                     description_product: thisProduct.product.description,
                     price_product: thisProduct.product.price,
@@ -83,22 +90,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     color_product: thisProduct.color?.value,
                     taille_product: thisProduct.taille?.value
                 }
-                total += product.price_product * product.quantite_product;
-                products.push(product);
+
+                commandeReturned.push(commande);
             })
-
-
-            const options = { year: 'numeric', month: 'long', day: 'numeric' };
-            const formattedDate = thisCommande.creation_date.toLocaleDateString('fr-FR');
-
-            const commande: Commande = {
-                achat_uid: thisCommande.achat_uid,
-                creation_date: formattedDate,
-                price_commande: total,
-                product_commande: products
-            }
-
-            commandeReturned.push(commande);
         })
         res.status(200).json(commandeReturned);
     }

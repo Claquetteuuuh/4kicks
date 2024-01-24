@@ -29,19 +29,32 @@ export default function Panier({ params }: { params: { user: userType } }) {
 
   const router = useRouter();
 
-  // useEffect(() => {
-  //   if (favoris.length === 0) {
-  //     axios
-  //       .get(`/api/favoris?userID=${params.user.user_id}`)
-  //       .then((response) => {
-  //         console.log(response);
-  //         setFavoris(response.data);
-  //       })
-  //       .catch((error) => {
-  //         console.error(error);
-  //       });
-  //   }
-  // }, [favoris]);
+  useEffect(() => {
+    if (favoris.length === 0) {
+      axios
+        .get(`/api/favoris?userID=${params.user.user_id}`)
+        .then((response) => {
+          console.log(response);
+          setFavoris(response.data);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  }, [favoris]);
+
+  useEffect(() => {
+    axios
+      .get(`/api/recommandation/favoris?userID=${params.user?.user_id}`)
+      .then((response) => {
+        console.log(response)
+        setRecom(response.data)
+      })
+      .catch((err) => {
+        console.error(err)
+      })
+
+  })
 
   useEffect(() => {
     setTotal(calculTotal() * 1.12);
@@ -128,6 +141,20 @@ export default function Panier({ params }: { params: { user: userType } }) {
     });
     return total;
   };
+
+  const suppression = (product_uid: string) => {
+
+    axios
+      .delete(`/api/user/${params.user.email}/panier/${product_uid}`)
+      .then((response) => {
+        console.log(response)
+        window.location.reload();
+      })
+      .catch((err) => {
+        console.error(err)
+      })
+
+  }
   return (
     <CheckAccountLayout user={params.user}>
       <div className={styles.panier}>
@@ -236,8 +263,6 @@ export default function Panier({ params }: { params: { user: userType } }) {
           </div>
         )}
       </div>
-      <ProductCategories allProducts={favoris} name="Favoris" />
-      <ProductCategories allProducts={recom} name="Découverte" />
     </CheckAccountLayout>
   );
 }

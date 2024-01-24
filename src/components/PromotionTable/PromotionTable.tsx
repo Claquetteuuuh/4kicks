@@ -14,7 +14,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react";
-import Link from "next/link";
+
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -35,17 +35,17 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import styles from "./account_table.module.css";
+import { ToastAction } from "@/components/ui/toast"
+import { useToast } from "@/components/ui/use-toast"
+import { PromotionType } from "../../../types/dashboard/PromotionsType"
+import styles from "./promotion_table.module.css";
+import axios from "axios";
 import { AccountType } from "../../../types/dashboard/AccountType";
+import Link from "next/link";
 
-export default function AccountTable({
-  data,
-  handleDelete,
-}: {
-  data: AccountType[];
-  handleDelete: (id: string, email: string) => void;
-}) {
-  const columns: ColumnDef<AccountType>[] = [
+export default function CategorieTable({ data, handleDelete }: { data: PromotionType[], handleDelete: (id: string) => void }) {
+
+  const columns: ColumnDef<PromotionType>[] = [
     {
       id: "select",
       header: ({ table }) => (
@@ -71,7 +71,30 @@ export default function AccountTable({
       enableHiding: false,
     },
     {
-      accessorKey: "email",
+      accessorKey: "uid",
+      header: "uid",
+      cell: ({ row }) => (
+        <div className={styles.top_item}>{row.original.promo_uid}</div>
+      ),
+    },
+    {
+      accessorKey: "code",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            className={styles.button_th}
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Code
+            <ArrowUpDown className="ml-2 h-10 w-10" />
+          </Button>
+        );
+      },
+      cell: ({ row }) => <div className="lowercase">{row.original.code}</div>,
+    },
+    {
+      accessorKey: "coefficient",
       header: ({ column }) => {
         return (
           <Button
@@ -79,153 +102,52 @@ export default function AccountTable({
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
             className={styles.button_th}
           >
-            Email
+            Coefficient
             <ArrowUpDown className="ml-2 h-10 w-10" />
           </Button>
         );
       },
       cell: ({ row }) => (
         <div className="lowercase">
-          {`${row.original.email}`}
+          {row.original.coefficient}
         </div>
       ),
     },
     {
-      accessorKey: "username",
-      header: ({ column }) => {
+      id: "actions",
+      enableHiding: false,
+      header: () => {
         return (
-          <Button
-            variant="ghost"
-            className={styles.button_th}
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            Pseudo
-            <ArrowUpDown className="ml-2 h-10 w-10" />
-          </Button>
-        );
-      },
-      cell: ({ row }) => (
-        <div className="lowercase">{row.original.username}</div>
-      ),
-    },
-    {
-      accessorKey: "first_name",
-      header: ({ column }) => {
-        return (
-          <Button
-            variant="ghost"
-            className={styles.button_th}
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            Prenom
-            <ArrowUpDown className="ml-2 h-10 w-10" />
-          </Button>
-        );
-      },
-      cell: ({ row }) => (
-        <div className="lowercase">{row.original.first_name}</div>
-      ),
-    },
-    {
-      accessorKey: "last_name",
-      header: ({ column }) => {
-        return (
-          <Button
-            variant="ghost"
-            className={styles.button_th}
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            Nom
-            <ArrowUpDown className="ml-2 h-10 w-10" />
-          </Button>
-        );
-      },
-      cell: ({ row }) => (
-        <div className="lowercase">{row.original.last_name}</div>
-      ),
-    },
-    {
-      accessorKey: "creation_date",
-      header: ({ column }) => {
-        return (
-          <Button
-            variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-            className={styles.button_th}
-          >
-            Date de création
-            <ArrowUpDown className="ml-2 h-10 w-10" />
-          </Button>
-        );
-      },
-      cell: ({ row }) => (
-        <div className="lowercase">
-          {`${new Date(row.original.creation_date).toDateString()}`}
-        </div>
-      ),
-    },
-    {
-      accessorKey: "validated",
-      header: "Validé",
-      cell: ({ row }) => (
-        <div className={styles.top_item}>{`${row.original.validated}`}</div>
-      ),
-    },
-    {
-        accessorKey: "preference",
-        header: ({ column }) => {
-          return (
-            <Button
-              variant="ghost"
-              onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-              className={styles.button_th}
+          <div className={styles.add_button}>
+            <Link
+              href={"/dashboard/promotions/new"}
+              className={styles.add_button}
             >
-              Préférence
-              <ArrowUpDown className="ml-2 h-10 w-10" />
-            </Button>
-          );
-        },
-        cell: ({ row }) => (
-          <div className="lowercase">
-            {`${row.original.preference}`}
-          </div>
-        ),
-      },
-      {
-        id: "actions",
-        enableHiding: false,
-        header: () => {
-          return (
-            <div className={styles.add_button}>
-              <Link
-                href={"/dashboard/accounts/new"}
-                className={styles.add_button}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="ionicon"
+                viewBox="0 0 512 512"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="ionicon"
-                  viewBox="0 0 512 512"
-                >
-                  <path
-                    d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192 192-86 192-192z"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeMiterlimit="10"
-                    strokeWidth="32"
-                  />
-                  <path
-                    fill="none"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="32"
-                    d="M256 176v160M336 256H176"
-                  />
-                </svg>
-              </Link>
-            </div>
-          );
-        },
+                <path
+                  d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192 192-86 192-192z"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeMiterlimit="10"
+                  strokeWidth="32"
+                />
+                <path
+                  fill="none"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="32"
+                  d="M256 176v160M336 256H176"
+                />
+              </svg>
+            </Link>
+          </div>
+        );
+      },
       cell: ({ row }) => {
         return (
           <DropdownMenu>
@@ -235,41 +157,30 @@ export default function AccountTable({
                 <MoreHorizontal className="h-10 w-10" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent
-              className={styles.dropdown_content}
-              align="end"
-            >
+            <DropdownMenuContent className={styles.dropdown_content} align="end">
               <DropdownMenuLabel className={styles.dropdown_item}>
                 Actions
               </DropdownMenuLabel>
               <DropdownMenuItem
                 className={styles.dropdown_item}
                 onClick={() =>
-                  navigator.clipboard.writeText(row.original.account_uid)
+                  navigator.clipboard.writeText(row.original.promo_uid)
                 }
               >
-                Copy Account ID
+                Copy promotion ID
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem
-                onClick={(e) => {
-                  handleDelete(row.original.account_uid, row.original.email);
-                }}
-                className={`${styles.delete_button} ${styles.dropdown_item}`}
-              >
+              <DropdownMenuItem onClick={e => { handleDelete(row.original.promo_uid) }} className={`${styles.delete_button} ${styles.dropdown_item}`}>
                 Delete
               </DropdownMenuItem>
-              <DropdownMenuItem
-                className={`${styles.dropdown_item} ${styles.info_button}`}
-              >
-                Informations
-              </DropdownMenuItem>
+              <DropdownMenuItem className={`${styles.dropdown_item} ${styles.info_button}`}>Informations</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         );
       },
     },
   ];
+
 
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -302,50 +213,20 @@ export default function AccountTable({
     <div className={styles.container}>
       <div className="flex items-center py-4">
         <Input
-          placeholder="Filter email..."
-          value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
+          placeholder="Filter code..."
+          value={(table.getColumn("code")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("email")?.setFilterValue(event.target.value)
-          }
-          className={`max-w-sm ${styles.search_input}`}
-        />
-        <Input
-          placeholder="Filter username..."
-          value={(table.getColumn("username")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("username")?.setFilterValue(event.target.value)
-          }
-          className={`max-w-sm ${styles.search_input}`}
-        />
-        <Input
-          placeholder="Filter nom..."
-          value={(table.getColumn("last_name")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("last_name")?.setFilterValue(event.target.value)
-          }
-          className={`max-w-sm ${styles.search_input}`}
-        />
-        <Input
-          placeholder="Filter preference..."
-          value={(table.getColumn("preference")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("preference")?.setFilterValue(event.target.value)
+            table.getColumn("code")?.setFilterValue(event.target.value)
           }
           className={`max-w-sm ${styles.search_input}`}
         />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button
-              variant="outline"
-              className={`ml-auto ${styles.columns_button}`}
-            >
+            <Button variant="outline" className={`ml-auto ${styles.columns_button}`}>
               Columns <ChevronDown className="ml-2 h-10 w-10" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent
-            className={styles.selected_columns_container}
-            align="end"
-          >
+          <DropdownMenuContent className={styles.selected_columns_container} align="end">
             {table
               .getAllColumns()
               .filter((column) => column.getCanHide())
@@ -377,9 +258,9 @@ export default function AccountTable({
                       {header.isPlaceholder
                         ? null
                         : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
                     </TableHead>
                   );
                 })}

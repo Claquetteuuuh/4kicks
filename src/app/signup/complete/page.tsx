@@ -208,14 +208,14 @@ const Page = ({ params }: { params: { user: userType } }) => {
                   )}
                   <CheckBox
                     placeholder="acceptCond"
-                    text="J'accepte les conditions d'utilisation et confirme que j'ai lu les 4kicks pagnan quoicoubeh."
+                    text="En soumettant ces données, vous acceptez qu'elles soient traitées conformément à notre politique de confidentialité"
                     state={acceptCond}
                     setState={setAcceptCond}
                     required={true}
                   />
                   <CheckBox
                     placeholder="acceptPromo"
-                    text="Je veux recevoir de gros spams promotionnels que personne veut mais belek j'aurai -70%."
+                    text="Je consens volontiers à recevoir des courriels promotionnels de la part de 4kiks et de ces partenaires"
                     state={acceptPromo}
                     setState={setAcceptPromo}
                   />

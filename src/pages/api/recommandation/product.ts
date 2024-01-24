@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import prisma from "@/lib/prisma";
+import { ProduitType } from "../../../../types/home/Produit";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     const host = req.headers.host;
@@ -30,9 +31,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 })
 
                 //liste des produits qui possede une des 4 catégories
-                const produitTrieCat: produit[] = await trieproduitCategorie(listeCategorie, productUID);
+                const produitTrieCat: ProduitType[] = await trieproduitCategorie(listeCategorie, productUID);
                 //liste de 4 produits 
-                const listeProduits: produit[] = await produits4(produitTrieCat, productUID);
+                const listeProduits: ProduitType[] = await produits4(produitTrieCat, productUID);
                 res.status(200).json(listeProduits);
             }
             else {
@@ -68,12 +69,18 @@ async function categoriesMap() {
 
 // retourne une liste de produits correspondant au categories
 async function trieproduitCategorie(listeCategories: string[], productUID: string) {
-    const listeProduct = await prisma?.product.findMany({
+    const listeProduct: ProduitType[] = []
+    const liste = await prisma?.product.findMany({
         select: {
             product_uid: true,
             name: true,
             description: true,
-            price: true
+            price: true,
+            product_images:{
+                select:{
+                    image: true
+                }
+            }
 
         },
         where: {
@@ -96,18 +103,32 @@ async function trieproduitCategorie(listeCategories: string[], productUID: strin
 
         }
     });
-
+    liste.forEach(thisProduct => {
+        const listeImage: string[] = [];
+        thisProduct.product_images.forEach(thisImage => {
+            const image: string = `${process.env.PUBLIC_DOMAINE_BUCKET_URL}${thisImage.image.name}`
+            listeImage.push(image)
+        })
+        const product: ProduitType = {
+            productUID: thisProduct.product_uid,
+            nameProduct: thisProduct.name,
+            price: thisProduct.price,
+            description: thisProduct.description,
+            imageLien: listeImage
+        }
+        listeProduct.push(product)
+    })
     return listeProduct;
 }
 
 
-async function produits4(produitTrieCat: produit[], productUID: string) {
+async function produits4(produitTrieCat: ProduitType[], productUID: string) {
     const listeid: string[] = [];
-    const listeProduct: produit[] = [];
+    const listeProduct: ProduitType[] = [];
 
     produitTrieCat.forEach(thisProduct => {
-        if (!listeid.includes(thisProduct.product_uid) && listeid.length <= 4) {
-            listeid.push(thisProduct.product_uid);
+        if (!listeid.includes(thisProduct.productUID) && listeid.length <= 4) {
+            listeid.push(thisProduct.productUID);
             listeProduct.push(thisProduct)
         }
     })
@@ -118,7 +139,12 @@ async function produits4(produitTrieCat: produit[], productUID: string) {
                 product_uid: true,
                 name: true,
                 description: true,
-                price: true
+                price: true,
+                product_images:{
+                    select:{
+                        image: true
+                    }
+                }
             },
             where: {
                 OR: [
@@ -139,8 +165,20 @@ async function produits4(produitTrieCat: produit[], productUID: string) {
             take: 4 - listeProduct.length
         })
 
-        selectProduit.forEach(thisNewProduits => {
-            listeProduct.push(thisNewProduits);
+        selectProduit.forEach(thisProduct => {
+            const listeImage: string[] = [];
+            thisProduct.product_images.forEach(thisImage => {
+                const image: string = `${process.env.PUBLIC_DOMAINE_BUCKET_URL}${thisImage.image.name}`
+                listeImage.push(image)
+            })
+            const product: ProduitType = {
+                productUID: thisProduct.product_uid,
+                nameProduct: thisProduct.name,
+                price: thisProduct.price,
+                description: thisProduct.description,
+                imageLien: listeImage
+            }
+            listeProduct.push(product)
         })
     }
 
@@ -156,11 +194,6 @@ type categorie = {
     categorie_id: string,
     name: string
 }
-type produit = {
-    product_uid: string,
-    name: string,
-    description: string,
-    price: number
-}
+
 
 
