@@ -195,7 +195,7 @@ export default function Panier({ params }: { params: { user: userType } }) {
                 </div>
                 <div className={styles.total}>
                   <p>Total</p>
-                  <p>{(calculTotal() * 1.12).toFixed(2)}€</p>
+                  <p>{(calculTotal() * 1.10).toFixed(2)}€</p>
                 </div>
                 <PayPalScriptProvider
                   options={{
@@ -223,9 +223,9 @@ export default function Panier({ params }: { params: { user: userType } }) {
               <PlainButton text="Je veux dépenser" onClick={() => window.location.href = "/"} />
             </div>
         }
-      </div>
-      <ProductCategories allProducts={favoris} name="Favoris" />
+        <ProductCategories allProducts={favoris} name="Favoris" />
       <ProductCategories allProducts={recom} name="Recommandation" />
+      </div>
     </CheckAccountLayout>
   );
 }
