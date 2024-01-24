@@ -77,7 +77,7 @@ const Login = ({ params }: { params: { user: userType } }) => {
               <TextInput
                 state={identifiant}
                 setState={setIdentifiant}
-                placeholder="username or email"
+                placeholder="email"
                 required={true}
               />
               <TextInput
