@@ -16,6 +16,7 @@ export default function Recherche({ params }: { params: { user: userType } }) {
     const [recom, setRecom] = useState<ProduitType[]>([]);
 
 
+
     useEffect(() => {
         if (favoris.length === 0) {
             axios
@@ -31,17 +32,17 @@ export default function Recherche({ params }: { params: { user: userType } }) {
     }, [favoris])
 
     useEffect(() => {
-        if (recom.length > 0) {
-            axios
-                .get(`/api/recommandations-favoris?userID=${params.user?.user_id}`)
-                .then((response) => {
-                    console.log(response)
-                    setRecom(response.data)
-                })
-                .catch((err) => {
-                    console.error(err)
-                })
-        }
+
+        axios
+            .get(`/api/recommandation/favoris?userID=${params.user?.user_id}`)
+            .then((response) => {
+                console.log(response)
+                setRecom(response.data)
+            })
+            .catch((err) => {
+                console.error(err)
+            })
+
     })
 
 
@@ -61,7 +62,7 @@ export default function Recherche({ params }: { params: { user: userType } }) {
                             </div>
                         )
                 };
-                <ProductCategories allProducts={recom} name="Découverte" />
+                <ProductCategories allProducts={recom} name="Recommandation" />
             </div>:
 
         </CheckAccountLayout>
