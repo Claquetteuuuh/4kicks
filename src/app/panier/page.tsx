@@ -27,19 +27,32 @@ export default function Panier({ params }: { params: { user: userType } }) {
 
   const router = useRouter();
 
-  // useEffect(() => {
-  //   if (favoris.length === 0) {
-  //     axios
-  //       .get(`/api/favoris?userID=${params.user.user_id}`)
-  //       .then((response) => {
-  //         console.log(response);
-  //         setFavoris(response.data);
-  //       })
-  //       .catch((error) => {
-  //         console.error(error);
-  //       });
-  //   }
-  // }, [favoris]);
+  useEffect(() => {
+    if (favoris.length === 0) {
+      axios
+        .get(`/api/favoris?userID=${params.user.user_id}`)
+        .then((response) => {
+          console.log(response);
+          setFavoris(response.data);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  }, [favoris]);
+
+  useEffect(() => {
+    axios
+        .get(`/api/recommandation/favoris?userID=${params.user?.user_id}`)
+        .then((response) => {
+            console.log(response)
+            setRecom(response.data)
+        })
+        .catch((err) => {
+            console.error(err)
+        })
+
+})
 
   useEffect(() => {
     setTotal(calculTotal() * 1.12);
@@ -108,92 +121,92 @@ export default function Panier({ params }: { params: { user: userType } }) {
       <div className={styles.panier}>
         <h1>Panier</h1>
         {
-          (panier?.length != 0)?
-          <div className={styles.content}>
-          <div>
-            {panier?.map((product) => {
-              return (
-                <div className={styles.product_item} key={product.product_uid}>
-                  <div className={styles.img_container}>
-                    <img
-                      src={product.image_url}
-                      alt={`picture of ${product.product_name}`}
-                    />
-                  </div>
-                  <div className={styles.info}>
-                    <p className={styles.name}>{product.product_name}</p>
-                    <p className={styles.description}>{product.description}</p>
-                    <p className={styles.color}>
-                      <span>Couleur: </span>
-                      {product.color}
-                    </p>
-                    <p className={styles.taille}>
-                      <span>Taille / Pointure: </span>
-                      {product.size}
-                    </p>
-                    <div className={styles.icons}>
-                      <img src="/icons/save-outline.svg" alt="favorite icon" />
-                      <img src="/icons/trash-outline.svg" alt="trash icon" />
+          (panier?.length != 0) ?
+            <div className={styles.content}>
+              <div>
+                {panier?.map((product) => {
+                  return (
+                    <div className={styles.product_item} key={product.product_uid}>
+                      <div className={styles.img_container}>
+                        <img
+                          src={product.image_url}
+                          alt={`picture of ${product.product_name}`}
+                        />
+                      </div>
+                      <div className={styles.info}>
+                        <p className={styles.name}>{product.product_name}</p>
+                        <p className={styles.description}>{product.description}</p>
+                        <p className={styles.color}>
+                          <span>Couleur: </span>
+                          {product.color}
+                        </p>
+                        <p className={styles.taille}>
+                          <span>Taille / Pointure: </span>
+                          {product.size}
+                        </p>
+                        <div className={styles.icons}>
+                          <img src="/icons/save-outline.svg" alt="favorite icon" />
+                          <img src="/icons/trash-outline.svg" alt="trash icon" />
+                        </div>
+                      </div>
+                      <div className={styles.price}>
+                        <p>{product.price.toFixed(2)}€</p>
+                      </div>
                     </div>
-                  </div>
-                  <div className={styles.price}>
-                    <p>{product.price.toFixed(2)}€</p>
+                  );
+                })}
+              </div>
+              <div className={styles.command}>
+                <div className={styles.promo}>
+                  <p>J&apos;ai un code promo</p>
+                  <div className={styles.add}>
+                    <div></div>
+                    <div></div>
                   </div>
                 </div>
-              );
-            })}
-          </div>
-          <div className={styles.command}>
-            <div className={styles.promo}>
-              <p>J&apos;ai un code promo</p>
-              <div className={styles.add}>
-                <div></div>
-                <div></div>
+                <div className={styles.detail}>
+                  <div>
+                    <p>Sous-total</p>
+                    <p>{calculTotal().toFixed(2)}€</p>
+                  </div>
+                  <div>
+                    <p>Total des frais estimés</p>
+                    <p>{(calculTotal() * 0.1).toFixed(2)}€</p>
+                  </div>
+                </div>
+                <div className={styles.total}>
+                  <p>Total</p>
+                  <p>{(calculTotal() * 1.12).toFixed(2)}€</p>
+                </div>
+                <PayPalScriptProvider
+                  options={{
+                    clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID as string,
+                    currency: "EUR",
+                    intent: "capture",
+                  }}
+                >
+                  <PayPalButtons
+                    style={{
+                      color: "blue",
+                      shape: "rect",
+                      label: "pay",
+                      height: 50,
+                    }}
+                    createOrder={createPayPalOrder}
+                    onApprove={onApprove}
+                  />
+                </PayPalScriptProvider>
+                {/* <PlainButton text="Loading ..." /> */}
               </div>
+            </div> :
+            <div className={styles.panier_vide}>
+              <p className={styles.vide}>Votre panier est vide</p>
+              <PlainButton text="Je veux dépenser" onClick={() => window.location.href = "/"} />
             </div>
-            <div className={styles.detail}>
-              <div>
-                <p>Sous-total</p>
-                <p>{calculTotal().toFixed(2)}€</p>
-              </div>
-              <div>
-                <p>Total des frais estimés</p>
-                <p>{(calculTotal() * 0.1).toFixed(2)}€</p>
-              </div>
-            </div>
-            <div className={styles.total}>
-              <p>Total</p>
-              <p>{(calculTotal() * 1.12).toFixed(2)}€</p>
-            </div>
-            <PayPalScriptProvider
-              options={{
-                clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID as string,
-                currency: "EUR",
-                intent: "capture",
-              }}
-            >
-              <PayPalButtons
-                style={{
-                  color: "blue",
-                  shape: "rect",
-                  label: "pay",
-                  height: 50,
-                }}
-                createOrder={createPayPalOrder}
-                onApprove={onApprove}
-              />
-            </PayPalScriptProvider>
-            {/* <PlainButton text="Loading ..." /> */}
-          </div>
-        </div>:
-        <div className={styles.panier_vide}>
-          <p className={styles.vide}>Votre panier est vide</p>
-          <PlainButton text="Je veux dépenser" onClick={() => window.location.href = "/"}/>
-        </div>
         }
       </div>
       <ProductCategories allProducts={favoris} name="Favoris" />
-      <ProductCategories allProducts={recom} name="Découverte" />
+      <ProductCategories allProducts={recom} name="Recommandation" />
     </CheckAccountLayout>
   );
 }
