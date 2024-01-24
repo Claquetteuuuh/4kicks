@@ -1,6 +1,6 @@
 "use client"
 import React from "react";
-import styles from "./TextInput.module.css"
+import styles from "./textInput.module.css"
 
 type textInputProps = {
     placeholder: string,

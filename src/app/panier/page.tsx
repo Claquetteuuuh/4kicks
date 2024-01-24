@@ -183,7 +183,7 @@ export default function Panier({ params }: { params: { user: userType } }) {
                       />
                     </div>
                     <div className={styles.info}>
-                      <p className={styles.name}>{product.product_name}</p>
+                      <a href={`/product/${product.product_uid}`} className={styles.name}>{product.product_name}</a>
                       <p className={styles.description}>
                         {product.description}
                       </p>
@@ -225,7 +225,7 @@ export default function Panier({ params }: { params: { user: userType } }) {
                 </div>
                 <div>
                   <p>Total des frais estimés</p>
-                  <p>{(calculTotal() * 0.1).toFixed(2)}€</p>
+                  <p>{(calculTotal() * 0.12).toFixed(2)}€</p>
                 </div>
               </div>
               <div className={styles.total}>

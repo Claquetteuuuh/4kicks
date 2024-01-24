@@ -75,7 +75,7 @@ export default function Navbar({ user }: { user: userType }) {
               Se connecter
             </a>
           )}
-          <a className={styles.button_market} href={"/marketplace"}>
+          <a className={styles.button_market} href={"/"}>
             <svg
               width="30"
               height="25"

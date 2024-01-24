@@ -5,8 +5,8 @@ import { userType } from '../../../types/global/UserType';
 
 const Dashboard = ({params}: {params: { user: userType }}) => {
     return (
-        <DashboardLayout params={params} children={undefined} >
-            
+        <DashboardLayout params={params} >
+            {undefined}
         </DashboardLayout>
     );
 };
