@@ -71,6 +71,8 @@
 }
 
 .button_market {
+  cursor: not-allowed;
+
   min-width: 150px;
   align-items: center;
   background-color: white;

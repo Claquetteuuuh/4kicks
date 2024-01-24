@@ -16,6 +16,7 @@ import Footer from "@/components/footer/Footer";
 import Loading from "@/components/Loading/Loading";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import { toast, useToast } from "@/components/ui/use-toast"
 
 type paramType = {
   id?: string;
@@ -65,6 +66,14 @@ const Page = ({ params }: { params: { user: userType } }) => {
       } )
   })
 
+  const createToast = (type: "error" | "info", description: string) => {
+    toast({
+      className: styles.toast,
+      title: type,
+      description: description,
+    })
+  };
+
   const addPanier = () => {
     if(!session.data?.user){
       router.push("/login")
@@ -74,7 +83,8 @@ const Page = ({ params }: { params: { user: userType } }) => {
         taille: selectedSize
       })
         .then(e => {
-          router.push("/panier");
+          createToast("info", "Le produit à été ajouté au panier avec succès !")
+          window.location.href = "/panier";
         })
         .catch(err => {
           console.error(err)

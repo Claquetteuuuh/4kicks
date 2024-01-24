@@ -18,12 +18,14 @@ import {
 } from "@paypal/react-paypal-js";
 import { useMutation } from "react-query";
 import { useRouter } from "next/navigation";
+import { toast } from "@/components/ui/use-toast";
 
 export default function Panier({ params }: { params: { user: userType } }) {
   const [favoris, setFavoris] = useState<ProduitType[]>([]);
   const [recom, setRecom] = useState<ProduitType[]>([]);
   const [panier, setPanier] = useState<PanierProductType[]>();
   const [total, setTotal] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   const router = useRouter();
 
@@ -45,17 +47,18 @@ export default function Panier({ params }: { params: { user: userType } }) {
     setTotal(calculTotal() * 1.12);
   }, [panier]);
 
-
   useEffect(() => {
-    axios
-      .get(`/api/user/${params.user.email}/panier`)
-      .then((e) => {
-        setPanier(e.data);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  });
+    if (params.user) {
+      axios
+        .get(`/api/user/${params.user.email}/panier`)
+        .then((e) => {
+          setPanier(e.data);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }
+  }, [params]);
 
   useEffect(() => {
     console.log(process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID);
@@ -68,11 +71,25 @@ export default function Panier({ params }: { params: { user: userType } }) {
     return response.data.orderID;
   };
 
+  const createToast = (type: "error" | "info" | "good", description: string) => {
+    let style = styles.toast_info;
+    if(type === "error"){
+      style = styles.error;
+    }else if(type === "good"){
+      style = styles.good;
+    }
+    toast({
+      className: `${styles.toast} ${style}`,
+      title: type,
+      description: description,
+    })
+  };
+
   const onApprove = async (data: any, actions: any): Promise<void> => {
-    console.log(data);
+    // console.log(data);
+    createToast("info", "Votre payement a été approuvé ! En attente de validation...")
+    setLoading(true);
     actions.order.capture().then(async (details: any) => {
-      console.log(details);
-      console.log(details.purchase_units[0].shipping.address);
       const {
         address_line_1,
         address_line_2,
@@ -81,19 +98,27 @@ export default function Panier({ params }: { params: { user: userType } }) {
         postal_code,
       } = details.purchase_units[0].shipping.address;
       const { full_name } = details.purchase_units[0].shipping.name;
-      await axios.post("/api/paypal/capture_order", {
-        orderID: data.orderID,
-        name: full_name,
-        postal_code: postal_code,
-        address: address_line_1,
-        cmp_address: address_line_2,
-        city: admin_area_2,
-        country: country_code,
-      })
-        .then(e => {
-          console.log(e.data)
-          router.refresh();
+      await axios
+        .post("/api/paypal/capture_order", {
+          orderID: data.orderID,
+          name: full_name,
+          postal_code: postal_code,
+          address: address_line_1,
+          cmp_address: address_line_2,
+          city: admin_area_2,
+          country: country_code,
         })
+        .then((e) => {
+          createToast("good", "Votre achat a été effectué avec succès !")
+          setLoading(false);
+          // console.log(e.data);
+          router.refresh();
+          window.location.href = "/";
+        })
+        .catch(err => {
+          createToast("error", "Une erreur est survenue lors de l'achat !")
+        })
+      setLoading(false);
     });
   };
   const calculTotal = () => {
@@ -106,91 +131,110 @@ export default function Panier({ params }: { params: { user: userType } }) {
   return (
     <CheckAccountLayout user={params.user}>
       <div className={styles.panier}>
-        <h1>Panier</h1>
         {
-          (panier?.length != 0)?
+          (loading)?
+            <div className={styles.loading_payement}>
+              <p>Achat en cour...</p>
+              <Loading />
+            </div>
+          :false
+        }
+        <h1>Panier</h1>
+        {panier?.length != 0 ? (
           <div className={styles.content}>
-          <div>
-            {panier?.map((product) => {
-              return (
-                <div className={styles.product_item} key={product.product_uid}>
-                  <div className={styles.img_container}>
-                    <img
-                      src={product.image_url}
-                      alt={`picture of ${product.product_name}`}
-                    />
-                  </div>
-                  <div className={styles.info}>
-                    <p className={styles.name}>{product.product_name}</p>
-                    <p className={styles.description}>{product.description}</p>
-                    <p className={styles.color}>
-                      <span>Couleur: </span>
-                      {product.color}
-                    </p>
-                    <p className={styles.taille}>
-                      <span>Taille / Pointure: </span>
-                      {product.size}
-                    </p>
-                    <div className={styles.icons}>
-                      <img src="/icons/save-outline.svg" alt="favorite icon" />
-                      <img src="/icons/trash-outline.svg" alt="trash icon" />
+            <div>
+              {panier?.map((product) => {
+                return (
+                  <div
+                    className={styles.product_item}
+                    key={product.product_uid}
+                  >
+                    <div className={styles.img_container}>
+                      <img
+                        src={product.image_url}
+                        alt={`picture of ${product.product_name}`}
+                      />
+                    </div>
+                    <div className={styles.info}>
+                      <p className={styles.name}>{product.product_name}</p>
+                      <p className={styles.description}>
+                        {product.description}
+                      </p>
+                      <p className={styles.color}>
+                        <span>Couleur: </span>
+                        {product.color}
+                      </p>
+                      <p className={styles.taille}>
+                        <span>Taille / Pointure: </span>
+                        {product.size}
+                      </p>
+                      <div className={styles.icons}>
+                        <img
+                          src="/icons/save-outline.svg"
+                          alt="favorite icon"
+                        />
+                        <img src="/icons/trash-outline.svg" alt="trash icon" />
+                      </div>
+                    </div>
+                    <div className={styles.price}>
+                      <p>{product.price.toFixed(2)}€</p>
                     </div>
                   </div>
-                  <div className={styles.price}>
-                    <p>{product.price.toFixed(2)}€</p>
-                  </div>
+                );
+              })}
+            </div>
+            <div className={styles.command}>
+              <div className={styles.promo}>
+                <p>J&apos;ai un code promo</p>
+                <div className={styles.add}>
+                  <div></div>
+                  <div></div>
                 </div>
-              );
-            })}
-          </div>
-          <div className={styles.command}>
-            <div className={styles.promo}>
-              <p>J&apos;ai un code promo</p>
-              <div className={styles.add}>
-                <div></div>
-                <div></div>
               </div>
-            </div>
-            <div className={styles.detail}>
-              <div>
-                <p>Sous-total</p>
-                <p>{calculTotal().toFixed(2)}€</p>
+              <div className={styles.detail}>
+                <div>
+                  <p>Sous-total</p>
+                  <p>{calculTotal().toFixed(2)}€</p>
+                </div>
+                <div>
+                  <p>Total des frais estimés</p>
+                  <p>{(calculTotal() * 0.1).toFixed(2)}€</p>
+                </div>
               </div>
-              <div>
-                <p>Total des frais estimés</p>
-                <p>{(calculTotal() * 0.1).toFixed(2)}€</p>
+              <div className={styles.total}>
+                <p>Total</p>
+                <p>{(calculTotal() * 1.12).toFixed(2)}€</p>
               </div>
-            </div>
-            <div className={styles.total}>
-              <p>Total</p>
-              <p>{(calculTotal() * 1.12).toFixed(2)}€</p>
-            </div>
-            <PayPalScriptProvider
-              options={{
-                clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID as string,
-                currency: "EUR",
-                intent: "capture",
-              }}
-            >
-              <PayPalButtons
-                style={{
-                  color: "blue",
-                  shape: "rect",
-                  label: "pay",
-                  height: 50,
+              <PayPalScriptProvider
+                options={{
+                  clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID as string,
+                  currency: "EUR",
+                  intent: "capture",
                 }}
-                createOrder={createPayPalOrder}
-                onApprove={onApprove}
-              />
-            </PayPalScriptProvider>
-            {/* <PlainButton text="Loading ..." /> */}
+              >
+                <PayPalButtons
+                  style={{
+                    color: "blue",
+                    shape: "rect",
+                    label: "pay",
+                    height: 50,
+                  }}
+                  createOrder={createPayPalOrder}
+                  onApprove={onApprove}
+                />
+              </PayPalScriptProvider>
+              {/* <PlainButton text="Loading ..." /> */}
+            </div>
           </div>
-        </div>:
-        <div className={styles.panier_vide}>
-          <p className={styles.vide}>Votre panier est vide</p>
-          <PlainButton text="Je veux dépenser" onClick={() => window.location.href = "/"}/>
-        </div>
-        }
+        ) : (
+          <div className={styles.panier_vide}>
+            <p className={styles.vide}>Votre panier est vide</p>
+            <PlainButton
+              text="Je veux dépenser"
+              onClick={() => (window.location.href = "/")}
+            />
+          </div>
+        )}
       </div>
       <ProductCategories allProducts={favoris} name="Favoris" />
       <ProductCategories allProducts={recom} name="Découverte" />

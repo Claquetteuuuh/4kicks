@@ -36,6 +36,10 @@
     --alert-color-100: #CE2C31;
     --alert-color-60: #CE2C3160;
     --alert-color-40: #CE2C3140;
+    
+    --notify-color-100: #2cce4c;
+    --notify-color-60: #2cce4c;
+    --notify-color-40: #2cce4c;
 
     --background: 0 0% 100%;
     --foreground: 240 10% 3.9%;

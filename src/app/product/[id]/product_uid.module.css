@@ -160,3 +160,22 @@
 .filled{
     fill: black;
 }
+
+
+.toast {
+    border-radius: 10px;
+    background-color: var(--notify-color-100);
+  }
+  .toast div{
+    color: white;
+    padding: 5px 0;
+    font-size: var(--text-font-size-m);
+  }
+  .toast div:nth-child(1){
+    font-size: var(--text-font-size-xxl);
+  }
+  .toast button svg{
+    stroke: white;
+    height: 20px;
+    width: 20px;
+  }
