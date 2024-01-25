@@ -2,12 +2,10 @@
   border-color: var(--third-color-100);
   border-radius: 5rem;
 }
-.container_content{
+.container_content {
   padding: 3%;
   border-radius: 10px;
 }
-
-
 
 .container {
   height: 70px;
@@ -20,10 +18,13 @@
 .container a {
   height: 80%;
 }
-.container a img { 
-  height: 40px;
+.container a img {
+  height: 100%;
   width: auto;
   margin-top: -5px;
+}
+.container a img.profile_picture_content {
+  height: 40px;
   aspect-ratio: 1/1;
   object-fit: cover;
 }
@@ -74,7 +75,6 @@
 }
 
 .button_market {
-
   min-width: 150px;
   align-items: center;
   background-color: white;
@@ -92,7 +92,6 @@
   margin-right: 1rem;
   transition: all 0.3s;
   cursor: not-allowed;
-
 }
 .button_market svg,
 .button_market path {
@@ -164,7 +163,9 @@
   border: 2px solid var(--third-color-100);
 }
 
-.navigation_item1, .navigation_link, .button_nouveautes{
+.navigation_item1,
+.navigation_link,
+.button_nouveautes {
   font-size: var(--text-font-size-l);
 }
 
@@ -186,7 +187,6 @@
 
 .navigation_item1 {
   height: 7rem;
-  
 }
 
 .navigation_link {
@@ -208,7 +208,7 @@
 }
 
 .navigation_link::after {
-  content: '';
+  content: "";
   display: block;
   position: relative;
   width: 70%;
@@ -234,7 +234,7 @@
 .container_menu {
   display: flex;
   flex-direction: row;
-  gap: 10px ;
+  gap: 10px;
   padding-left: 1%;
 }
 

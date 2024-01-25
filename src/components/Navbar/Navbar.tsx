@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useEffect, useState } from "react";
 import TextInput from "../TextInput/TextInput";
 import styles from "./navbar.module.css";
@@ -16,15 +16,14 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
   NavigationMenuViewport,
-} from "@/components/ui/navigation-menu"
+} from "@/components/ui/navigation-menu";
 
 export default function Navbar({ user }: { user: userType }) {
   const router = useRouter();
 
   const [motCles, setmotCles] = useState<string>("");
 
-  useEffect(() => {
-  }, [user])
+  useEffect(() => {}, [user]);
 
   const handleForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -53,6 +52,7 @@ export default function Navbar({ user }: { user: userType }) {
           {user ? (
             <a href={"/profile"} className={styles.profile_picture}>
               <img
+                className={styles.profile_picture_content}
                 src={user.image ? user.image : "/imgs/default_user.png"}
                 alt={`picture of ${user.username}`}
               />
@@ -109,282 +109,310 @@ export default function Navbar({ user }: { user: userType }) {
         </div>
       </div>
       <div className={styles.container_menu}>
-      <div className={styles.container_button_nouveautes}>
-        <button className={styles.button_nouveautes}>
-          <p className={styles.paragraphe_button}>Nouveautés</p>
-        </button>
-      </div>
-      <div>
-        <NavigationMenu className={styles.navigation_menu}>
-          <NavigationMenuList className={styles.navigation_list}>
-            <NavigationMenuItem>
-              <NavigationMenuTrigger className={styles.navigation_item1}>Homme</NavigationMenuTrigger>
-              <NavigationMenuContent className={styles.container_content}>
-              <div className={styles.container_nouveautes}>
-                  <div>
-                    <ul className="">
-                      <li>
-                        <NavigationMenuLink asChild className={styles.navigation_link_titre}>
-                          <h1>Nike</h1>
+        <div className={styles.container_button_nouveautes}>
+          <button className={styles.button_nouveautes}>
+            <p className={styles.paragraphe_button}>Nouveautés</p>
+          </button>
+        </div>
+        <div>
+          <NavigationMenu className={styles.navigation_menu}>
+            <NavigationMenuList className={styles.navigation_list}>
+              <NavigationMenuItem>
+                <NavigationMenuTrigger className={styles.navigation_item1}>
+                  Homme
+                </NavigationMenuTrigger>
+                <NavigationMenuContent className={styles.container_content}>
+                  <div className={styles.container_nouveautes}>
+                    <div>
+                      <ul className="">
+                        <li>
+                          <NavigationMenuLink
+                            asChild
+                            className={styles.navigation_link_titre}
+                          >
+                            <h1>Nike</h1>
+                          </NavigationMenuLink>
+                        </li>
+                      </ul>
+                      <a href="/jordan4">
+                        <NavigationMenuLink className={styles.navigation_link}>
+                          Nike Dunk Low
                         </NavigationMenuLink>
-                      </li>
-                    </ul>
-                    <a href="/jordan4">
-                      <NavigationMenuLink className={styles.navigation_link}>
-                        Nike Dunk Low
-                      </NavigationMenuLink>
-                    </a>
-                    <a href="/jordan4">
-                      <NavigationMenuLink className={styles.navigation_link}>
-                        Nike Dunk High
-                      </NavigationMenuLink>
-                    </a>
-                    <a href="/jordan4">
-                      <NavigationMenuLink className={styles.navigation_link}>
-                        Nike Air Force 1
-                      </NavigationMenuLink>
-                    </a>
-                    <a href="/jordan4">
-                      <NavigationMenuLink className={styles.navigation_link}>
-                        Air Max
-                      </NavigationMenuLink>
-                    </a>
-                    <a href="/jordan4">
-                      <NavigationMenuLink className={styles.navigation_link}>
-                        Nike Air Max 1
-                      </NavigationMenuLink>
-                    </a>
-                    <a href="/jordan4">
-                      <NavigationMenuLink className={styles.navigation_link}>
-                        Nike x Travis Scott
-                      </NavigationMenuLink>
-                    </a>
-                  </div>
-                  <div>
-                    <ul>
-                      <li>
-                        <NavigationMenuLink asChild className={styles.navigation_link_titre}>
-                          <h1>Air Jordan</h1>
+                      </a>
+                      <a href="/jordan4">
+                        <NavigationMenuLink className={styles.navigation_link}>
+                          Nike Dunk High
                         </NavigationMenuLink>
-                      </li>
-                    </ul>
-                    <a href="/jordan4">
-                      <NavigationMenuLink className={styles.navigation_link}>
-                        Air Jordan 1
-                      </NavigationMenuLink>
-                    </a>
-                    <a href="/jordan4">
-                      <NavigationMenuLink className={styles.navigation_link}>
-                        Air Jordan 1 Low
-                      </NavigationMenuLink>
-                    </a>
-                    <a href="/jordan4">
-                      <NavigationMenuLink className={styles.navigation_link}>
-                        Air Jordan 1 Mid
-                      </NavigationMenuLink>
-                    </a>
-                    <a href="/jordan4">
-                      <NavigationMenuLink className={styles.navigation_link}>
-                        Air Jordan 1 High
-                      </NavigationMenuLink>
-                    </a>
-                    <a href="/jordan4">
-                      <NavigationMenuLink className={styles.navigation_link}>
-                        Air Jordan 3
-                      </NavigationMenuLink>
-                    </a>
-                    <a href="/jordan4">
-                      <NavigationMenuLink className={styles.navigation_link}>
-                        Air Jordan 4
-                      </NavigationMenuLink>
-                    </a>
-                  </div>
-                  <div>
-                    <ul>
-                      <li>
-                        <NavigationMenuLink asChild className={styles.navigation_link_titre}>
-                          <h1>Adidas</h1>
+                      </a>
+                      <a href="/jordan4">
+                        <NavigationMenuLink className={styles.navigation_link}>
+                          Nike Air Force 1
                         </NavigationMenuLink>
-                      </li>
-                    </ul>
-                    <a href="/jordan4">
-                      <NavigationMenuLink className={styles.navigation_link}>
-                        Adidas Campus
-                      </NavigationMenuLink>
-                    </a>
-                    <a href="/jordan4">
-                      <NavigationMenuLink className={styles.navigation_link}>
-                        Adidas Handball Spezial
-                      </NavigationMenuLink>
-                    </a>
-                    <a href="/jordan4">
-                      <NavigationMenuLink className={styles.navigation_link}>
-                        Adidas Samba
-                      </NavigationMenuLink>
-                    </a>
-                  </div>
-                  <div>
-                    <ul>
-                      <li>
-                        <NavigationMenuLink asChild className={styles.navigation_link_titre}>
-                          <h1>New Balance</h1>
+                      </a>
+                      <a href="/jordan4">
+                        <NavigationMenuLink className={styles.navigation_link}>
+                          Air Max
                         </NavigationMenuLink>
-                      </li>
-                    </ul>
-                    <a href="/jordan4">
-                      <NavigationMenuLink className={styles.navigation_link}>
-                        New Balance 1906r
-                      </NavigationMenuLink>
-                    </a>
-                    <a href="/jordan4">
-                      <NavigationMenuLink className={styles.navigation_link}>
-                        New Balance 2002r
-                      </NavigationMenuLink>
-                    </a>
-                    <a href="/jordan4">
-                      <NavigationMenuLink className={styles.navigation_link}>
-                        New Balance 9060
-                      </NavigationMenuLink>
-                    </a>
-                  </div>
-                </div>
-              </NavigationMenuContent>
-            </NavigationMenuItem>
-            <NavigationMenuItem className={styles.test}>
-              <NavigationMenuTrigger className={styles.navigation_item1}>Femme</NavigationMenuTrigger>
-              <NavigationMenuContent className={styles.container_content}>
-              <div className={styles.container_nouveautes}>
-                  <div>
-                    <ul>
-                      <li>
-                        <NavigationMenuLink asChild className={styles.navigation_link_titre}>
-                          <h1>Nike</h1>
+                      </a>
+                      <a href="/jordan4">
+                        <NavigationMenuLink className={styles.navigation_link}>
+                          Nike Air Max 1
                         </NavigationMenuLink>
-                      </li>
-                    </ul>
-                    <a href="/jordan4">
-                      <NavigationMenuLink className={styles.navigation_link}>
-                        Nike Dunk Low
-                      </NavigationMenuLink>
-                    </a>
-                    <a href="/jordan4">
-                      <NavigationMenuLink className={styles.navigation_link}>
-                        Nike Dunk High
-                      </NavigationMenuLink>
-                    </a>
-                    <a href="/jordan4">
-                      <NavigationMenuLink className={styles.navigation_link}>
-                        Nike Air Force 1
-                      </NavigationMenuLink>
-                    </a>
-                    <a href="/jordan4">
-                      <NavigationMenuLink className={styles.navigation_link}>
-                        Air Max
-                      </NavigationMenuLink>
-                    </a>
-                    <a href="/jordan4">
-                      <NavigationMenuLink className={styles.navigation_link}>
-                        Nike Air Max 1
-                      </NavigationMenuLink>
-                    </a>
-                    <a href="/jordan4">
-                      <NavigationMenuLink className={styles.navigation_link}>
-                        Nike x Travis Scott
-                      </NavigationMenuLink>
-                    </a>
-                  </div>
-                  <div>
-                    <ul>
-                      <li>
-                        <NavigationMenuLink asChild className={styles.navigation_link_titre}>
-                          <h1>Air Jordan</h1>
+                      </a>
+                      <a href="/jordan4">
+                        <NavigationMenuLink className={styles.navigation_link}>
+                          Nike x Travis Scott
                         </NavigationMenuLink>
-                      </li>
-                    </ul>
-                    <a href="/jordan4">
-                      <NavigationMenuLink className={styles.navigation_link}>
-                        Air Jordan 1
-                      </NavigationMenuLink>
-                    </a>
-                    <a href="/jordan4">
-                      <NavigationMenuLink className={styles.navigation_link}>
-                        Air Jordan 1 Low
-                      </NavigationMenuLink>
-                    </a>
-                    <a href="/jordan4">
-                      <NavigationMenuLink className={styles.navigation_link}>
-                        Air Jordan 1 Mid
-                      </NavigationMenuLink>
-                    </a>
-                    <a href="/jordan4">
-                      <NavigationMenuLink className={styles.navigation_link}>
-                        Air Jordan 1 High
-                      </NavigationMenuLink>
-                    </a>
-                    <a href="/jordan4">
-                      <NavigationMenuLink className={styles.navigation_link}>
-                        Air Jordan 3
-                      </NavigationMenuLink>
-                    </a>
-                    <a href="/jordan4">
-                      <NavigationMenuLink className={styles.navigation_link}>
-                        Air Jordan 4
-                      </NavigationMenuLink>
-                    </a>
-                  </div>
-                  <div>
-                    <ul>
-                      <li>
-                        <NavigationMenuLink asChild className={styles.navigation_link_titre}>
-                          <h1>Adidas</h1>
+                      </a>
+                    </div>
+                    <div>
+                      <ul>
+                        <li>
+                          <NavigationMenuLink
+                            asChild
+                            className={styles.navigation_link_titre}
+                          >
+                            <h1>Air Jordan</h1>
+                          </NavigationMenuLink>
+                        </li>
+                      </ul>
+                      <a href="/jordan4">
+                        <NavigationMenuLink className={styles.navigation_link}>
+                          Air Jordan 1
                         </NavigationMenuLink>
-                      </li>
-                    </ul>
-                    <a href="/jordan4">
-                      <NavigationMenuLink className={styles.navigation_link}>
-                        Adidas Campus
-                      </NavigationMenuLink>
-                    </a>
-                    <a href="/jordan4">
-                      <NavigationMenuLink className={styles.navigation_link}>
-                        Adidas Handball Spezial
-                      </NavigationMenuLink>
-                    </a>
-                    <a href="/jordan4">
-                      <NavigationMenuLink className={styles.navigation_link}>
-                        Adidas Samba
-                      </NavigationMenuLink>
-                    </a>
-                  </div>
-                  <div>
-                    <ul>
-                      <li>
-                        <NavigationMenuLink asChild className={styles.navigation_link_titre}>
-                          <h1>New Balance</h1>
+                      </a>
+                      <a href="/jordan4">
+                        <NavigationMenuLink className={styles.navigation_link}>
+                          Air Jordan 1 Low
                         </NavigationMenuLink>
-                      </li>
-                    </ul>
-                    <a href="/jordan4">
-                      <NavigationMenuLink className={styles.navigation_link}>
-                        New Balance 1906r
-                      </NavigationMenuLink>
-                    </a>
-                    <a href="/jordan4">
-                      <NavigationMenuLink className={styles.navigation_link}>
-                        New Balance 2002r
-                      </NavigationMenuLink>
-                    </a>
-                    <a href="/jordan4">
-                      <NavigationMenuLink className={styles.navigation_link}>
-                        New Balance 9060
-                      </NavigationMenuLink>
-                    </a>
+                      </a>
+                      <a href="/jordan4">
+                        <NavigationMenuLink className={styles.navigation_link}>
+                          Air Jordan 1 Mid
+                        </NavigationMenuLink>
+                      </a>
+                      <a href="/jordan4">
+                        <NavigationMenuLink className={styles.navigation_link}>
+                          Air Jordan 1 High
+                        </NavigationMenuLink>
+                      </a>
+                      <a href="/jordan4">
+                        <NavigationMenuLink className={styles.navigation_link}>
+                          Air Jordan 3
+                        </NavigationMenuLink>
+                      </a>
+                      <a href="/jordan4">
+                        <NavigationMenuLink className={styles.navigation_link}>
+                          Air Jordan 4
+                        </NavigationMenuLink>
+                      </a>
+                    </div>
+                    <div>
+                      <ul>
+                        <li>
+                          <NavigationMenuLink
+                            asChild
+                            className={styles.navigation_link_titre}
+                          >
+                            <h1>Adidas</h1>
+                          </NavigationMenuLink>
+                        </li>
+                      </ul>
+                      <a href="/jordan4">
+                        <NavigationMenuLink className={styles.navigation_link}>
+                          Adidas Campus
+                        </NavigationMenuLink>
+                      </a>
+                      <a href="/jordan4">
+                        <NavigationMenuLink className={styles.navigation_link}>
+                          Adidas Handball Spezial
+                        </NavigationMenuLink>
+                      </a>
+                      <a href="/jordan4">
+                        <NavigationMenuLink className={styles.navigation_link}>
+                          Adidas Samba
+                        </NavigationMenuLink>
+                      </a>
+                    </div>
+                    <div>
+                      <ul>
+                        <li>
+                          <NavigationMenuLink
+                            asChild
+                            className={styles.navigation_link_titre}
+                          >
+                            <h1>New Balance</h1>
+                          </NavigationMenuLink>
+                        </li>
+                      </ul>
+                      <a href="/jordan4">
+                        <NavigationMenuLink className={styles.navigation_link}>
+                          New Balance 1906r
+                        </NavigationMenuLink>
+                      </a>
+                      <a href="/jordan4">
+                        <NavigationMenuLink className={styles.navigation_link}>
+                          New Balance 2002r
+                        </NavigationMenuLink>
+                      </a>
+                      <a href="/jordan4">
+                        <NavigationMenuLink className={styles.navigation_link}>
+                          New Balance 9060
+                        </NavigationMenuLink>
+                      </a>
+                    </div>
                   </div>
-                </div>
-              </NavigationMenuContent>
-            </NavigationMenuItem>
-          </NavigationMenuList>
-        </NavigationMenu>
+                </NavigationMenuContent>
+              </NavigationMenuItem>
+              <NavigationMenuItem className={styles.test}>
+                <NavigationMenuTrigger className={styles.navigation_item1}>
+                  Femme
+                </NavigationMenuTrigger>
+                <NavigationMenuContent className={styles.container_content}>
+                  <div className={styles.container_nouveautes}>
+                    <div>
+                      <ul>
+                        <li>
+                          <NavigationMenuLink
+                            asChild
+                            className={styles.navigation_link_titre}
+                          >
+                            <h1>Nike</h1>
+                          </NavigationMenuLink>
+                        </li>
+                      </ul>
+                      <a href="/jordan4">
+                        <NavigationMenuLink className={styles.navigation_link}>
+                          Nike Dunk Low
+                        </NavigationMenuLink>
+                      </a>
+                      <a href="/jordan4">
+                        <NavigationMenuLink className={styles.navigation_link}>
+                          Nike Dunk High
+                        </NavigationMenuLink>
+                      </a>
+                      <a href="/jordan4">
+                        <NavigationMenuLink className={styles.navigation_link}>
+                          Nike Air Force 1
+                        </NavigationMenuLink>
+                      </a>
+                      <a href="/jordan4">
+                        <NavigationMenuLink className={styles.navigation_link}>
+                          Air Max
+                        </NavigationMenuLink>
+                      </a>
+                      <a href="/jordan4">
+                        <NavigationMenuLink className={styles.navigation_link}>
+                          Nike Air Max 1
+                        </NavigationMenuLink>
+                      </a>
+                      <a href="/jordan4">
+                        <NavigationMenuLink className={styles.navigation_link}>
+                          Nike x Travis Scott
+                        </NavigationMenuLink>
+                      </a>
+                    </div>
+                    <div>
+                      <ul>
+                        <li>
+                          <NavigationMenuLink
+                            asChild
+                            className={styles.navigation_link_titre}
+                          >
+                            <h1>Air Jordan</h1>
+                          </NavigationMenuLink>
+                        </li>
+                      </ul>
+                      <a href="/jordan4">
+                        <NavigationMenuLink className={styles.navigation_link}>
+                          Air Jordan 1
+                        </NavigationMenuLink>
+                      </a>
+                      <a href="/jordan4">
+                        <NavigationMenuLink className={styles.navigation_link}>
+                          Air Jordan 1 Low
+                        </NavigationMenuLink>
+                      </a>
+                      <a href="/jordan4">
+                        <NavigationMenuLink className={styles.navigation_link}>
+                          Air Jordan 1 Mid
+                        </NavigationMenuLink>
+                      </a>
+                      <a href="/jordan4">
+                        <NavigationMenuLink className={styles.navigation_link}>
+                          Air Jordan 1 High
+                        </NavigationMenuLink>
+                      </a>
+                      <a href="/jordan4">
+                        <NavigationMenuLink className={styles.navigation_link}>
+                          Air Jordan 3
+                        </NavigationMenuLink>
+                      </a>
+                      <a href="/jordan4">
+                        <NavigationMenuLink className={styles.navigation_link}>
+                          Air Jordan 4
+                        </NavigationMenuLink>
+                      </a>
+                    </div>
+                    <div>
+                      <ul>
+                        <li>
+                          <NavigationMenuLink
+                            asChild
+                            className={styles.navigation_link_titre}
+                          >
+                            <h1>Adidas</h1>
+                          </NavigationMenuLink>
+                        </li>
+                      </ul>
+                      <a href="/jordan4">
+                        <NavigationMenuLink className={styles.navigation_link}>
+                          Adidas Campus
+                        </NavigationMenuLink>
+                      </a>
+                      <a href="/jordan4">
+                        <NavigationMenuLink className={styles.navigation_link}>
+                          Adidas Handball Spezial
+                        </NavigationMenuLink>
+                      </a>
+                      <a href="/jordan4">
+                        <NavigationMenuLink className={styles.navigation_link}>
+                          Adidas Samba
+                        </NavigationMenuLink>
+                      </a>
+                    </div>
+                    <div>
+                      <ul>
+                        <li>
+                          <NavigationMenuLink
+                            asChild
+                            className={styles.navigation_link_titre}
+                          >
+                            <h1>New Balance</h1>
+                          </NavigationMenuLink>
+                        </li>
+                      </ul>
+                      <a href="/jordan4">
+                        <NavigationMenuLink className={styles.navigation_link}>
+                          New Balance 1906r
+                        </NavigationMenuLink>
+                      </a>
+                      <a href="/jordan4">
+                        <NavigationMenuLink className={styles.navigation_link}>
+                          New Balance 2002r
+                        </NavigationMenuLink>
+                      </a>
+                      <a href="/jordan4">
+                        <NavigationMenuLink className={styles.navigation_link}>
+                          New Balance 9060
+                        </NavigationMenuLink>
+                      </a>
+                    </div>
+                  </div>
+                </NavigationMenuContent>
+              </NavigationMenuItem>
+            </NavigationMenuList>
+          </NavigationMenu>
         </div>
       </div>
     </header>
