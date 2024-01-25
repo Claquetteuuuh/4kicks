@@ -152,7 +152,7 @@ export default function Panier({ params }: { params: { user: userType } }) {
   };
 
   const triggerCode = () => {
-    if(displayCode){
+    if (displayCode) {
       setDisplayCode(false);
       return;
     }
@@ -256,21 +256,22 @@ export default function Panier({ params }: { params: { user: userType } }) {
                 <p>J&apos;ai un code promo</p>
                 <div onClick={triggerCode} className={styles.add}>
                   <div></div>
-                  {(!displayCode)?<div></div>:false}
+                  {!displayCode ? <div></div> : false}
                 </div>
               </div>
-              {
-                (displayCode)?
+              {displayCode ? (
                 <div className={styles.promo_input_container}>
-                <TextInput
-                  className={styles.input}
-                  placeholder="CODE"
-                  state={code}
-                  setState={setCode}
-                />
-                <PlainButton onClick={validCode} text="Valider" />
-              </div>:false
-              }
+                  <TextInput
+                    className={styles.input}
+                    placeholder="CODE"
+                    state={code}
+                    setState={setCode}
+                  />
+                  <PlainButton onClick={validCode} text="Valider" />
+                </div>
+              ) : (
+                false
+              )}
               <div className={styles.detail}>
                 <div>
                   <p>Sous-total</p>
@@ -315,6 +316,10 @@ export default function Panier({ params }: { params: { user: userType } }) {
             />
           </div>
         )}
+      </div>
+      <div className={styles.more}>
+        <ProductCategories allProducts={favoris} name="Favoris" />
+        <ProductCategories allProducts={recom} name="Découverte" />
       </div>
     </CheckAccountLayout>
   );

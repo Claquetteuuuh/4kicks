@@ -253,3 +253,7 @@
 .promo_input input:valid{
   background: none;
 }
+
+.more{
+  padding: 0 5%;
+}
