@@ -8,7 +8,7 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method === "POST") {
-    const { account_uid } = req.body;
+    const { account_uid, promo } = req.body;
     const user = await prisma.account.findUnique({
       where: {
         account_uid: account_uid,
@@ -33,6 +33,18 @@ export default async function handler(
     for (let i = 0; i < user.product_in_panier.length; i++) {
       const product = user.product_in_panier[i];
       price += product.product.price;
+    }
+    if(promo){
+      const code = await prisma.promotionCode.findUnique({
+        where: {
+          code: promo
+        }
+      })
+      if(!code){
+        console.log("Code non trouvé")
+      }else{
+        price = price*code.coefficient
+      }
     }
     const PaypalClient = client();
     const request = new paypal.orders.OrdersCreateRequest();
