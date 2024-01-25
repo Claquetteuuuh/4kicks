@@ -192,7 +192,7 @@ export default function Panier({ params }: { params: { user: userType } }) {
       <div className={styles.panier}>
         {loading ? (
           <div className={styles.loading_payement}>
-            <p>Achat en cour...</p>
+            <p>Achat en cours...</p>
             <Loading />
           </div>
         ) : (
@@ -229,7 +229,7 @@ export default function Panier({ params }: { params: { user: userType } }) {
                         {product.color}
                       </p>
                       <p className={styles.taille}>
-                        <span>Taille / Pointure: </span>
+                        <span>Taille: </span>
                         {product.size}
                       </p>
                       <div className={styles.icons}>
@@ -279,12 +279,12 @@ export default function Panier({ params }: { params: { user: userType } }) {
                 </div>
                 <div>
                   <p>Total des frais estimés</p>
-                  <p>{total.toFixed(2)}€</p>
+                  <p>{(total*0.1).toFixed(2)}€</p>
                 </div>
               </div>
               <div className={styles.total}>
                 <p>Total</p>
-                <p>{total.toFixed(2)}€</p>
+                <p>{(total+(total*.1)).toFixed(2)}€</p>
               </div>
               <PayPalScriptProvider
                 options={{

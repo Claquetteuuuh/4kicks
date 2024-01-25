@@ -288,7 +288,7 @@ const Page = ({ params }: { params: { user: userType } }) => {
               {sameThemeProducts ? (
                 <ProductCategories
                   allProducts={sameThemeProducts}
-                  name="Recommandation"
+                  name="Recommandations"
                 />
               ) : (
                 <Loading />

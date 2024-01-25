@@ -445,7 +445,7 @@ const Page = ({ params }: { params: { user: userType } }) => {
                         </div>
                       </div>
                       <div className={styles.container_date}>
-                        <p className={styles.dateA}>Date d&pos;achat: </p>
+                        <p className={styles.dateA}>Date d&apos;achat: </p>
                         <p className={styles.dateB}>{p.creation_date}</p>
                       </div>
                     </div>

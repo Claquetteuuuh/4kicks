@@ -57,7 +57,7 @@ export default function Recherche({ params }: { params: { user: userType } }) {
                     ) :
                         (
                             <div className={styles.panier_vide}>
-                                <p className={styles.vide}>Vos favoris sont vide</p>
+                                <p className={styles.vide}>Vous n&apos;avez aucun favoris</p>
                                 <PlainButton text="Je veux dépenser" onClick={() => window.location.href = "/"} />
                             </div>
                         )
