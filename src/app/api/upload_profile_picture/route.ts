@@ -45,6 +45,8 @@ export async function POST(req: NextRequest) {
           name: fileName,
         },
       });
+      // supprimer tte les photos pas dans un compte
+
       if (!image) {
         await deleteFile(bucketName, fileName);
         return NextResponse.json({
