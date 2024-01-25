@@ -1,0 +1,154 @@
+.container {
+  height: calc(100vh - 110px);
+}
+
+.general {
+  height: 90%;
+  border-radius: 10px;
+  border: 2px solid var(--second-color-100);
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+
+.container_historique {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  margin-bottom: 5%;
+}
+
+.container_row {
+  display: flex;
+  justify-content: space-between;
+  width: 90%;
+  height: 30%;
+  border-bottom: 2px solid var(--third-color-60);
+  padding-bottom: 2%;
+}
+
+.titre {
+  font-size: 300%;
+  width: 100%;
+  font-weight: 600;
+  margin: 0;
+  padding: 0;
+}
+
+.description {
+  font-size: 250%;
+  font-weight: 250;
+  margin: 0;
+  padding: 0;
+}
+
+.address_uidB,
+.promo_uidB,
+.statusB,
+.creation_dateB,
+.account_uidB,
+.order_idB,
+.tailleB,
+.couleurB,
+.quantiteB,
+.referenceB,
+.achat_uidB,
+.dateB {
+  font-size: 220%;
+  font-weight: 300;
+}
+
+.address_uidA,
+.promo_uidA,
+.statusA,
+.account_uidA,
+.order_idA,
+.creation_dateA,
+.achat_uidA,
+.couleurA,
+.tailleA,
+.referenceA,
+.quantiteA,
+.dateA {
+  padding-right: 2%;
+  font-size: 220%;
+  font-weight: 600;
+}
+
+.container_status,
+.container_promo_uid,
+.container_address_uid,
+.container_creation_date,
+.container_order_id,
+.container_account_uid,
+.container_achat_uid,
+.container_couleur,
+.container_taille,
+.container_quantite,
+.container_reference,
+.container_date {
+  display: flex;
+  flex-direction: row;
+}
+
+.colonne1,
+.colonne2 {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 50%;
+}
+
+.container_buttonAvis {
+  border-bottom: 0, 5px solid var(--third-color-100);
+}
+
+.container_iTd {
+  display: flex;
+  flex-direction: row;
+  width: 15%;
+}
+
+.image {
+  height: 100%;
+}
+
+.container_iTd,
+.colonne1,
+.colonne2,
+.container_buttonAvis {
+  height: 20rem;
+}
+
+.toast {
+  border-radius: 10px;
+}
+
+.toast div {
+  color: white;
+  padding: 5px 0;
+  font-size: var(--text-font-size-m);
+}
+
+.toast div:nth-child(1) {
+  font-size: var(--text-font-size-xxl);
+}
+
+.toast button svg {
+  stroke: white;
+  height: 20px;
+  width: 20px;
+}
+
+.good {
+  background-color: var(--notify-color-100);
+}
+
+.toast_info {
+  background-color: var(--third-color-100);
+}
+
+.error {
+  background-color: var(--alert-color-100);
+}

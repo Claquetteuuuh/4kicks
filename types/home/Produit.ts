@@ -1,4 +1,3 @@
-import { CategorieType } from "../dashboard/CategorieType"
 
 export type ProduitType = {
     productUID : string,

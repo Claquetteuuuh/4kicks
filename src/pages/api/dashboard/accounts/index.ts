@@ -5,10 +5,23 @@ import { Permission, Preference, Prisma } from "@prisma/client";
 import suppressionImages from "../commun/suppressionImages";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-    if (req.method === "GET") {
-        const comptes = await prisma.account.findMany();
+    if (req.method === "GET" && req.query.accountUID != undefined) {
+        const comptes = await prisma.account.findUnique(
+            {
+                where: {
+                    account_uid: req.query.accountUID as string
+                }
+            }
+        );
         if (!comptes) {
             res.status(400).json({ error: "Error getting accounts, A-001" })
+        }
+        res.status(200).json(comptes)
+    }
+    else if (req.method === "GET") {
+        const comptes = await prisma.account.findMany();
+        if (!comptes) {
+            res.status(400).json({ error: "Error getting accounts, A-002" })
         }
         res.status(200).json(comptes)
 
@@ -16,7 +29,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         const { account_uid } = req.headers;
         if (!account_uid) {
-            res.status(400).json({ error: "account uid not specified ! A-001" })
+            res.status(400).json({ error: "account uid not specified ! A-003" })
             return;
         }
         if (await suppression(account_uid as string)) {
@@ -25,18 +38,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     account_uid: account_uid as string
                 }
             })
-    
+
             if (deletedAccount) {
                 res.status(200).json({ message: "the account has been deleted" });
             } else {
-                res.status(400).json({ error: "Error during deleting. A-003" })
+                res.status(400).json({ error: "Error during deleting. A-004" })
             }
         }
         else {
-            res.status(400).json({ error: "Error during deleting. A-002" })
+            res.status(400).json({ error: "Error during deleting. A-005" })
         }
 
-        
+
     }
 
     else if (req.method === "POST") {
@@ -87,6 +100,36 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             res.status(400).json({ error: "Error during creation. P-002" })
         }
     }
+    else if (req.method === "PUT") {
+        interface MyRequestBody {
+            account_uid: string;
+            permission: Permission;
+
+        }
+        const {
+            account_uid,
+            permission
+
+        }: MyRequestBody = req.body;
+
+        const account = await prisma.account.update({
+            data: {
+                permission: permission,
+            },
+            where: {
+                account_uid: account_uid
+            }
+        })
+        if (account) {
+            res.status(200).json({ message: "the account has been updated" });
+        } else {
+            res.status(400).json({ error: "Error during update. P-002" })
+        }
+
+    }
+    else {
+        res.status(400).json({ error: "Error this route is only GET, DELETE, PUSH, PUT" })
+    }
 
 }
 async function suppression(account_uid: string) {
@@ -97,9 +140,9 @@ async function suppression(account_uid: string) {
             image_uid: true,
             name: true
         },
-        where:{
-            account:{
-                some:{
+        where: {
+            account: {
+                some: {
                     account_uid: account_uid
                 }
             }
@@ -154,8 +197,8 @@ async function suppression(account_uid: string) {
 
     //suppression product_in_achat
     const deleteProductAchat = await prisma.productInAchat.deleteMany({
-        where:{
-            achat:{
+        where: {
+            achat: {
                 account_uid: account_uid
             }
         }
@@ -175,12 +218,12 @@ async function suppression(account_uid: string) {
         }
     })
 
-    
 
-    if (deleteMessage && deleteTicketUser && deleteTicketAdmin && deleteAvis && deleteFavoris && deleteProductPanier && deleteAdress && deleteAchat && deleteProductAchat){
+
+    if (deleteMessage && deleteTicketUser && deleteTicketAdmin && deleteAvis && deleteFavoris && deleteProductPanier && deleteAdress && deleteAchat && deleteProductAchat) {
         return true
     }
-    else{
+    else {
         return false
     }
 }

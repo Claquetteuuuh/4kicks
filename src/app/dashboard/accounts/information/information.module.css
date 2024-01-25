@@ -1,0 +1,93 @@
+.container {
+  height: calc(100vh - 110px);
+}
+
+.general {
+  height: 90%;
+  border-radius: 10px;
+  border: 2px solid var(--second-color-100);
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.completedB,
+.creation_dateB,
+.connection_typeB,
+.emailB,
+.first_nameB,
+.last_nameB,
+.newsletterB,
+.permissionB,
+.preferenceB,
+.usernameB,
+.validatedB,
+.account_uidB {
+  font-size: 220%;
+  font-weight: 300;
+}
+
+.completedA,
+.creation_dateA,
+.connection_typeA,
+.emailA,
+.first_nameA,
+.last_nameA,
+.newsletterA,
+.permissionA,
+.preferenceA,
+.usernameA,
+.validatedA,
+.account_uidA {
+  padding-right: 2%;
+  font-size: 220%;
+  font-weight: 600;
+}
+
+.container_account_uid,
+.container_creation_date,
+.container_connection_type,
+.container_email,
+.container_first_name,
+.container_last_name,
+.container_newsletter,
+.container_permission,
+.container_preference,
+.container_username,
+.container_validated,
+.container_completed {
+  display: flex;
+  flex-direction: row;
+}
+
+.toast {
+  border-radius: 10px;
+}
+
+.toast div {
+  color: white;
+  padding: 5px 0;
+  font-size: var(--text-font-size-m);
+}
+
+.toast div:nth-child(1) {
+  font-size: var(--text-font-size-xxl);
+}
+
+.toast button svg {
+  stroke: white;
+  height: 20px;
+  width: 20px;
+}
+
+.good {
+  background-color: var(--notify-color-100);
+}
+
+.toast_info {
+  background-color: var(--third-color-100);
+}
+
+.error {
+  background-color: var(--alert-color-100);
+}

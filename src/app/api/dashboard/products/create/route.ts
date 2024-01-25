@@ -80,7 +80,8 @@ export const POST = async (req: NextRequest) => {
         })
 
         if (product) {
-            return NextResponse.json({ status: 201, message: "Produit créé avec images" })
+            const product_uid = product.product_uid
+            return NextResponse.json({ status: 201, message: "Produit créé avec images", produit: product_uid})
         } else {
             return NextResponse.json({ status: 400, error: "Failing add affiche in db" })
         }
