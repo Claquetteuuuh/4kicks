@@ -24,6 +24,8 @@
   height: 40px;
   width: auto;
   margin-top: -5px;
+  aspect-ratio: 1/1;
+  object-fit: cover;
 }
 .container .search {
   width: 40%;
