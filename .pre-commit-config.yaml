@@ -41,7 +41,7 @@ repos:
     hooks:
       - id: shellcheck
 
-  # Check can build
+  # Check if can build
   - repo: local
     hooks:
       - id: build-app
