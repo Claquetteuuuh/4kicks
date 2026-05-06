@@ -7,8 +7,8 @@ type SelectLangProps = {
 
 const SelectLang = ({className}: SelectLangProps) => {
 
-    const [choixDrapeau, setChoixDrapeau] = useState('fr'); 
-  
+    const [choixDrapeau, setChoixDrapeau] = useState('fr');
+
     const handleChange = () => {
         if(choixDrapeau === 'fr'){
           setChoixDrapeau('en')
@@ -32,5 +32,5 @@ const SelectLang = ({className}: SelectLangProps) => {
       </div>
     );
   };
-  
+
   export default SelectLang;

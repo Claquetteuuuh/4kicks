@@ -207,8 +207,8 @@ const Page = ({ params }: { params: { user: userType } }) => {
           false
         )}
         </div>
-        
-        
+
+
         <input type="submit"></input>
       </form>
     </DashboardLayout>

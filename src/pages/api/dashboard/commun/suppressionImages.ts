@@ -23,7 +23,7 @@ function suppressionImages(images: ImageType[]) {
     else{
         return false;
     }
-    
+
 }
 
 export default suppressionImages;

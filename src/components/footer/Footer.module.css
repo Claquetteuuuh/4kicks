@@ -27,7 +27,7 @@
 }
 
 .td {
-    font-size: var(--text-font-size-l); 
+    font-size: var(--text-font-size-l);
     padding-bottom: 20px;
     color: var(--color4-40);
 }

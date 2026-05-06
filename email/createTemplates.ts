@@ -11,9 +11,9 @@ export const createAllTemplates = async () => {
     await sesClient.send(deleteAccountCreation)
     await sesClient.send(deleteAccountActivation)
     await sesClient.send(deleteSuccessOrder)
-    
+
     const createAccountCreation = new CreateTemplateCommand({
-        Template: accountCreationTemplate        
+        Template: accountCreationTemplate
     });
     await sesClient.send(createAccountCreation)
     .then(e => {
@@ -22,9 +22,9 @@ export const createAllTemplates = async () => {
     .catch(err => {
         console.error(`An error occured while creating ${accountCreationTemplate.TemplateName}: \n ${err}` )
     })
-    
+
     const createSuccessOrder = new CreateTemplateCommand({
-        Template: successOrderTemplate        
+        Template: successOrderTemplate
     });
     await sesClient.send(createSuccessOrder)
     .then(e => {
@@ -35,7 +35,7 @@ export const createAllTemplates = async () => {
     })
 
     const createAccountActivation = new CreateTemplateCommand({
-        Template: accountActivationTemplate        
+        Template: accountActivationTemplate
     });
     await sesClient.send(createAccountActivation)
     .then(e => {
@@ -44,5 +44,5 @@ export const createAllTemplates = async () => {
     .catch(err => {
         console.error(`An error occured while creating ${accountActivationTemplate.TemplateName}: \n ${err}` )
     })
-    
+
 }

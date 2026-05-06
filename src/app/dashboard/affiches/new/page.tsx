@@ -18,7 +18,7 @@ const Page = ({ params }: { params: { user: userType } }) => {
   const [callToActionUrl, setCallToActionUrl] = useState("");
   const [subtitle, setSubtitle] = useState("");
   const data = new FormData();
-  
+
   const [img, setImg] = useState<File>()
 
   const handleSubmit = async (e: React.FormEvent) => {

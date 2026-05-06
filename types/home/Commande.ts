@@ -12,4 +12,4 @@ export type Commande = {
     taille_product?: string,
     quantite_product: number,
     name_image: string
-} 
+}

@@ -67,4 +67,4 @@ export default function Recherche({ params }: { params: { user: userType } }) {
 
         </CheckAccountLayout>
     );
-}   
+}

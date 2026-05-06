@@ -24,5 +24,5 @@ export type PanierProductType = {
   quantite: number;
   image_url: string;
   description: string;
-  
+
 }

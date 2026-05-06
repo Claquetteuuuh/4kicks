@@ -37,7 +37,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             const quatreClesMax: string[] = await filtreCategorie(finalList);
             //liste des produits qui possede une des 4 catégories
             const produitTrieCat: ProduitType[] = await trieproduitCategorie(quatreClesMax, listeFavoris);
-            //liste de 4 produits 
+            //liste de 4 produits
             const listeProduits: ProduitType[] = await produits4(produitTrieCat, listeFavoris);
             res.status(200).json(listeProduits);
         }
@@ -94,7 +94,7 @@ async function recuperation_filtre(favoris: { product_uid: string }[]) {
     return favorisAcount;
 }
 
-//renvoie les 4 categories preferé 
+//renvoie les 4 categories preferé
 async function filtreCategorie(listeProduits: filtreCat[]) {
     let categorieMap = await categoriesMap();
 
@@ -259,6 +259,3 @@ type categorie = {
     categorie_id: string,
     name: string
 }
-
-
-

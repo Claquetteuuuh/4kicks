@@ -34,7 +34,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             new_code,
             new_coefficient
         }: MyRequestBody = req.body;
-        
+
         const promotion = await prisma.promotionCode.create({
             data: {
                 code: new_code,

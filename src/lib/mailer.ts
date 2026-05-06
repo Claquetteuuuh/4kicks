@@ -22,7 +22,7 @@ export const sendAccountCreation = async (email: string, name: string, url: stri
     })
 
     try{
-        const sended = await sesClient.send(sendTemplatedEmailCommand) 
+        const sended = await sesClient.send(sendTemplatedEmailCommand)
         if(sended){
             return true;
         }else{
@@ -32,7 +32,7 @@ export const sendAccountCreation = async (email: string, name: string, url: stri
         console.error(err);
         return false;
     }
-        
+
 }
 
 export const sendCommandSuccess = async (email: string, name: string, address: string, url: string) => {
@@ -55,7 +55,7 @@ export const sendCommandSuccess = async (email: string, name: string, address: s
     })
 
     try{
-        const sended = await sesClient.send(sendTemplatedEmailCommand) 
+        const sended = await sesClient.send(sendTemplatedEmailCommand)
         if(sended){
             return true;
         }else{
@@ -65,5 +65,5 @@ export const sendCommandSuccess = async (email: string, name: string, address: s
         console.error(err);
         return false;
     }
-        
+
 }

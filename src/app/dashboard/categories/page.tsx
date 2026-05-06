@@ -14,7 +14,7 @@ const Page = ({ params }: { params: { user: userType } }) => {
   const [categories, setCategories] = useState<CategorieType[]>([]);
   const { toast } = useToast()
   const router = useRouter();
- 
+
   const confirmDelete = (id: string) => {
     axios.delete("/api/dashboard/categories", {
       headers: {
@@ -37,7 +37,7 @@ const Page = ({ params }: { params: { user: userType } }) => {
       })
   }
   const handleDelete = (id: string) => {
-  
+
     toast({
       className: styles.toast_delete,
       title: "Delete categorie",

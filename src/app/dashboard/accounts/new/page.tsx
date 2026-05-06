@@ -71,7 +71,7 @@ const Page = ({ params }: { params: { user: userType } }) => {
                     state={acceptPromo}
                     setState={setAcceptPromo}
                   />
-        
+
         <input type="submit" value={"envoyer"} />
       </form>
     </DashboardLayout>

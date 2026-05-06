@@ -198,7 +198,7 @@ export default function CategorieTable({ data }: { data: AchatsType[] }) {
   return (
     <div className={styles.container}>
       <div className="flex items-center py-4">
-        
+
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className={`ml-auto ${styles.columns_button}`}>

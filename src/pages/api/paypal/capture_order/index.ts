@@ -26,7 +26,7 @@ export default async function handle(
     res.status(400).json({error: "This order doesn't exists !"})
     return;
   }
-  
+
   const user = await prisma.account.findUnique({
     where: {
       account_uid: order[0].account_uid
@@ -79,12 +79,12 @@ export default async function handle(
       order_id: orderID
     }
   })
-  
+
   if (!thisAchat || thisAchat.length === 0) {
     res.status(400).json({ error: "This order doesn't exist!" })
     return
   }
-  
+
   const achatUid = order[0].achat_uid;
   const panier = user.product_in_panier;
   console.log(panier);

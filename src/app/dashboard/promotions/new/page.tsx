@@ -20,7 +20,7 @@ const Page = ({ params }: { params: { user: userType } }) => {
       console.error("Le coefficient doit être un nombre.");
       return;
     }
-  
+
     if (parseFloat(coefficient) <= 0 ||  parseFloat(coefficient)>= 1) {
       console.error("Le coefficient doit être compris entre 0 et 1.");
       return;

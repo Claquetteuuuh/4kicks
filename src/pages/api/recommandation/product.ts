@@ -32,7 +32,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
                 //liste des produits qui possede une des 4 catégories
                 const produitTrieCat: ProduitType[] = await trieproduitCategorie(listeCategorie, productUID);
-                //liste de 4 produits 
+                //liste de 4 produits
                 const listeProduits: ProduitType[] = await produits4(produitTrieCat, productUID);
                 res.status(200).json(listeProduits);
             }
@@ -194,6 +194,3 @@ type categorie = {
     categorie_id: string,
     name: string
 }
-
-
-

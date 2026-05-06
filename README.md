@@ -293,7 +293,8 @@ enum Permission {
 
 **Slider**:
 
-GET: 
+GET:
+
 ```ts
     type AfficheType = {
     afficheUid: string,
@@ -306,9 +307,10 @@ GET:
   }
 ```
 
-**Articles**
+#### Articles
 
 GET:
+
 ```ts
     type Article = {
       productUID : string,
@@ -352,7 +354,8 @@ GET:
 
 #### Connection
 
-C-001: Un compte enregistré comme connection par EMAIL n'a pas de mot de passe enregistré en DB
+C-001: Un compte enregistré comme connection par EMAIL
+n'a pas de mot de passe enregistré en DB
 
 C-002: Le compte n'a pas été trouvé dans la base de donnée
 
@@ -362,7 +365,8 @@ C-004: L'utilisateur n'a pas entré le mot de passe ou l'email
 
 C-005: Une tentative de completer le compte mais il est déjà completé
 
-C-006: L'utilisateur complete son compte, le compte n'existe pas en base de donnée mais il ne se crée pas
+C-006: L'utilisateur complete son compte, le compte
+n'existe pas en base de donnée mais il ne se crée pas
 
 ### Dashboard
 

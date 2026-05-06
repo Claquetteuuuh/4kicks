@@ -55,7 +55,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 price: thisProducts.price,
                 imageLien: image,
                 description: thisProducts.description
-                
+
             }
             categorieReturned.push(categorie)
         })
